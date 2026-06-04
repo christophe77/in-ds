@@ -1,0 +1,27 @@
+node_modules/
+.pnpm-store/
+
+dist/
+build/
+loader/
+www/
+storybook-static/
+.turbo/
+
+# Stencil generated
+**/src/components.d.ts
+**/src/generated/
+
+# Style Dictionary output
+packages/tokens/dist/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*

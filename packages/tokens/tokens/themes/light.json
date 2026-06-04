@@ -1,0 +1,19 @@
+{
+  "surface": {
+    "background": { "value": "{color.palette.neutral.900}",  "type": "color" },
+    "panel":      { "value": "{color.palette.neutral.1000}", "type": "color" },
+    "raised":     { "value": "{color.palette.neutral.800}",  "type": "color" },
+    "sunken":     { "value": "{color.palette.neutral.900}",  "type": "color" },
+    "border": {
+      "subtle":  { "value": "{color.palette.neutral.800}", "type": "color" },
+      "default": { "value": "{color.palette.neutral.700}", "type": "color" },
+      "strong":  { "value": "{color.palette.neutral.500}", "type": "color" }
+    },
+    "text": {
+      "primary":   { "value": "{color.palette.neutral.100}", "type": "color" },
+      "secondary": { "value": "{color.palette.neutral.300}", "type": "color" },
+      "muted":     { "value": "{color.palette.neutral.500}", "type": "color" },
+      "inverse":   { "value": "{color.palette.neutral.1000}", "type": "color" }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "alarm": {
+    "high-high": {
+      "fg":       { "value": "{color.palette.neutral.1000}", "type": "color" },
+      "bg":       { "value": "{color.palette.red.500}",      "type": "color" },
+      "border":   { "value": "{color.palette.red.300}",      "type": "color" },
+      "priority": { "value": "1",  "type": "number", "comment": "ISA-18.2 priority 1 — immediate operator action required." },
+      "label":    { "value": "HH", "type": "string" }
+    },
+    "high": {
+      "fg":       { "value": "{color.palette.neutral.0}",  "type": "color" },
+      "bg":       { "value": "{color.palette.amber.500}",  "type": "color" },
+      "border":   { "value": "{color.palette.amber.300}",  "type": "color" },
+      "priority": { "value": "2", "type": "number" },
+      "label":    { "value": "H", "type": "string" }
+    },
+    "low": {
+      "fg":       { "value": "{color.palette.neutral.1000}", "type": "color" },
+      "bg":       { "value": "{color.palette.cyan.500}",     "type": "color" },
+      "border":   { "value": "{color.palette.cyan.300}",     "type": "color" },
+      "priority": { "value": "3", "type": "number" },
+      "label":    { "value": "L", "type": "string" }
+    },
+    "low-low": {
+      "fg":       { "value": "{color.palette.neutral.1000}", "type": "color" },
+      "bg":       { "value": "{color.palette.purple.500}",   "type": "color" },
+      "border":   { "value": "{color.palette.purple.300}",   "type": "color" },
+      "priority": { "value": "4",  "type": "number" },
+      "label":    { "value": "LL", "type": "string" }
+    }
+  }
+}

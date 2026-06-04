@@ -1,0 +1,85 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  font-size: var(--ind-font-size-base, 12px);
+  font-weight: var(--ind-font-weight-medium, 500);
+  line-height: var(--ind-font-line-height-tight, 1.1);
+  color: var(--ind-surface-text-primary, #eef1f5);
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.led {
+  --_size: var(--ind-led-size, 12px);
+  --_bg: var(--ind-state-stopped-bg, #5a6776);
+  --_border: var(--ind-state-stopped-border, #8390a0);
+  --_glow: var(--ind-state-stopped-glow, rgba(131, 144, 160, 0.35));
+
+  display: inline-block;
+  width: var(--_size);
+  height: var(--_size);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    color-mix(in srgb, var(--_bg) 65%, white),
+    var(--_bg) 70%
+  );
+  border: 1px solid var(--_border);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--_bg) 25%, transparent),
+    0 0 8px var(--_glow),
+    inset 0 1px 2px rgba(0, 0, 0, 0.45);
+  transition: background-color var(--ind-motion-duration-base, 200ms) var(--ind-motion-easing-standard, ease);
+}
+
+:host([size="sm"]) .led { --_size: 8px; }
+:host([size="md"]) .led { --_size: 12px; }
+:host([size="lg"]) .led { --_size: 18px; }
+
+:host([state="running"]) .led {
+  --_bg: var(--ind-state-running-bg);
+  --_border: var(--ind-state-running-border);
+  --_glow: var(--ind-state-running-glow);
+}
+:host([state="stopped"]) .led {
+  --_bg: var(--ind-state-stopped-bg);
+  --_border: var(--ind-state-stopped-border);
+  --_glow: var(--ind-state-stopped-glow);
+}
+:host([state="fault"]) .led {
+  --_bg: var(--ind-state-fault-bg);
+  --_border: var(--ind-state-fault-border);
+  --_glow: var(--ind-state-fault-glow);
+}
+:host([state="warning"]) .led {
+  --_bg: var(--ind-state-warning-bg);
+  --_border: var(--ind-state-warning-border);
+  --_glow: var(--ind-state-warning-glow);
+}
+:host([state="maintenance"]) .led {
+  --_bg: var(--ind-state-maintenance-bg);
+  --_border: var(--ind-state-maintenance-border);
+  --_glow: var(--ind-state-maintenance-glow);
+}
+
+:host([blinking]) .led {
+  animation: ind-led-blink var(--ind-motion-blink-fast, 400ms) steps(2, end) infinite;
+}
+:host([blinking][state="fault"]) .led {
+  animation-duration: var(--ind-motion-blink-urgent, 200ms);
+}
+
+@keyframes ind-led-blink {
+  50% { opacity: 0.2; box-shadow: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([blinking]) .led {
+    animation: none;
+    opacity: 1;
+    /* Substitute: a solid outline ring so the alarm condition is still visible without motion. */
+    outline: 2px solid var(--_border);
+    outline-offset: 2px;
+  }
+}

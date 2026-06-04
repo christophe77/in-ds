@@ -1,0 +1,8 @@
+/* @ind-ds/core global styles.
+ *
+ * Imported once at app boot via Stencil's globalStyle. We pull token CSS vars
+ * from @ind-ds/tokens so components don't have to know about the file layout.
+ */
+@import "~@ind-ds/tokens/dist/css/tokens.css";
+@import "~@ind-ds/tokens/dist/css/themes/light.css";
+@import "~@ind-ds/tokens/dist/css/themes/high-contrast.css";

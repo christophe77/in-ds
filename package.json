@@ -1,0 +1,30 @@
+{
+  "name": "ind-ds",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Industrial design system for HMI/SCADA — web components, multi-framework wrappers, ISA-18.2 tokens.",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@9.12.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "storybook": "turbo run storybook",
+    "clean": "turbo run clean && rimraf node_modules .turbo"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.5",
+    "turbo": "^2.1.0",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  }
+}

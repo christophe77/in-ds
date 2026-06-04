@@ -1,0 +1,26 @@
+{
+  "surface": {
+    "background": { "value": "{color.palette.neutral.0}",    "type": "color" },
+    "panel":      { "value": "{color.palette.neutral.0}",    "type": "color" },
+    "raised":     { "value": "{color.palette.neutral.100}",  "type": "color" },
+    "sunken":     { "value": "{color.palette.neutral.0}",    "type": "color" },
+    "border": {
+      "subtle":  { "value": "{color.palette.neutral.1000}", "type": "color" },
+      "default": { "value": "{color.palette.neutral.1000}", "type": "color" },
+      "strong":  { "value": "{color.palette.neutral.1000}", "type": "color" }
+    },
+    "text": {
+      "primary":   { "value": "{color.palette.neutral.1000}", "type": "color" },
+      "secondary": { "value": "{color.palette.neutral.900}",  "type": "color" },
+      "muted":     { "value": "{color.palette.neutral.800}",  "type": "color" },
+      "inverse":   { "value": "{color.palette.neutral.0}",    "type": "color" }
+    }
+  },
+  "state": {
+    "running":     { "bg": { "value": "#00ff00", "type": "color" }, "border": { "value": "#ffffff", "type": "color" } },
+    "stopped":     { "bg": { "value": "#808080", "type": "color" }, "border": { "value": "#ffffff", "type": "color" } },
+    "fault":       { "bg": { "value": "#ff0000", "type": "color" }, "border": { "value": "#ffffff", "type": "color" } },
+    "warning":     { "bg": { "value": "#ffff00", "type": "color" }, "border": { "value": "#000000", "type": "color" } },
+    "maintenance": { "bg": { "value": "#00ffff", "type": "color" }, "border": { "value": "#ffffff", "type": "color" } }
+  }
+}

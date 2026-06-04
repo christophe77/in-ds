@@ -1,0 +1,22 @@
+{
+  "spacing": {
+    "0":  { "value": "0",    "type": "dimension", "comment": "HMI density: scale is 2px-stepped under 12px to keep panels compact." },
+    "1":  { "value": "2px",  "type": "dimension" },
+    "2":  { "value": "4px",  "type": "dimension" },
+    "3":  { "value": "6px",  "type": "dimension" },
+    "4":  { "value": "8px",  "type": "dimension" },
+    "5":  { "value": "12px", "type": "dimension" },
+    "6":  { "value": "16px", "type": "dimension" },
+    "7":  { "value": "20px", "type": "dimension" },
+    "8":  { "value": "24px", "type": "dimension" },
+    "9":  { "value": "32px", "type": "dimension" },
+    "10": { "value": "40px", "type": "dimension" }
+  },
+  "radius": {
+    "none": { "value": "0",   "type": "dimension" },
+    "sm":   { "value": "2px", "type": "dimension" },
+    "md":   { "value": "3px", "type": "dimension", "comment": "Default radius — sharp enough to feel industrial, not brutalist." },
+    "lg":   { "value": "6px", "type": "dimension" },
+    "full": { "value": "9999px", "type": "dimension" }
+  }
+}

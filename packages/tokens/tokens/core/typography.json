@@ -1,0 +1,32 @@
+{
+  "font": {
+    "family": {
+      "sans": { "value": "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif", "type": "fontFamily" },
+      "mono": { "value": "'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace", "type": "fontFamily", "comment": "Used for process values, tags, timestamps." }
+    },
+    "size": {
+      "xs":   { "value": "10px", "type": "dimension" },
+      "sm":   { "value": "11px", "type": "dimension" },
+      "base": { "value": "12px", "type": "dimension", "comment": "HMI default — denser than web defaults to fit operator workstations." },
+      "md":   { "value": "13px", "type": "dimension" },
+      "lg":   { "value": "14px", "type": "dimension" },
+      "xl":   { "value": "16px", "type": "dimension" },
+      "2xl":  { "value": "20px", "type": "dimension" },
+      "3xl":  { "value": "28px", "type": "dimension", "comment": "Use for primary process values — flowrate, pressure, level." }
+    },
+    "weight": {
+      "regular":  { "value": "400", "type": "fontWeight" },
+      "medium":   { "value": "500", "type": "fontWeight" },
+      "semibold": { "value": "600", "type": "fontWeight" },
+      "bold":     { "value": "700", "type": "fontWeight" }
+    },
+    "lineHeight": {
+      "tight":  { "value": "1.1",  "type": "number" },
+      "normal": { "value": "1.4",  "type": "number" },
+      "loose":  { "value": "1.6",  "type": "number" }
+    },
+    "feature": {
+      "tabular": { "value": "'tnum' 1, 'lnum' 1", "type": "fontFeatureSettings", "comment": "Always-on tabular figures — required for stable digit columns on process values." }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+import type { Preview } from '@storybook/web-components';
+
+// Tokens — base + theme overrides. The decorator below flips data-theme at runtime.
+import '@ind-ds/tokens/css';
+import '@ind-ds/tokens/css/light';
+import '@ind-ds/tokens/css/high-contrast';
+
+// Register all custom elements once.
+import { defineCustomElements } from '@ind-ds/core/loader';
+defineCustomElements();
+
+const preview: Preview = {
+  parameters: {
+    controls: { expanded: true },
+    backgrounds: {
+      default: 'panel',
+      values: [
+        { name: 'background', value: 'var(--ind-surface-background)' },
+        { name: 'panel',      value: 'var(--ind-surface-panel)' },
+        { name: 'raised',     value: 'var(--ind-surface-raised)' },
+      ],
+    },
+    viewport: {
+      viewports: {
+        hmiOperatorStation: {
+          name: 'HMI operator station (1920×1080)',
+          styles: { width: '1920px', height: '1080px' },
+          type: 'desktop',
+        },
+        industrialPanel15: {
+          name: 'Industrial 15" panel (1024×768)',
+          styles: { width: '1024px', height: '768px' },
+          type: 'tablet',
+        },
+        industrialPanel10: {
+          name: 'Industrial 10" panel (1280×800)',
+          styles: { width: '1280px', height: '800px' },
+          type: 'tablet',
+        },
+        handheld: {
+          name: 'Handheld HMI (480×800)',
+          styles: { width: '480px', height: '800px' },
+          type: 'mobile',
+        },
+      },
+      defaultViewport: 'hmiOperatorStation',
+    },
+    a11y: { test: 'todo' },
+  },
+  globalTypes: {
+    theme: {
+      description: 'Runtime theme — switches via [data-theme] on <html>.',
+      defaultValue: 'dark',
+      toolbar: {
+        title: 'Theme',
+        icon: 'paintbrush',
+        items: [
+          { value: 'dark',          title: 'Dark (default HMI)' },
+          { value: 'light',         title: 'Light' },
+          { value: 'high-contrast', title: 'High contrast (WCAG AAA)' },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
+  decorators: [
+    (story, context) => {
+      const theme = (context.globals.theme as string) || 'dark';
+      document.documentElement.dataset.theme = theme;
+      return story();
+    },
+  ],
+};
+
+export default preview;

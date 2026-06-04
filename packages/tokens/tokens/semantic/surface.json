@@ -1,0 +1,22 @@
+{
+  "surface": {
+    "background": { "value": "{color.palette.neutral.50}",  "type": "color", "comment": "App canvas — darkest level." },
+    "panel":      { "value": "{color.palette.neutral.100}", "type": "color", "comment": "Operator panel / window." },
+    "raised":     { "value": "{color.palette.neutral.200}", "type": "color", "comment": "Cards, dialogs, popovers." },
+    "sunken":     { "value": "{color.palette.neutral.0}",   "type": "color", "comment": "Inputs, code-like read-only fields." },
+    "border": {
+      "subtle": { "value": "{color.palette.neutral.200}", "type": "color" },
+      "default":{ "value": "{color.palette.neutral.300}", "type": "color" },
+      "strong": { "value": "{color.palette.neutral.500}", "type": "color" }
+    },
+    "text": {
+      "primary":   { "value": "{color.palette.neutral.900}", "type": "color" },
+      "secondary": { "value": "{color.palette.neutral.700}", "type": "color" },
+      "muted":     { "value": "{color.palette.neutral.600}", "type": "color" },
+      "inverse":   { "value": "{color.palette.neutral.50}",  "type": "color" }
+    },
+    "focus": {
+      "ring": { "value": "{color.palette.cyan.300}", "type": "color", "comment": "WCAG 2.2 visible focus — high contrast on dark." }
+    }
+  }
+}

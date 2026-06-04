@@ -1,0 +1,19 @@
+{
+  "motion": {
+    "duration": {
+      "instant": { "value": "0ms",   "type": "duration" },
+      "fast":    { "value": "120ms", "type": "duration" },
+      "base":    { "value": "200ms", "type": "duration" },
+      "slow":    { "value": "320ms", "type": "duration" }
+    },
+    "blink": {
+      "slow":   { "value": "1000ms", "type": "duration", "comment": "Steady-state attention — e.g. acknowledged warning." },
+      "fast":   { "value": "400ms",  "type": "duration", "comment": "Unacknowledged warning / high alarm." },
+      "urgent": { "value": "200ms",  "type": "duration", "comment": "Unacknowledged HH alarm. Must stop blinking once acknowledged (ISA-18.2)." }
+    },
+    "easing": {
+      "linear":   { "value": "linear", "type": "cubicBezier" },
+      "standard": { "value": "cubic-bezier(0.2, 0, 0.2, 1)", "type": "cubicBezier" }
+    }
+  }
+}
