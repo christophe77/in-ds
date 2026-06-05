@@ -1,6 +1,6 @@
 {
   "name": "@ind-ds/mqtt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MQTT adapter for ind-ds — binds broker topics to web component attributes for live HMI updates.",
   "keywords": [
     "mqtt",
