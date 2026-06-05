@@ -29,7 +29,7 @@ Sign in to [npmjs.com](https://www.npmjs.com/), then **Add Organization** → na
 
 ### 3. Add the token to GitHub
 
-`github.com/christophe77/in-ds` → **Settings → Secrets and variables → Actions → New repository secret**:
+`github.com/christophe77/ind-ds` → **Settings → Secrets and variables → Actions → New repository secret**:
 
 | Name | Value |
 |---|---|

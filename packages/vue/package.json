@@ -16,13 +16,13 @@
   ],
   "license": "MIT",
   "author": "ind-ds contributors",
-  "homepage": "https://github.com/christophe77/in-ds#readme",
+  "homepage": "https://github.com/christophe77/ind-ds#readme",
   "bugs": {
-    "url": "https://github.com/christophe77/in-ds/issues"
+    "url": "https://github.com/christophe77/ind-ds/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/christophe77/in-ds.git",
+    "url": "git+https://github.com/christophe77/ind-ds.git",
     "directory": "packages/vue"
   },
   "type": "module",

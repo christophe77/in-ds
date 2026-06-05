@@ -1,6 +1,6 @@
 # ind-ds
 
-**Repository:** [github.com/christophe77/in-ds](https://github.com/christophe77/in-ds)
+**Repository:** [github.com/christophe77/ind-ds](https://github.com/christophe77/ind-ds)
 
 Industrial design system for HMI/SCADA interfaces. Web Components at the core, typed wrappers for React and Vue, ISA-18.2-aware tokens, MQTT binding for live process data.
 
@@ -121,7 +121,7 @@ export function TankRow({ level, alarm }: { level: number; alarm: 'none' | 'high
 }
 ```
 
-Custom events use React-style prop names (`onIndChange`, `onIndInput`, …). See [Storybook](https://github.com/christophe77/in-ds/tree/main/apps/storybook) for every component.
+Custom events use React-style prop names (`onIndChange`, `onIndInput`, …). See [Storybook](https://github.com/christophe77/ind-ds/tree/main/apps/storybook) for every component.
 
 ### Vue 3 (Vite, Nuxt…)
 
@@ -233,7 +233,7 @@ You have two realistic strategies:
 | **WebView shell** | Desktop (Electron, Tauri), mobile (Capacitor, Flutter `WebView`), embedded panel (Chromium kiosk) | `@ind-ds/core` + `@ind-ds/tokens` — same code as a web app |
 | **Native UI + tokens** | Flutter HMIs, Qt/QML, .NET MAUI, pure native SCADA clients | `@ind-ds/tokens` only — rebuild widgets in your toolkit, keep the same **vocabulary** |
 
-In both cases the **component contract** stays the same: process states (`running`, `stopped`, `fault`, `warning`, `maintenance`), ISA-18.2 alarm priorities (`high-high`, `high`, `low`, `low-low`), dense spacing, tabular figures. [Storybook](https://github.com/christophe77/in-ds/tree/main/apps/storybook) is the visual reference for behaviour and props.
+In both cases the **component contract** stays the same: process states (`running`, `stopped`, `fault`, `warning`, `maintenance`), ISA-18.2 alarm priorities (`high-high`, `high`, `low`, `low-low`), dense spacing, tabular figures. [Storybook](https://github.com/christophe77/ind-ds/tree/main/apps/storybook) is the visual reference for behaviour and props.
 
 #### Option A — embed the real components (WebView)
 
@@ -369,8 +369,8 @@ Color alarmBg(String priority) => switch (priority) {
 Clone and hack on the design system itself:
 
 ```bash
-git clone https://github.com/christophe77/in-ds.git
-cd in-ds
+git clone https://github.com/christophe77/ind-ds.git
+cd ind-ds
 pnpm install
 pnpm build                      # tokens → core → wrappers, via turbo
 pnpm storybook                  # http://localhost:6006

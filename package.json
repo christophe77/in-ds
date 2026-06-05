@@ -6,12 +6,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/christophe77/in-ds.git"
+    "url": "git+https://github.com/christophe77/ind-ds.git"
   },
   "bugs": {
-    "url": "https://github.com/christophe77/in-ds/issues"
+    "url": "https://github.com/christophe77/ind-ds/issues"
   },
-  "homepage": "https://github.com/christophe77/in-ds#readme",
+  "homepage": "https://github.com/christophe77/ind-ds#readme",
   "type": "module",
   "packageManager": "pnpm@9.12.0",
   "workspaces": [
