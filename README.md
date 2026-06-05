@@ -41,9 +41,336 @@ ind-ds/
     └── storybook/              # playground (dark/light/HC, HMI viewports)
 ```
 
-## Get started
+## Install from npm
+
+Published packages live under the [`@ind-ds`](https://www.npmjs.com/org/ind-ds) scope on npm.
+
+| Package | What it ships |
+|---|---|
+| [`@ind-ds/tokens`](https://www.npmjs.com/package/@ind-ds/tokens) | CSS variables, ESM/TS tokens, JSON, Dart |
+| [`@ind-ds/core`](https://www.npmjs.com/package/@ind-ds/core) | Web components (`<ind-led>`, `<ind-valve>`, …) + loader |
+| [`@ind-ds/react`](https://www.npmjs.com/package/@ind-ds/react) | Typed React 18+ wrappers (auto-registers elements) |
+| [`@ind-ds/vue`](https://www.npmjs.com/package/@ind-ds/vue) | Typed Vue 3 wrappers with `v-model` support |
+| [`@ind-ds/mqtt`](https://www.npmjs.com/package/@ind-ds/mqtt) | MQTT → DOM attribute binding helpers |
 
 ```bash
+# Tokens only (CSS vars + themes)
+npm install @ind-ds/tokens
+
+# Web components (includes tokens as a dependency)
+npm install @ind-ds/core
+
+# Framework wrappers (pull in core automatically)
+npm install @ind-ds/react    # or @ind-ds/vue
+
+# Live process data
+npm install @ind-ds/mqtt
+```
+
+> **Peer deps:** `@ind-ds/react` needs `react` + `react-dom` ≥ 18. `@ind-ds/vue` needs `vue` ≥ 3.3.
+
+### Theming
+
+Import the token CSS once at app boot, then flip `data-theme` on `<html>` (or any ancestor):
+
+| `data-theme` | Use case |
+|---|---|
+| *(omit)* or `"dark"` | Control-room default |
+| `"light"` | Daylight / office |
+| `"high-contrast"` | WCAG AAA operator stations |
+
+```css
+@import "@ind-ds/tokens/css";
+@import "@ind-ds/tokens/css/light";
+@import "@ind-ds/tokens/css/high-contrast";
+```
+
+```html
+<html data-theme="dark">
+```
+
+No rebuild required — switching theme is a single attribute change.
+
+---
+
+## Integration examples
+
+### React (Vite, Next.js, CRA…)
+
+Wrappers register custom elements on first mount — no manual `defineCustomElements` call.
+
+```tsx
+// main.tsx — load tokens + optional layout utilities
+import '@ind-ds/tokens/css';
+import '@ind-ds/tokens/css/light';
+import '@ind-ds/tokens/css/high-contrast';
+import '@ind-ds/core/css/utilities';
+
+// App.tsx
+import { IndLed, IndValue, IndAlarm, IndFillRow } from '@ind-ds/react';
+
+export function TankRow({ level, alarm }: { level: number; alarm: 'none' | 'high' | 'high-high' }) {
+  return (
+    <div className="ind-stack" data-theme="dark" style={{ background: 'var(--ind-surface-background)', padding: 16 }}>
+      <IndFillRow label="Tank T-204" value={level} unit="%" severity={alarm !== 'none'} />
+      <IndValue value={level} unit="%" trend={level > 80 ? 'up' : 'flat'} alarm={alarm} />
+      {alarm !== 'none' && <IndAlarm priority={alarm} label="Level high" />}
+      <IndLed state={level > 90 ? 'warning' : 'running'} label="T-204" />
+    </div>
+  );
+}
+```
+
+Custom events use React-style prop names (`onIndChange`, `onIndInput`, …). See [Storybook](https://github.com/christophe77/in-ds/tree/main/apps/storybook) for every component.
+
+### Vue 3 (Vite, Nuxt…)
+
+```vue
+<!-- main.ts -->
+import '@ind-ds/tokens/css'
+import '@ind-ds/tokens/css/light'
+import '@ind-ds/tokens/css/high-contrast'
+import '@ind-ds/core/css/utilities'
+```
+
+```vue
+<script setup lang="ts">
+import { IndLed, IndInput, IndButton } from '@ind-ds/vue';
+import { ref } from 'vue';
+
+const tag = ref('');
+</script>
+
+<template>
+  <div class="ind-stack" data-theme="dark">
+    <IndInput v-model:value="tag" label="Tag name" placeholder="P-101" />
+    <IndButton variant="primary" @ind-activate="() => {}">Apply</IndButton>
+    <IndLed state="running" :label="tag || 'P-101'" />
+  </div>
+</template>
+```
+
+Elements register lazily on mount, so Nuxt SSR won't choke during render.
+
+### Web components (vanilla, Lit, Angular, Svelte…)
+
+Register once, then use tags directly in HTML or any template language:
+
+```ts
+// app.ts
+import '@ind-ds/tokens/css';
+import '@ind-ds/tokens/css/light';
+import '@ind-ds/tokens/css/high-contrast';
+import '@ind-ds/core/css/utilities';
+import { defineCustomElements } from '@ind-ds/core/loader';
+
+defineCustomElements();
+```
+
+```html
+<div class="ind-stack" data-theme="dark">
+  <ind-value value="42.6" unit="bar" trend="up" alarm="high"></ind-value>
+  <ind-valve state="open" orientation="horizontal" label="XV-101"></ind-valve>
+  <ind-led state="fault" blinking label="P-101"></ind-led>
+</div>
+```
+
+Per-component lazy loading (smaller initial bundle):
+
+```ts
+import { defineCustomElement as defineIndLed } from '@ind-ds/core/dist/components/ind-led.js';
+defineIndLed();
+```
+
+### Tokens only (any stack)
+
+Use the design tokens without web components — Flutter HMIs, legacy SCADA shells, or a custom React chart library:
+
+```css
+/* global.css */
+@import "@ind-ds/tokens/css";
+```
+
+```ts
+import { colorStateFaultBg, spacing4, fontSizeBase } from '@ind-ds/tokens';
+// or: import tokens from '@ind-ds/tokens/json' with assert { type: 'json' }
+```
+
+```dart
+// Flutter — vendor dist/dart/tokens.dart from the npm package
+import 'tokens.dart';
+Color fault = Color(IndTokens.IndColorPaletteRed500);
+```
+
+### MQTT live binding
+
+Wire a broker topic to component attributes without framework-specific glue:
+
+```ts
+import { IndMqttClient, bindLed, bindBlink } from '@ind-ds/mqtt';
+import { defineCustomElements } from '@ind-ds/core/loader';
+
+defineCustomElements();
+
+const client = new IndMqttClient({ url: 'wss://broker.example:8083/mqtt' });
+await client.connect();
+
+const pump = document.querySelector('#pump-101')!;
+bindLed(client, 'plant/area1/pump-101/state', pump, (raw) =>
+  raw === 'RUN' ? 'running' : raw === 'FAULT' ? 'fault' : 'stopped',
+);
+bindBlink(client, 'plant/area1/pump-101/alarm/unack', pump);
+```
+
+### Beyond the browser — native, desktop, embedded
+
+`@ind-ds/core` ships **Stencil web components**. They are Custom Elements: they need a **DOM** (`document`, `HTMLElement`, Shadow DOM). There is no official Qt, WPF, SwiftUI, or Android View binding today.
+
+You have two realistic strategies:
+
+| Strategy | When to use | What you install |
+|---|---|---|
+| **WebView shell** | Desktop (Electron, Tauri), mobile (Capacitor, Flutter `WebView`), embedded panel (Chromium kiosk) | `@ind-ds/core` + `@ind-ds/tokens` — same code as a web app |
+| **Native UI + tokens** | Flutter HMIs, Qt/QML, .NET MAUI, pure native SCADA clients | `@ind-ds/tokens` only — rebuild widgets in your toolkit, keep the same **vocabulary** |
+
+In both cases the **component contract** stays the same: process states (`running`, `stopped`, `fault`, `warning`, `maintenance`), ISA-18.2 alarm priorities (`high-high`, `high`, `low`, `low-low`), dense spacing, tabular figures. [Storybook](https://github.com/christophe77/in-ds/tree/main/apps/storybook) is the visual reference for behaviour and props.
+
+#### Option A — embed the real components (WebView)
+
+If your app already hosts HTML (or can), use the Stencil components as-is inside a WebView:
+
+```
+┌─────────────────────────────────────┐
+│  Native shell (Electron / Tauri /   │
+│  Capacitor / Qt WebEngine / WKWebView)│
+│  ┌───────────────────────────────┐  │
+│  │  Your HMI page (HTML/JS)      │  │
+│  │  defineCustomElements()       │  │
+│  │  <ind-led> <ind-value> …      │  │
+│  └───────────────────────────────┘  │
+│         ↕ bridge (optional)          │
+│  OS APIs — serial, filesystem, …    │
+└─────────────────────────────────────┘
+```
+
+**Electron / Tauri renderer**
+
+```ts
+// renderer.ts
+import '@ind-ds/tokens/css';
+import '@ind-ds/core/css/utilities';
+import { defineCustomElements } from '@ind-ds/core/loader';
+
+defineCustomElements();
+// render your HMI HTML — identical to the vanilla web example above
+```
+
+**Capacitor (iOS / Android)** — same imports in the WebView bundle; use Capacitor plugins for device APIs alongside the web UI.
+
+**Flutter `webview_flutter`** — load a local HTML asset or remote URL that bundles `@ind-ds/core`; communicate with Dart via `JavaScriptChannel` when you need native navigation around the web panel.
+
+> `@ind-ds/mqtt` targets DOM nodes (`element.setAttribute`). In a WebView HMI it works unchanged. In a fully native UI, subscribe with your platform MQTT client and map payloads to widget state yourself (same transforms as `bindLed`).
+
+#### Option B — native widgets, shared tokens
+
+Install only the token package and mirror component semantics in your UI toolkit:
+
+```bash
+npm install @ind-ds/tokens
+# or in pubspec / Gradle / CocoaPods: vendor the generated files below
+```
+
+**Available cross-platform exports**
+
+| Export path | Format | Typical consumer |
+|---|---|---|
+| `@ind-ds/tokens` | ESM + `.d.ts` | Node tooling, bundlers |
+| `@ind-ds/tokens/json` | flat JSON | codegen → Kotlin, Swift, C#, QML |
+| `@ind-ds/tokens/dart` | `IndTokens` class | Flutter / Dart HMIs |
+| `@ind-ds/tokens/css` | CSS variables | WebView pages, hybrid shells |
+
+**Flutter — native LED using Dart tokens**
+
+Copy or generate from the published Dart file (`node_modules/@ind-ds/tokens/dist/dart/tokens.dart` or import via build script):
+
+```dart
+import 'package:flutter/material.dart';
+import 'tokens.dart'; // IndTokens from @ind-ds/tokens/dart
+
+enum ProcessState { running, stopped, fault, warning, maintenance }
+
+Color _ledBg(ProcessState state) => switch (state) {
+  ProcessState.running     => Color(IndTokens.IndColorPaletteGreen500),
+  ProcessState.stopped     => Color(IndTokens.IndColorPaletteNeutral500),
+  ProcessState.fault       => Color(IndTokens.IndColorPaletteRed500),
+  ProcessState.warning     => Color(IndTokens.IndColorPaletteAmber500),
+  ProcessState.maintenance => Color(IndTokens.IndColorPaletteBlue500),
+};
+
+/// Mirrors <ind-led state="…" label="…"> — same prop vocabulary as the Stencil component.
+class IndLed extends StatelessWidget {
+  const IndLed({super.key, required this.state, this.label});
+  final ProcessState state;
+  final String? label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(
+            color: _ledBg(state),
+            shape: BoxShape.circle,
+            boxShadow: [BoxShadow(color: _ledBg(state).withValues(alpha: 0.6), blurRadius: 6)],
+          ),
+        ),
+        if (label != null) ...[const SizedBox(width: 6), Text(label!, style: const TextStyle(fontFeatures: [FontFeature.tabularFigures()]))],
+      ],
+    );
+  }
+}
+```
+
+**JSON → your platform (Qt, .NET, Rust…)**
+
+```bash
+# vendor the flat map once per release
+cp node_modules/@ind-ds/tokens/dist/json/tokens.json tooling/tokens.json
+```
+
+Feed it to [Style Dictionary](https://styledictionary.com/), [Tokens Studio](https://tokens.studio/), or an in-house codegen script to emit `Theme.kt`, `Colors.swift`, QML singletons, etc. Re-run when `@ind-ds/tokens` bumps.
+
+**Native alarm chip — same ISA-18.2 priority enum as `<ind-alarm>`**
+
+```dart
+// priority: 'high-high' | 'high' | 'low' | 'low-low'  (identical to the web component)
+Color alarmBg(String priority) => switch (priority) {
+  'high-high' => Color(IndTokens.IndAlarmHighHighBg),
+  'high'      => Color(IndTokens.IndAlarmHighBg),
+  'low'       => Color(IndTokens.IndAlarmLowBg),
+  'low-low'   => Color(IndTokens.IndAlarmLowLowBg),
+  _           => Color(IndTokens.IndColorPaletteNeutral500),
+};
+```
+
+#### Choosing a path
+
+- **Need pixel-perfect parity with Storybook fast?** → WebView + `@ind-ds/core`.
+- **Need offline native performance, platform widgets, or store compliance?** → `@ind-ds/tokens` + hand-rolled widgets that follow the same props/states.
+- **Mixed fleet** (portal in React, rounds app in Flutter, panel in Qt)? → tokens are the shared source of truth; each shell implements UI once, all speak `running` / `high-high` / `--ind-spacing-*`.
+
+---
+
+## Develop locally (monorepo)
+
+Clone and hack on the design system itself:
+
+```bash
+git clone https://github.com/christophe77/in-ds.git
+cd in-ds
 pnpm install
 pnpm build                      # tokens → core → wrappers, via turbo
 pnpm storybook                  # http://localhost:6006
@@ -51,14 +378,14 @@ pnpm storybook                  # http://localhost:6006
 
 Requires Node 20+ and pnpm 9+.
 
-## What's in this first scaffold
+## Packages
 
-- **`@ind-ds/tokens`** — full industrial token set (process states, ISA-18.2 alarm priorities, dense spacing, tabular figures, dark / light / high-contrast themes). Build emits CSS variables, ESM `tokens.js` + `.d.ts`, flat JSON, and a Dart class for Flutter HMIs.
-- **`@ind-ds/core`** — one complete atom: `<ind-led>` with `state`, `size`, `blinking`, `label`. ARIA live politeness switches based on state, `prefers-reduced-motion` swaps the blink for a static outline.
-- **`@ind-ds/react`** — typed React wrapper for `<ind-led>` with lazy custom-element registration.
-- **`@ind-ds/vue`** — typed Vue 3 wrapper, same shape.
-- **`@ind-ds/mqtt`** — `IndMqttClient` + `bindLed` / `bindBlink` helpers, ready to wire a broker to a DOM tree.
-- **`@ind-ds/storybook`** — LED stories with controls, an "AllStates" gallery, a "DensePanel" realistic mock, and a theme toolbar.
+- **`@ind-ds/tokens`** — process states, ISA-18.2 alarm priorities, dense spacing, tabular figures, dark / light / high-contrast themes. CSS variables, ESM, JSON, Dart.
+- **`@ind-ds/core`** — Stencil web components: atoms (LED, Value, Alarm, Valve, Button, Input, …), molecules (HealthCard, FillRow, NavItem, …), organisms (AppHeader, SidebarNav, MqttMonitor, StatusBar).
+- **`@ind-ds/react`** — auto-generated typed `forwardRef` wrappers around every custom element.
+- **`@ind-ds/vue`** — `defineComponent` wrappers with full `v-model` and event forwarding.
+- **`@ind-ds/mqtt`** — `IndMqttClient` + `bindLed` / `bindBlink` helpers.
+- **`@ind-ds/storybook`** — component playground with HMI viewports and theme toolbar (not published).
 
 ## Adding a new component (end-to-end)
 
