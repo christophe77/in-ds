@@ -40,6 +40,11 @@ import type {
   TextareaVariant,
   DialogSize,
   HealthState,
+  FillRowVariant,
+  AppHeaderConnectionState,
+  StatusBarState,
+  ScaraState,
+  ShelfSlot,
 } from '@ind-ds/core';
 
 let elementsDefined = false;
@@ -630,6 +635,272 @@ export const IndHealthCard = defineComponent({
   },
 });
 
+/* -------------------------------------------------------------------------- */
+/* IndFillRow                                                                 */
+/* -------------------------------------------------------------------------- */
+
+export const IndFillRow = defineComponent({
+  name: 'IndFillRow',
+  props: {
+    tag: { type: String, default: undefined },
+    label: { type: String, required: true },
+    value: { type: Number, default: 0 },
+    max: { type: Number, default: 100 },
+    unit: { type: String, default: '%' },
+    variant: { type: String as PropType<FillRowVariant>, default: 'default' },
+    severity: { type: Boolean, default: false },
+  },
+  setup(props, { slots }) {
+    onMounted(() => ensureDefined());
+    return () =>
+      h(
+        'ind-fill-row',
+        {
+          tag: props.tag,
+          label: props.label,
+          value: props.value,
+          max: props.max,
+          unit: props.unit,
+          variant: props.variant,
+          ...(props.severity ? { severity: true } : {}),
+        },
+        slots.default?.(),
+      );
+  },
+});
+
+/* -------------------------------------------------------------------------- */
+/* IndToolbarAction                                                           */
+/* -------------------------------------------------------------------------- */
+
+export const IndToolbarAction = defineComponent({
+  name: 'IndToolbarAction',
+  props: {
+    counter: { type: [String, Number], default: undefined },
+  },
+  setup(props, { slots }) {
+    onMounted(() => ensureDefined());
+    return () =>
+      h('ind-toolbar-action', { counter: props.counter }, [
+        slots.filter ? h('div', { slot: 'filter' }, slots.filter()) : null,
+        slots.flags ? h('div', { slot: 'flags' }, slots.flags()) : null,
+        slots.actions ? h('div', { slot: 'actions' }, slots.actions()) : null,
+      ]);
+  },
+});
+
+/* -------------------------------------------------------------------------- */
+/* IndAppHeader                                                               */
+/* -------------------------------------------------------------------------- */
+
+export const IndAppHeader = defineComponent({
+  name: 'IndAppHeader',
+  props: {
+    brand: { type: String, required: true },
+    subBrand: { type: String, default: undefined },
+    machineId: { type: String, default: undefined },
+    mqttState: { type: String as PropType<AppHeaderConnectionState>, default: 'neutral' },
+    mqttLabel: { type: String, default: undefined },
+    version: { type: String, default: undefined },
+    docsUrl: { type: String, default: undefined },
+    hideChangeMachine: { type: Boolean, default: false },
+    hideDisconnect: { type: Boolean, default: false },
+  },
+  emits: ['ind-change-machine', 'ind-disconnect'],
+  setup(props, { emit, slots }) {
+    const elRef = ref<HTMLElement | null>(null);
+    let cleanup: (() => void) | null = null;
+
+    onMounted(() => {
+      ensureDefined();
+      const el = elRef.value;
+      if (!el) return;
+      const onChange = () => emit('ind-change-machine');
+      const onDisc = () => emit('ind-disconnect');
+      el.addEventListener('indChangeMachine', onChange);
+      el.addEventListener('indDisconnect', onDisc);
+      cleanup = () => {
+        el.removeEventListener('indChangeMachine', onChange);
+        el.removeEventListener('indDisconnect', onDisc);
+      };
+    });
+
+    onBeforeUnmount(() => cleanup?.());
+
+    return () =>
+      h(
+        'ind-app-header',
+        {
+          ref: elRef,
+          brand: props.brand,
+          'sub-brand': props.subBrand,
+          'machine-id': props.machineId,
+          'mqtt-state': props.mqttState,
+          'mqtt-label': props.mqttLabel,
+          version: props.version,
+          'docs-url': props.docsUrl,
+          ...(props.hideChangeMachine ? { 'hide-change-machine': true } : {}),
+          ...(props.hideDisconnect ? { 'hide-disconnect': true } : {}),
+        },
+        [
+          slots.logo ? h('div', { slot: 'logo' }, slots.logo()) : null,
+          slots.actions ? h('div', { slot: 'actions' }, slots.actions()) : null,
+        ],
+      );
+  },
+});
+
+/* -------------------------------------------------------------------------- */
+/* IndSidebarNav                                                              */
+/* -------------------------------------------------------------------------- */
+
+export const IndSidebarNav = defineComponent({
+  name: 'IndSidebarNav',
+  setup(_, { slots }) {
+    onMounted(() => ensureDefined());
+    return () =>
+      h('ind-sidebar-nav', null, [
+        slots.brand ? h('div', { slot: 'brand' }, slots.brand()) : null,
+        slots.default?.(),
+        slots.footer ? h('div', { slot: 'footer' }, slots.footer()) : null,
+      ]);
+  },
+});
+
+/* -------------------------------------------------------------------------- */
+/* IndMqttMonitor                                                             */
+/* -------------------------------------------------------------------------- */
+
+export const IndMqttMonitor = defineComponent({
+  name: 'IndMqttMonitor',
+  props: {
+    log: { type: String, default: '' },
+    filterValue: { type: String, default: '' },
+    paused: { type: Boolean, default: false },
+    rows: { type: Number, default: 18 },
+  },
+  emits: ['ind-filter-change', 'ind-pause-change', 'ind-clear', 'update:filterValue', 'update:paused'],
+  setup(props, { emit }) {
+    const elRef = ref<HTMLElement | null>(null);
+    let cleanup: (() => void) | null = null;
+
+    onMounted(() => {
+      ensureDefined();
+      const el = elRef.value;
+      if (!el) return;
+      const onFilter = (e: Event) => {
+        const detail = (e as CustomEvent<string>).detail;
+        emit('ind-filter-change', detail);
+        emit('update:filterValue', detail);
+      };
+      const onPause = (e: Event) => {
+        const detail = (e as CustomEvent<boolean>).detail;
+        emit('ind-pause-change', detail);
+        emit('update:paused', detail);
+      };
+      const onClear = () => emit('ind-clear');
+      el.addEventListener('indFilterChange', onFilter);
+      el.addEventListener('indPauseChange', onPause);
+      el.addEventListener('indClear', onClear);
+      cleanup = () => {
+        el.removeEventListener('indFilterChange', onFilter);
+        el.removeEventListener('indPauseChange', onPause);
+        el.removeEventListener('indClear', onClear);
+      };
+    });
+
+    onBeforeUnmount(() => cleanup?.());
+
+    return () =>
+      h('ind-mqtt-monitor', {
+        ref: elRef,
+        log: props.log,
+        'filter-value': props.filterValue,
+        ...(props.paused ? { paused: true } : {}),
+        rows: props.rows,
+      });
+  },
+});
+
+/* -------------------------------------------------------------------------- */
+/* IndStatusBar                                                               */
+/* -------------------------------------------------------------------------- */
+
+export const IndStatusBar = defineComponent({
+  name: 'IndStatusBar',
+  props: {
+    state: { type: String as PropType<StatusBarState>, default: 'neutral' },
+    message: { type: String, default: undefined },
+  },
+  setup(props, { slots }) {
+    onMounted(() => ensureDefined());
+    return () =>
+      h(
+        'ind-status-bar',
+        { state: props.state, message: props.message },
+        slots.default?.(),
+      );
+  },
+});
+
+/* -------------------------------------------------------------------------- */
+/* IndScaraCanvas                                                             */
+/* -------------------------------------------------------------------------- */
+
+export const IndScaraCanvas = defineComponent({
+  name: 'IndScaraCanvas',
+  props: {
+    joints: { type: Array as PropType<number[]>, default: () => [0, 0, 0] },
+    linkLengths: { type: Array as PropType<number[]>, default: () => [110, 90] },
+    state: { type: String as PropType<ScaraState>, default: 'idle' },
+  },
+  setup(props) {
+    const elRef = ref<HTMLElement | null>(null);
+
+    onMounted(() => {
+      ensureDefined();
+      const el = elRef.value as (HTMLElement & { joints?: number[]; linkLengths?: number[] }) | null;
+      if (!el) return;
+      el.joints = props.joints;
+      el.linkLengths = props.linkLengths;
+    });
+
+    return () => h('ind-scara-canvas', { ref: elRef, state: props.state });
+  },
+});
+
+/* -------------------------------------------------------------------------- */
+/* IndShelfCanvas                                                             */
+/* -------------------------------------------------------------------------- */
+
+export const IndShelfCanvas = defineComponent({
+  name: 'IndShelfCanvas',
+  props: {
+    slots: { type: Array as PropType<ShelfSlot[]>, default: () => [] },
+    rows: { type: Number, default: 1 },
+    cols: { type: Number, default: 4 },
+    heading: { type: String, default: undefined },
+  },
+  setup(props) {
+    const elRef = ref<HTMLElement | null>(null);
+
+    onMounted(() => {
+      ensureDefined();
+      const el = elRef.value as (HTMLElement & { slots?: ShelfSlot[] }) | null;
+      if (!el) return;
+      el.slots = props.slots;
+    });
+
+    return () =>
+      h('ind-shelf-canvas', {
+        ref: elRef,
+        rows: props.rows,
+        cols: props.cols,
+        heading: props.heading,
+      });
+  },
+});
+
 export type {
   LedSize,
   LedState,
@@ -657,4 +928,9 @@ export type {
   TextareaVariant,
   DialogSize,
   HealthState,
+  FillRowVariant,
+  AppHeaderConnectionState,
+  StatusBarState,
+  ScaraState,
+  ShelfSlot,
 };

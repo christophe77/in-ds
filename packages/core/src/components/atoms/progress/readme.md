@@ -30,6 +30,19 @@
 | `"value"`  |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-fill-row](../../molecules/fill-row)
+
+### Graph
+```mermaid
+graph TD;
+  ind-fill-row --> ind-progress
+  style ind-progress fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

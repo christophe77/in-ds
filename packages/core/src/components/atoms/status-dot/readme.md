@@ -19,12 +19,16 @@
 
 ### Used by
 
+ - [ind-app-header](../../organisms/app-header)
  - [ind-health-card](../../molecules/health-card)
+ - [ind-status-bar](../../organisms/status-bar)
 
 ### Graph
 ```mermaid
 graph TD;
+  ind-app-header --> ind-status-dot
   ind-health-card --> ind-status-dot
+  ind-status-bar --> ind-status-dot
   style ind-status-dot fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

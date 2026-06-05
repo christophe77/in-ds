@@ -14,6 +14,13 @@ export type { ProgressVariant, ProgressSize } from './components/atoms/progress/
 export type { SelectOption, SelectSize } from './components/atoms/select/select';
 export type { TextareaSize, TextareaVariant } from './components/atoms/textarea/textarea';
 export type { DialogSize } from './components/atoms/dialog/dialog';
+export type { ScaraState } from './components/atoms/scara-canvas/scara-canvas';
+export type { ShelfSlot, ShelfSlotState } from './components/atoms/shelf-canvas/shelf-canvas';
 
 // Molecules
 export type { HealthState } from './components/molecules/health-card/health-card';
+export type { FillRowVariant } from './components/molecules/fill-row/fill-row';
+
+// Organisms
+export type { AppHeaderConnectionState } from './components/organisms/app-header/app-header';
+export type { StatusBarState } from './components/organisms/status-bar/status-bar';

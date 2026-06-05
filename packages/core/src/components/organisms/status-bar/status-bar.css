@@ -1,0 +1,34 @@
+:host {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  padding: var(--ind-spacing-2, 4px) var(--ind-spacing-5, 12px);
+  background: var(--ind-surface-panel);
+  border-top: 1px solid var(--ind-surface-border-default);
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  min-height: 24px;
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.message {
+  flex: 0 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.end {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+}
+
+::slotted(*) {
+  font-size: var(--ind-font-size-sm, 11px);
+}
