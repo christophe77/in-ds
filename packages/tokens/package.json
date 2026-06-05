@@ -1,6 +1,6 @@
 {
   "name": "@ind-ds/tokens",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Industrial HMI/SCADA design tokens — ISA-18.2 alarm priorities, process states, dense spacing. Built with Style Dictionary.",
   "keywords": [
     "design-tokens",

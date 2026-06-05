@@ -1,5 +1,11 @@
 # @ind-ds/tokens
 
+## 0.1.1
+
+### Patch Changes
+
+- 57135c4: Ensure `dist/` TypeScript declarations are always built before npm publish via `prepack` scripts.
+
 ## 0.1.0
 
 ### Minor Changes
