@@ -1,4 +1,5 @@
 import type { Config } from '@stencil/core';
+import { reactOutputTarget } from '@stencil/react-output-target';
 
 export const config: Config = {
   namespace: 'ind-ds',
@@ -15,6 +16,10 @@ export const config: Config = {
       externalRuntime: false,
       generateTypeDeclarations: true,
     },
+    reactOutputTarget({
+      stencilPackageName: '@ind-ds/core',
+      outDir: '../react/src/generated/',
+    }),
     {
       type: 'docs-readme',
     },

@@ -36,7 +36,8 @@ export class IndInput {
   @Prop() step?: number | string;
   @Prop() pattern?: string;
   @Prop() autocomplete?: string;
-  @Prop({ attribute: 'inputmode' }) inputMode?: InputMode;
+  /** Maps to the native `inputmode` attribute — named `mode` to avoid clashing with `HTMLElement.inputMode`. */
+  @Prop({ attribute: 'inputmode' }) mode?: InputMode;
 
   @State() private hasFocus = false;
 
@@ -83,7 +84,7 @@ export class IndInput {
               step={this.step as unknown as string}
               pattern={this.pattern}
               autocomplete={this.autocomplete as unknown as 'on' | 'off'}
-              inputMode={this.inputMode as unknown as undefined}
+              inputMode={this.mode as unknown as undefined}
               aria-invalid={this.invalid ? 'true' : 'false'}
               onFocus={() => (this.hasFocus = true)}
               onBlur={() => (this.hasFocus = false)}

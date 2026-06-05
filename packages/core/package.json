@@ -53,6 +53,10 @@
       "types": "./dist/components/*.d.ts",
       "import": "./dist/components/*.js"
     },
+    "./dist/components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
+    },
     "./css/utilities": "./utilities.css",
     "./dist/*": "./dist/*"
   },
@@ -77,6 +81,7 @@
   },
   "devDependencies": {
     "@stencil/core": "^4.22.0",
+    "@stencil/react-output-target": "^1.5.3",
     "rimraf": "^5.0.5"
   }
 }

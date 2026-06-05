@@ -272,7 +272,7 @@ export const IndInput = defineComponent({
           step: props.step,
           pattern: props.pattern,
           autocomplete: props.autocomplete,
-          inputmode: props.inputMode,
+          mode: props.inputMode,
         },
         [slots.prefix?.(), slots.suffix?.()],
       );
