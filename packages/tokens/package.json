@@ -48,6 +48,7 @@
   ],
   "scripts": {
     "build": "node style-dictionary.config.js",
+    "prepack": "pnpm run build",
     "clean": "rimraf dist"
   },
   "publishConfig": {

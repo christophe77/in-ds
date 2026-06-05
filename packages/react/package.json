@@ -37,11 +37,11 @@
   },
   "files": [
     "dist",
-    "src",
     "README.md"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "pnpm --filter @ind-ds/core build && tsc",
+    "prepack": "pnpm run build",
     "dev": "tsc --watch",
     "clean": "rimraf dist"
   },

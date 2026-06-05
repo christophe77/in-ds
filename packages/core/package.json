@@ -34,7 +34,7 @@
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "es2017": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "unpkg": "dist/ind-ds/ind-ds.esm.js",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
@@ -68,6 +68,7 @@
   ],
   "scripts": {
     "build": "stencil build",
+    "prepack": "pnpm run build",
     "dev": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "clean": "rimraf dist loader www src/components.d.ts"
