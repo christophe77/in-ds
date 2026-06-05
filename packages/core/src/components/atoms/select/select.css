@@ -1,0 +1,88 @@
+:host {
+  display: inline-block;
+  font-family: var(--ind-font-family-sans);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  --_h: var(--ind-size-input-md, 32px);
+}
+
+:host([size="sm"]) { --_h: var(--ind-size-input-sm, 24px); }
+:host([size="md"]) { --_h: var(--ind-size-input-md, 32px); }
+:host([size="lg"]) { --_h: var(--ind-size-input-lg, 40px); }
+
+.wrap {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-2, 4px);
+  min-width: 160px;
+}
+
+.label {
+  font-size: var(--ind-font-size-sm, 11px);
+  font-weight: var(--ind-font-weight-medium, 500);
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.field {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: var(--_h);
+  background: var(--ind-surface-sunken, light-dark(#ffffff, #000000));
+  border: 1px solid var(--ind-surface-border-default, #2a3340);
+  border-radius: var(--ind-radius-md, 3px);
+  transition:
+    border-color var(--ind-motion-duration-fast, 120ms),
+    box-shadow   var(--ind-motion-duration-fast, 120ms);
+}
+
+.field:focus-within {
+  border-color: var(--ind-surface-focus-ring, #22d3ee);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ind-surface-focus-ring, #22d3ee) 35%, transparent);
+}
+
+.native {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0 calc(var(--ind-spacing-7, 20px) + 8px) 0 var(--ind-spacing-4, 8px);
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.native::-ms-expand { display: none; }
+
+/* Native option styling: at least give them a dark theme bg when
+ * the OS picker honors it (Chrome/Edge mostly do). */
+.native option {
+  background: var(--ind-surface-panel);
+  color: var(--ind-surface-text-primary);
+}
+
+.caret {
+  position: absolute;
+  right: var(--ind-spacing-4, 8px);
+  font-size: var(--ind-font-size-base, 12px);
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+  pointer-events: none;
+  line-height: 1;
+}
+
+:host([invalid]) .field {
+  border-color: var(--ind-feedback-error-bg, #dc2626);
+}
+:host([invalid]) .field:focus-within {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ind-feedback-error-bg, #dc2626) 40%, transparent);
+}
+
+:host([disabled]) {
+  opacity: 0.55;
+  pointer-events: none;
+}

@@ -1,0 +1,92 @@
+:host {
+  display: inline-block;
+  font-family: var(--ind-font-family-sans);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  --_h: var(--ind-size-input-md, 32px);
+}
+
+:host([size="sm"]) { --_h: var(--ind-size-input-sm, 24px); }
+:host([size="md"]) { --_h: var(--ind-size-input-md, 32px); }
+:host([size="lg"]) { --_h: var(--ind-size-input-lg, 40px); }
+
+.wrap {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-2, 4px);
+  min-width: 160px;
+  max-width: 100%;
+}
+
+.label {
+  font-size: var(--ind-font-size-sm, 11px);
+  font-weight: var(--ind-font-weight-medium, 500);
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  height: var(--_h);
+  padding: 0 var(--ind-spacing-4, 8px);
+  background: var(--ind-surface-sunken, light-dark(#ffffff, #000000));
+  border: 1px solid var(--ind-surface-border-default, #2a3340);
+  border-radius: var(--ind-radius-md, 3px);
+  transition:
+    border-color var(--ind-motion-duration-fast, 120ms),
+    box-shadow   var(--ind-motion-duration-fast, 120ms);
+}
+
+.field.is-focus {
+  border-color: var(--ind-surface-focus-ring, #22d3ee);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ind-surface-focus-ring, #22d3ee) 35%, transparent);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.input::placeholder {
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+  opacity: 1;
+}
+
+:host([type="number"]) .input {
+  font-family: var(--ind-font-family-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+:host([invalid]) .field {
+  border-color: var(--ind-feedback-error-bg, #dc2626);
+}
+:host([invalid]) .field.is-focus {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ind-feedback-error-bg, #dc2626) 40%, transparent);
+}
+
+:host([disabled]) {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+:host([readonly]) .field {
+  background: var(--ind-surface-panel, light-dark(#f4f6f9, #11161c));
+}
+
+::slotted([slot="prefix"]),
+::slotted([slot="suffix"]) {
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+  font-size: var(--ind-font-size-sm, 11px);
+  font-family: var(--ind-font-family-mono);
+  white-space: nowrap;
+}

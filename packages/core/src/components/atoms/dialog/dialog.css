@@ -1,0 +1,85 @@
+:host {
+  display: contents;
+}
+
+.dialog {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: visible;
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  background: var(--ind-surface-raised, light-dark(#ffffff, #1a2129));
+  border: 1px solid var(--ind-surface-border-default, #2a3340);
+  border-radius: var(--ind-radius-md, 3px);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-base, 12px);
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+:host([size="sm"]) .content { width: 320px; }
+:host([size="md"]) .content { width: 480px; }
+:host([size="lg"]) .content { width: 720px; }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ind-spacing-4, 8px);
+  padding: var(--ind-spacing-5, 12px) var(--ind-spacing-6, 16px);
+  border-bottom: 1px solid var(--ind-surface-border-subtle);
+}
+
+.heading {
+  font-size: var(--ind-font-size-lg, 14px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  margin: 0;
+}
+
+.close {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: var(--ind-radius-sm, 2px);
+}
+.close:hover { background: var(--ind-surface-panel); }
+.close:focus-visible {
+  outline: 2px solid var(--ind-surface-focus-ring, #22d3ee);
+  outline-offset: 2px;
+}
+
+.body {
+  flex: 1;
+  overflow: auto;
+  padding: var(--ind-spacing-6, 16px);
+  line-height: var(--ind-font-line-height-normal, 1.4);
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--ind-spacing-3, 6px);
+  padding: var(--ind-spacing-4, 8px) var(--ind-spacing-6, 16px);
+  border-top: 1px solid var(--ind-surface-border-subtle);
+}
+
+.footer.is-empty {
+  display: none;
+}

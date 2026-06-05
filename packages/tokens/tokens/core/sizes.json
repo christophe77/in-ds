@@ -1,0 +1,32 @@
+{
+  "size": {
+    "button": {
+      "sm": { "value": "26px", "type": "dimension" },
+      "md": { "value": "32px", "type": "dimension" },
+      "lg": { "value": "38px", "type": "dimension" },
+      "xl": { "value": "42px", "type": "dimension", "comment": "Primary CTA on connection / form screens." }
+    },
+    "input": {
+      "sm": { "value": "24px", "type": "dimension" },
+      "md": { "value": "32px", "type": "dimension" },
+      "lg": { "value": "40px", "type": "dimension" }
+    },
+    "sidebar": {
+      "width": { "value": "178px", "type": "dimension", "comment": "Reference: maintenance console sidebar width." }
+    },
+    "canvas": {
+      "robot": {
+        "width":  { "value": "320px", "type": "dimension" },
+        "height": { "value": "220px", "type": "dimension" }
+      },
+      "shelves": {
+        "width":  { "value": "480px", "type": "dimension" },
+        "height": { "value": "340px", "type": "dimension" }
+      }
+    },
+    "window": {
+      "min-width":  { "value": "820px", "type": "dimension" },
+      "min-height": { "value": "620px", "type": "dimension" }
+    }
+  }
+}

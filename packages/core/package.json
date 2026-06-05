@@ -32,11 +32,13 @@
       "types": "./dist/components/*.d.ts",
       "import": "./dist/components/*.js"
     },
+    "./css/utilities": "./utilities.css",
     "./dist/*": "./dist/*"
   },
   "files": [
     "dist",
-    "loader"
+    "loader",
+    "utilities.css"
   ],
   "scripts": {
     "build": "stencil build",

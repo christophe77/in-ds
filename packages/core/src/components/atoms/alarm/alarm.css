@@ -1,0 +1,87 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-4, 8px);
+  padding: var(--ind-spacing-2, 4px) var(--ind-spacing-5, 12px);
+  border-radius: var(--ind-radius-md, 3px);
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-base, 12px);
+  border: 1px solid;
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+  max-width: 100%;
+}
+
+.badge {
+  font-family: var(--ind-font-family-mono);
+  font-weight: var(--ind-font-weight-bold, 700);
+  font-size: var(--ind-font-size-sm, 11px);
+  letter-spacing: 0.04em;
+  padding: 1px var(--ind-spacing-2, 4px);
+  border-radius: var(--ind-radius-sm, 2px);
+  background: rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+}
+
+.label {
+  flex: 1;
+  font-weight: var(--ind-font-weight-medium, 500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timestamp {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+:host([priority="high-high"]) {
+  background: var(--ind-alarm-high-high-bg, #dc2626);
+  color: var(--ind-alarm-high-high-fg, #ffffff);
+  border-color: var(--ind-alarm-high-high-border, #f87171);
+}
+:host([priority="high"]) {
+  background: var(--ind-alarm-high-bg, #f59e0b);
+  color: var(--ind-alarm-high-fg, #000000);
+  border-color: var(--ind-alarm-high-border, #fcd34d);
+}
+:host([priority="low"]) {
+  background: var(--ind-alarm-low-bg, #0891b2);
+  color: var(--ind-alarm-low-fg, #ffffff);
+  border-color: var(--ind-alarm-low-border, #22d3ee);
+}
+:host([priority="low-low"]) {
+  background: var(--ind-alarm-low-low-bg, #7c3aed);
+  color: var(--ind-alarm-low-low-fg, #ffffff);
+  border-color: var(--ind-alarm-low-low-border, #a78bfa);
+}
+
+/* Unacknowledged → blink at the priority-appropriate rate. */
+:host(:not([acknowledged])) {
+  animation: ind-alarm-blink var(--ind-motion-blink-fast, 400ms) steps(2, end) infinite;
+}
+:host([priority="high-high"]:not([acknowledged])) {
+  animation-duration: var(--ind-motion-blink-urgent, 200ms);
+}
+:host([priority="low"]:not([acknowledged])),
+:host([priority="low-low"]:not([acknowledged])) {
+  animation-duration: var(--ind-motion-blink-slow, 1000ms);
+}
+
+/* Acknowledged → muted, no animation (ISA-18.2 convention). */
+:host([acknowledged]) .label { opacity: 0.75; }
+:host([acknowledged]) .badge { opacity: 0.85; }
+
+@keyframes ind-alarm-blink {
+  50% { filter: brightness(0.6); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host(:not([acknowledged])) {
+    animation: none;
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
+  }
+}

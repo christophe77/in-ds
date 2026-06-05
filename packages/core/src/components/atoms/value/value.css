@@ -1,0 +1,115 @@
+:host {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-2, 4px);
+  padding: var(--ind-spacing-4, 8px) var(--ind-spacing-5, 12px);
+  background: var(--ind-surface-sunken, #000);
+  border: 1px solid var(--ind-surface-border-default, #2a3340);
+  border-radius: var(--ind-radius-md, 3px);
+  font-family: var(--ind-font-family-sans);
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  min-width: 96px;
+  transition:
+    background-color var(--ind-motion-duration-base, 200ms),
+    border-color var(--ind-motion-duration-base, 200ms),
+    color var(--ind-motion-duration-base, 200ms);
+}
+
+.header {
+  display: flex;
+  gap: var(--ind-spacing-3, 6px);
+  align-items: baseline;
+  font-size: var(--ind-font-size-sm, 11px);
+  line-height: var(--ind-font-line-height-tight, 1.1);
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+}
+
+.tag {
+  font-family: var(--ind-font-family-mono);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  letter-spacing: 0.02em;
+}
+
+.label {
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+}
+
+.readout {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ind-spacing-2, 4px);
+  line-height: 1;
+}
+
+.number {
+  font-family: var(--ind-font-family-mono);
+  font-weight: var(--ind-font-weight-bold, 700);
+  font-variant-numeric: tabular-nums;
+}
+
+.unit {
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+  font-weight: var(--ind-font-weight-medium, 500);
+}
+
+.trend {
+  font-size: var(--ind-font-size-md, 13px);
+  margin-left: var(--ind-spacing-2, 4px);
+}
+
+:host([size="sm"]) .number { font-size: var(--ind-font-size-xl, 16px); }
+:host([size="md"]) .number { font-size: var(--ind-font-size-2xl, 20px); }
+:host([size="lg"]) .number { font-size: var(--ind-font-size-3xl, 28px); }
+
+/* Alarm highlight — uses the ISA-18.2 alarm tokens directly. */
+:host([alarm="high-high"]) {
+  background: var(--ind-alarm-high-high-bg, #dc2626);
+  color: var(--ind-alarm-high-high-fg, #ffffff);
+  border-color: var(--ind-alarm-high-high-border, #f87171);
+}
+:host([alarm="high"]) {
+  background: var(--ind-alarm-high-bg, #f59e0b);
+  color: var(--ind-alarm-high-fg, #000000);
+  border-color: var(--ind-alarm-high-border, #fcd34d);
+}
+:host([alarm="low"]) {
+  background: var(--ind-alarm-low-bg, #0891b2);
+  color: var(--ind-alarm-low-fg, #ffffff);
+  border-color: var(--ind-alarm-low-border, #22d3ee);
+}
+:host([alarm="low-low"]) {
+  background: var(--ind-alarm-low-low-bg, #7c3aed);
+  color: var(--ind-alarm-low-low-fg, #ffffff);
+  border-color: var(--ind-alarm-low-low-border, #a78bfa);
+}
+
+/* When in an alarm state, force every descendant to inherit the host color
+ * (which is the high-contrast alarm fg, e.g. black on amber for "high").
+ *
+ * We have to override `.header` explicitly because it sets its own color —
+ * otherwise `.label` and `.tag` inherit *from .header*, not from :host,
+ * and stay at the original muted neutral color (broken contrast on alarm bg).
+ */
+:host([alarm]:not([alarm="none"])) .header,
+:host([alarm]:not([alarm="none"])) .tag,
+:host([alarm]:not([alarm="none"])) .label,
+:host([alarm]:not([alarm="none"])) .unit {
+  color: inherit;
+}
+
+/* The tag identifies WHICH instrument is alarming — keep it at full opacity
+ * so operators can read it at a glance. Label/unit can be slightly faded. */
+:host([alarm]:not([alarm="none"])) .label,
+:host([alarm]:not([alarm="none"])) .unit {
+  opacity: 0.85;
+}
+:host([alarm]:not([alarm="none"])) .tag {
+  opacity: 1;
+  font-weight: var(--ind-font-weight-bold, 700);
+}
+
+:host([trend="up"])     .trend { color: var(--ind-trend-up-fg, #fcd34d); }
+:host([trend="down"])   .trend { color: var(--ind-trend-down-fg, #22d3ee); }
+:host([trend="stable"]) .trend { color: var(--ind-trend-stable-fg, #8390a0); }

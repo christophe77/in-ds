@@ -1,0 +1,7 @@
+{
+  "trend": {
+    "up":     { "fg": { "value": "{color.palette.amber.300}",   "type": "color", "comment": "Increasing — warmer cue, usually means approaching a high alarm." } },
+    "down":   { "fg": { "value": "{color.palette.cyan.300}",    "type": "color", "comment": "Decreasing — cooler cue." } },
+    "stable": { "fg": { "value": "{color.palette.neutral.600}", "type": "color", "comment": "Within deadband." } }
+  }
+}

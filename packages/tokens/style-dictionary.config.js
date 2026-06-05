@@ -1,4 +1,5 @@
 import StyleDictionary from 'style-dictionary';
+import { readFile, writeFile } from 'node:fs/promises';
 
 const baseSources = [
   'tokens/core/**/*.json',
@@ -15,6 +16,7 @@ async function buildBase() {
     platforms: {
       css: {
         transformGroup: 'css',
+        prefix: 'ind',
         buildPath: 'dist/css/',
         files: [
           {
@@ -29,6 +31,7 @@ async function buildBase() {
       },
       js: {
         transformGroup: 'js',
+        prefix: 'ind',
         buildPath: 'dist/js/',
         files: [
           { destination: 'tokens.js', format: 'javascript/esm' },
@@ -37,6 +40,7 @@ async function buildBase() {
       },
       json: {
         transformGroup: 'js',
+        prefix: 'ind',
         buildPath: 'dist/json/',
         files: [
           { destination: 'tokens.json', format: 'json/flat' },
@@ -44,12 +48,15 @@ async function buildBase() {
       },
       dart: {
         transformGroup: 'js',
+        prefix: 'ind',
         buildPath: 'dist/dart/',
         files: [
           {
             destination: 'tokens.dart',
             format: 'flutter/class.dart',
-            className: 'IndTokens',
+            options: {
+              className: 'IndTokens',
+            },
           },
         ],
       },
@@ -69,6 +76,7 @@ async function buildTheme(theme) {
     platforms: {
       css: {
         transformGroup: 'css',
+        prefix: 'ind',
         buildPath: 'dist/css/themes/',
         files: [
           {
@@ -92,6 +100,25 @@ async function buildTheme(theme) {
 await buildBase();
 for (const theme of ['light', 'high-contrast']) {
   await buildTheme(theme);
+}
+
+/**
+ * Post-process: inject `color-scheme` into each theme file so browsers
+ * pick the right form-control / scrollbar / canvas defaults, AND so the
+ * CSS `light-dark()` function used by component fallbacks resolves correctly
+ * when a component lands on a surface whose theme doesn't match (e.g. a
+ * Storybook autodocs page that forces white).
+ */
+const schemeInjections = [
+  { file: 'dist/css/tokens.css',                selector: ':root, [data-theme="dark"]',  scheme: 'dark'  },
+  { file: 'dist/css/themes/light.css',          selector: '[data-theme="light"]',         scheme: 'light' },
+  { file: 'dist/css/themes/high-contrast.css',  selector: '[data-theme="high-contrast"]', scheme: 'dark'  },
+];
+
+for (const { file, selector, scheme } of schemeInjections) {
+  const css = await readFile(file, 'utf8');
+  if (css.includes('color-scheme:')) continue;
+  await writeFile(file, `${css}\n${selector} { color-scheme: ${scheme}; }\n`);
 }
 
 console.log('\n✓ @ind-ds/tokens built\n');

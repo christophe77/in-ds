@@ -1,0 +1,74 @@
+:host {
+  display: inline-block;
+  width: 100%;
+  font-family: var(--ind-font-family-sans);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-2, 4px);
+}
+
+.label {
+  font-size: var(--ind-font-size-sm, 11px);
+  font-weight: var(--ind-font-weight-medium, 500);
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--ind-spacing-3, 6px) var(--ind-spacing-4, 8px);
+  background: var(--ind-surface-sunken, light-dark(#ffffff, #000000));
+  border: 1px solid var(--ind-surface-border-default, #2a3340);
+  border-radius: var(--ind-radius-md, 3px);
+  font-family: inherit;
+  font-size: var(--ind-font-size-base, 12px);
+  line-height: var(--ind-font-line-height-normal, 1.4);
+  color: inherit;
+  resize: vertical;
+  outline: none;
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+  transition:
+    border-color var(--ind-motion-duration-fast, 120ms),
+    box-shadow   var(--ind-motion-duration-fast, 120ms);
+}
+
+.textarea:focus {
+  border-color: var(--ind-surface-focus-ring, #22d3ee);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ind-surface-focus-ring, #22d3ee) 35%, transparent);
+}
+
+.textarea::placeholder {
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+  opacity: 1;
+}
+
+:host([variant="mono"]) .textarea {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  line-height: var(--ind-font-line-height-tight, 1.4);
+  background: var(--ind-color-palette-neutral-0, #000000);
+  color: var(--ind-color-palette-neutral-800, #d0d7e0);
+  border-color: var(--ind-surface-border-strong, #5a6776);
+}
+
+:host([invalid]) .textarea {
+  border-color: var(--ind-feedback-error-bg, #dc2626);
+}
+:host([invalid]) .textarea:focus {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ind-feedback-error-bg, #dc2626) 40%, transparent);
+}
+
+:host([readonly]) .textarea {
+  cursor: default;
+}
+
+:host([disabled]) {
+  opacity: 0.55;
+  pointer-events: none;
+}

@@ -1,0 +1,324 @@
+/* @ind-ds/core layout utilities.
+ *
+ * Lightweight, framework-agnostic CSS classes for composing maintenance /
+ * dashboard layouts. Sit on top of @ind-ds/tokens variables — switching
+ * [data-theme] is enough to keep them coherent.
+ *
+ * Import once at app boot:
+ *   @import "@ind-ds/core/css/utilities";
+ *   // or
+ *   import "@ind-ds/core/css/utilities";
+ */
+
+/* ---------- Stacks & rows --------------------------------------------- */
+
+.ind-stack    { display: flex; flex-direction: column; gap: var(--ind-spacing-4, 8px); }
+.ind-stack--xs { gap: var(--ind-spacing-2, 4px); }
+.ind-stack--sm { gap: var(--ind-spacing-3, 6px); }
+.ind-stack--md { gap: var(--ind-spacing-4, 8px); }
+.ind-stack--lg { gap: var(--ind-spacing-6, 16px); }
+.ind-stack--xl { gap: var(--ind-spacing-8, 24px); }
+
+.ind-row      { display: flex; flex-direction: row; align-items: center; gap: var(--ind-spacing-4, 8px); }
+.ind-row--xs  { gap: var(--ind-spacing-2, 4px); }
+.ind-row--sm  { gap: var(--ind-spacing-3, 6px); }
+.ind-row--md  { gap: var(--ind-spacing-4, 8px); }
+.ind-row--lg  { gap: var(--ind-spacing-6, 16px); }
+.ind-row--baseline { align-items: baseline; }
+.ind-row--top      { align-items: flex-start; }
+.ind-row--bottom   { align-items: flex-end; }
+.ind-row--wrap     { flex-wrap: wrap; }
+
+.ind-spacer { flex: 1 1 auto; }
+
+/* ---------- Group box (Qt-style bordered container with optional title)  */
+
+.ind-group {
+  display: flex;
+  flex-direction: column;
+  background: var(--ind-surface-panel);
+  border: 1px solid var(--ind-surface-border-default);
+  border-radius: var(--ind-radius-md, 3px);
+  padding: var(--ind-spacing-5, 12px);
+  gap: var(--ind-spacing-4, 8px);
+  font-family: var(--ind-font-family-sans);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+}
+
+.ind-group__title {
+  font-size: var(--ind-font-size-sm, 11px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  margin: 0;
+  padding-bottom: var(--ind-spacing-3, 6px);
+  border-bottom: 1px solid var(--ind-surface-border-subtle);
+}
+
+.ind-group__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-4, 8px);
+}
+
+/* ---------- Section header (colored banner, bold label) --------------- */
+
+.ind-section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-4, 8px);
+  padding: var(--ind-spacing-3, 6px) var(--ind-spacing-6, 16px);
+  background: var(--ind-button-primary-bg);
+  color: var(--ind-button-primary-fg);
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-lg, 14px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  letter-spacing: 0.02em;
+}
+.ind-section-header--warning { background: var(--ind-feedback-warning-bg); color: var(--ind-feedback-warning-fg); }
+.ind-section-header--danger  { background: var(--ind-feedback-error-bg);   color: var(--ind-feedback-error-fg); }
+.ind-section-header--info    { background: var(--ind-feedback-info-bg);    color: var(--ind-feedback-info-fg); }
+.ind-section-header--success { background: var(--ind-feedback-success-bg); color: var(--ind-feedback-success-fg); }
+.ind-section-header--neutral { background: var(--ind-surface-raised);      color: var(--ind-surface-text-primary); }
+
+/* ---------- Section label (compact uppercase + rule) ------------------ */
+
+.ind-section-label {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-4, 8px);
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-xs, 10px);
+  font-weight: var(--ind-font-weight-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  margin: 0;
+}
+.ind-section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--ind-surface-border-subtle);
+}
+
+/* ---------- Info row (fixed-width label + value) ---------------------- */
+
+.ind-info-row {
+  display: grid;
+  grid-template-columns: minmax(140px, max-content) 1fr;
+  gap: var(--ind-spacing-4, 8px);
+  align-items: baseline;
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-base, 12px);
+}
+.ind-info-row__label {
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+}
+.ind-info-row__value {
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+/* ---------- Metric row (key + bold value) ----------------------------- */
+
+.ind-metric-row {
+  display: grid;
+  grid-template-columns: minmax(150px, max-content) 1fr;
+  gap: var(--ind-spacing-4, 8px);
+  align-items: baseline;
+}
+.ind-metric-row__key {
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  font-size: var(--ind-font-size-sm, 11px);
+}
+.ind-metric-row__value {
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  font-family: var(--ind-font-family-mono);
+  font-weight: var(--ind-font-weight-bold, 700);
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+/* ---------- Warn note (inline callout) -------------------------------- */
+
+.ind-warn-note {
+  display: flex;
+  gap: var(--ind-spacing-4, 8px);
+  padding: var(--ind-spacing-4, 8px) var(--ind-spacing-5, 12px);
+  background: color-mix(in srgb, var(--ind-feedback-warning-bg) 18%, transparent);
+  border: 1px solid var(--ind-feedback-warning-border);
+  border-left-width: 3px;
+  border-radius: var(--ind-radius-md, 3px);
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+}
+.ind-warn-note::before {
+  content: "⚠";
+  color: var(--ind-feedback-warning-bg);
+  font-weight: var(--ind-font-weight-bold, 700);
+  flex-shrink: 0;
+}
+
+/* ---------- Status line (dot + text) ---------------------------------- */
+/* Pair with <ind-status-dot> for connection / MQTT / health indicators. */
+
+.ind-status-line {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+}
+
+/* ---------- Scroll area (themed scrollbar) ---------------------------- */
+
+.ind-scroll-area {
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ind-surface-border-strong) transparent;
+}
+.ind-scroll-area::-webkit-scrollbar       { width: 10px; height: 10px; }
+.ind-scroll-area::-webkit-scrollbar-thumb { background: var(--ind-surface-border-strong); border-radius: 4px; }
+.ind-scroll-area::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- Text utilities -------------------------------------------- */
+
+.ind-text-muted     { color: var(--ind-surface-text-muted,     light-dark(#5a6776, #8390a0)); }
+.ind-text-secondary { color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2)); }
+.ind-text-strong  { font-weight: var(--ind-font-weight-bold, 700); }
+.ind-text-mono    { font-family: var(--ind-font-family-mono); font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1); }
+.ind-text-tabular { font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1); }
+.ind-text-upper   { text-transform: uppercase; letter-spacing: 0.05em; }
+.ind-text-link    {
+  color: var(--ind-feedback-info-bg);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ind-text-link:hover { text-decoration-thickness: 2px; }
+
+/* ---------- Table ----------------------------------------------------- */
+/* Headless `<table>` styling. Bring your own markup, add the class. */
+
+.ind-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-base, 12px);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.ind-table thead th {
+  text-align: left;
+  font-size: var(--ind-font-size-sm, 11px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  padding: var(--ind-spacing-3, 6px) var(--ind-spacing-4, 8px);
+  border-bottom: 1px solid var(--ind-surface-border-default);
+  background: var(--ind-surface-panel);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.ind-table tbody td {
+  padding: var(--ind-spacing-3, 6px) var(--ind-spacing-4, 8px);
+  border-bottom: 1px solid var(--ind-surface-border-subtle);
+  vertical-align: middle;
+}
+
+.ind-table tbody tr:hover {
+  background: color-mix(in srgb, var(--ind-surface-raised) 80%, transparent);
+}
+
+.ind-table--striped tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--ind-surface-raised) 50%, transparent);
+}
+
+.ind-table--compact thead th,
+.ind-table--compact tbody td {
+  padding: var(--ind-spacing-1, 2px) var(--ind-spacing-3, 6px);
+}
+
+.ind-table .num,
+.ind-table th.num,
+.ind-table--numeric td {
+  text-align: right;
+  font-family: var(--ind-font-family-mono);
+}
+
+/* Alarm row highlights — drop the matching modifier on the <tr>.
+ *
+ * Full-saturation backgrounds with the alarm `fg` token. This matches real
+ * SCADA HMI practice (alarm rows are meant to grab attention) and gives a
+ * guaranteed ~7.5:1+ contrast ratio regardless of the active theme.
+ *
+ * Anything inside the row that sets its own `color` (.ind-status-line, td,
+ * etc.) must inherit so the alarm fg cascades — otherwise descendants revert
+ * to --ind-surface-text-primary and break contrast on the saturated bg.
+ */
+.ind-table tr.is-alarm--high-high { background: var(--ind-alarm-high-high-bg); color: var(--ind-alarm-high-high-fg); }
+.ind-table tr.is-alarm--high      { background: var(--ind-alarm-high-bg);      color: var(--ind-alarm-high-fg); }
+.ind-table tr.is-alarm--low       { background: var(--ind-alarm-low-bg);       color: var(--ind-alarm-low-fg); }
+.ind-table tr.is-alarm--low-low   { background: var(--ind-alarm-low-low-bg);   color: var(--ind-alarm-low-low-fg); }
+
+.ind-table tr[class*="is-alarm--"] td,
+.ind-table tr[class*="is-alarm--"] .ind-status-line,
+.ind-table tr[class*="is-alarm--"] .ind-text-muted,
+.ind-table tr[class*="is-alarm--"] .ind-text-secondary {
+  color: inherit;
+}
+
+/* Hover should not erase the alarm color. */
+.ind-table tr[class*="is-alarm--"]:hover {
+  filter: brightness(1.05);
+}
+
+/* ---------- Toolbar --------------------------------------------------- */
+/* Horizontal bar with start / center / end sections — for filter rows,
+ * action bars on top of tables / logs. */
+
+.ind-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-4, 8px);
+  padding: var(--ind-spacing-3, 6px) var(--ind-spacing-4, 8px);
+  background: var(--ind-surface-panel);
+  border-bottom: 1px solid var(--ind-surface-border-default);
+  flex-wrap: wrap;
+}
+
+.ind-toolbar__end {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+}
+
+/* ---------- Page shell helpers (T1 / T2 templates) -------------------- */
+
+.ind-page {
+  min-height: 100vh;
+  background: var(--ind-surface-background);
+  color: var(--ind-surface-text-primary);
+  font-family: var(--ind-font-family-sans);
+}
+
+.ind-sidebar {
+  width: var(--ind-size-sidebar-width, 178px);
+  flex-shrink: 0;
+  background: var(--ind-surface-panel);
+  border-right: 1px solid var(--ind-surface-border-default);
+}
+
+.ind-content {
+  flex: 1;
+  min-width: 0;
+  padding: var(--ind-spacing-6, 16px);
+  background: var(--ind-surface-background);
+}

@@ -6,7 +6,10 @@
   font-size: var(--ind-font-size-base, 12px);
   font-weight: var(--ind-font-weight-medium, 500);
   line-height: var(--ind-font-line-height-tight, 1.1);
-  color: var(--ind-surface-text-primary, #eef1f5);
+  /* `light-dark()` makes the label readable even if the LED lands on a surface
+   * whose theme doesn't match the loaded tokens (Storybook autodocs, embedded
+   * widget on a third-party site, etc.). */
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
   font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
 }
 
@@ -37,30 +40,33 @@
 :host([size="md"]) .led { --_size: 12px; }
 :host([size="lg"]) .led { --_size: 18px; }
 
+/* Each state ships hard-coded fallbacks so the component stays visible even
+ * if tokens fail to load (build-order glitch, sandbox without CSS imports).
+ */
 :host([state="running"]) .led {
-  --_bg: var(--ind-state-running-bg);
-  --_border: var(--ind-state-running-border);
-  --_glow: var(--ind-state-running-glow);
+  --_bg: var(--ind-state-running-bg, #16a34a);
+  --_border: var(--ind-state-running-border, #4ade80);
+  --_glow: var(--ind-state-running-glow, rgba(34, 197, 94, 0.6));
 }
 :host([state="stopped"]) .led {
-  --_bg: var(--ind-state-stopped-bg);
-  --_border: var(--ind-state-stopped-border);
-  --_glow: var(--ind-state-stopped-glow);
+  --_bg: var(--ind-state-stopped-bg, #5a6776);
+  --_border: var(--ind-state-stopped-border, #8390a0);
+  --_glow: var(--ind-state-stopped-glow, rgba(131, 144, 160, 0.35));
 }
 :host([state="fault"]) .led {
-  --_bg: var(--ind-state-fault-bg);
-  --_border: var(--ind-state-fault-border);
-  --_glow: var(--ind-state-fault-glow);
+  --_bg: var(--ind-state-fault-bg, #dc2626);
+  --_border: var(--ind-state-fault-border, #f87171);
+  --_glow: var(--ind-state-fault-glow, rgba(220, 38, 38, 0.7));
 }
 :host([state="warning"]) .led {
-  --_bg: var(--ind-state-warning-bg);
-  --_border: var(--ind-state-warning-border);
-  --_glow: var(--ind-state-warning-glow);
+  --_bg: var(--ind-state-warning-bg, #f59e0b);
+  --_border: var(--ind-state-warning-border, #fcd34d);
+  --_glow: var(--ind-state-warning-glow, rgba(245, 158, 11, 0.6));
 }
 :host([state="maintenance"]) .led {
-  --_bg: var(--ind-state-maintenance-bg);
-  --_border: var(--ind-state-maintenance-border);
-  --_glow: var(--ind-state-maintenance-glow);
+  --_bg: var(--ind-state-maintenance-bg, #2563eb);
+  --_border: var(--ind-state-maintenance-border, #60a5fa);
+  --_glow: var(--ind-state-maintenance-glow, rgba(37, 99, 235, 0.6));
 }
 
 :host([blinking]) .led {

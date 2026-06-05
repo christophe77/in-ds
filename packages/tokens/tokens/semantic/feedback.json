@@ -1,0 +1,24 @@
+{
+  "feedback": {
+    "success": {
+      "fg":     { "value": "{color.palette.neutral.1000}", "type": "color" },
+      "bg":     { "value": "{color.palette.green.500}",    "type": "color" },
+      "border": { "value": "{color.palette.green.300}",    "type": "color" }
+    },
+    "warning": {
+      "fg":     { "value": "{color.palette.neutral.0}",   "type": "color" },
+      "bg":     { "value": "{color.palette.amber.500}",   "type": "color" },
+      "border": { "value": "{color.palette.amber.300}",   "type": "color" }
+    },
+    "error": {
+      "fg":     { "value": "{color.palette.neutral.1000}", "type": "color" },
+      "bg":     { "value": "{color.palette.red.500}",      "type": "color" },
+      "border": { "value": "{color.palette.red.300}",      "type": "color" }
+    },
+    "info": {
+      "fg":     { "value": "{color.palette.neutral.1000}", "type": "color" },
+      "bg":     { "value": "{color.palette.cyan.500}",     "type": "color" },
+      "border": { "value": "{color.palette.cyan.300}",     "type": "color" }
+    }
+  }
+}

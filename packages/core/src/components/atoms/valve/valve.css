@@ -1,0 +1,101 @@
+:host {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ind-spacing-2, 4px);
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-base, 12px);
+  /* `light-dark()` makes the fallback adapt to the page's color-scheme so the
+   * caption stays readable even if the atom lands on a surface whose theme
+   * doesn't match the loaded tokens (e.g. Storybook autodocs on white). */
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.symbol {
+  --_w: var(--ind-valve-width, 48px);
+  --_fill:   var(--ind-state-stopped-bg, #5a6776);
+  --_stroke: var(--ind-state-stopped-border, #8390a0);
+
+  width: var(--_w);
+  height: calc(var(--_w) / 2);
+  display: block;
+}
+
+:host([orientation="vertical"]) .symbol {
+  transform: rotate(90deg);
+}
+
+:host([size="sm"]) .symbol { --_w: 32px; }
+:host([size="md"]) .symbol { --_w: 48px; }
+:host([size="lg"]) .symbol { --_w: 72px; }
+
+.left,
+.right {
+  fill: var(--_fill);
+  stroke: var(--_stroke);
+  stroke-width: 1.25;
+  stroke-linejoin: round;
+  transition:
+    fill var(--ind-motion-duration-base, 200ms),
+    stroke var(--ind-motion-duration-base, 200ms);
+}
+
+.stem {
+  stroke: var(--_stroke);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+:host([state="open"]) .symbol {
+  --_fill:   var(--ind-state-running-bg, #16a34a);
+  --_stroke: var(--ind-state-running-border, #4ade80);
+}
+:host([state="closed"]) .symbol {
+  --_fill:   var(--ind-state-stopped-bg, #5a6776);
+  --_stroke: var(--ind-state-stopped-border, #8390a0);
+}
+:host([state="fault"]) .symbol {
+  --_fill:   var(--ind-state-fault-bg, #dc2626);
+  --_stroke: var(--ind-state-fault-border, #f87171);
+}
+:host([state="transit"]) .symbol {
+  --_fill:   var(--ind-state-warning-bg, #f59e0b);
+  --_stroke: var(--ind-state-warning-border, #fcd34d);
+}
+
+/* Transit: marching ants on the perimeter — universally read as
+ * "in motion / transitioning" by control room operators. */
+:host([state="transit"]) .left,
+:host([state="transit"]) .right {
+  stroke-dasharray: 4 2;
+  animation: ind-valve-march var(--ind-motion-blink-slow, 1000ms) linear infinite;
+}
+
+@keyframes ind-valve-march {
+  to { stroke-dashoffset: -6; }
+}
+
+.caption {
+  display: flex;
+  gap: var(--ind-spacing-3, 6px);
+  align-items: baseline;
+  font-size: var(--ind-font-size-sm, 11px);
+}
+
+.tag {
+  font-family: var(--ind-font-family-mono);
+  font-weight: var(--ind-font-weight-semibold, 600);
+}
+
+.label {
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([state="transit"]) .left,
+  :host([state="transit"]) .right {
+    animation: none;
+    stroke-dasharray: 4 2;
+  }
+}

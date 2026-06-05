@@ -1,9 +1,13 @@
 import type { Preview } from '@storybook/web-components';
+import { html } from 'lit-html';
 
 // Tokens — base + theme overrides. The decorator below flips data-theme at runtime.
 import '@ind-ds/tokens/css';
 import '@ind-ds/tokens/css/light';
 import '@ind-ds/tokens/css/high-contrast';
+
+// Layout utility classes (.ind-stack, .ind-group, .ind-section-header, etc.).
+import '@ind-ds/core/css/utilities';
 
 // Register all custom elements once.
 import { defineCustomElements } from '@ind-ds/core/loader';
@@ -66,8 +70,26 @@ const preview: Preview = {
   decorators: [
     (story, context) => {
       const theme = (context.globals.theme as string) || 'dark';
+      // Set on <html> so global tokens.css and theme overrides apply.
       document.documentElement.dataset.theme = theme;
-      return story();
+      // Wrap each story in a theme-scoped surface. This is critical for the
+      // autodocs pages: Storybook 9 forces a white container around every
+      // doc-rendered story, which on dark themes makes any text using
+      // --ind-surface-text-* unreadable. The wrapper opens a fresh
+      // [data-theme=...] scope with the matching background and text color,
+      // so contrast is correct regardless of where the story is rendered.
+      return html`
+        <div
+          data-theme=${theme}
+          style="
+            background: var(--ind-surface-background);
+            color: var(--ind-surface-text-primary);
+            padding: 16px;
+            border-radius: 4px;
+            min-height: 80px;
+          "
+        >${story()}</div>
+      `;
     },
   ],
 };

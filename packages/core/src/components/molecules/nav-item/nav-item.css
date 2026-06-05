@@ -1,0 +1,82 @@
+:host {
+  display: block;
+  font-family: var(--ind-font-family-sans);
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  width: 100%;
+  height: var(--ind-nav-item-height, 38px);
+  padding: 0 var(--ind-spacing-5, 12px);
+  background: transparent;
+  border: none;
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  font: inherit;
+  font-size: var(--ind-font-size-base, 12px);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+  transition:
+    background-color var(--ind-motion-duration-fast, 120ms),
+    color            var(--ind-motion-duration-fast, 120ms);
+}
+
+.indicator {
+  width: 10px;
+  font-size: 9px;
+  color: var(--ind-feedback-info-bg, #0891b2);
+  opacity: 0;
+  transition: opacity var(--ind-motion-duration-fast, 120ms);
+  text-align: center;
+}
+
+.content {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  font-size: var(--ind-font-size-xs, 10px);
+  font-family: var(--ind-font-family-mono);
+  font-weight: var(--ind-font-weight-bold, 700);
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+  padding: 1px var(--ind-spacing-2, 4px);
+  min-width: 16px;
+  text-align: center;
+  border-radius: var(--ind-radius-sm, 2px);
+  background: var(--ind-feedback-error-bg, #dc2626);
+  color: var(--ind-feedback-error-fg, #ffffff);
+  line-height: 1.2;
+}
+
+.item:hover:not(:disabled):not([aria-disabled="true"]) {
+  background: var(--ind-surface-raised);
+  color: var(--ind-surface-text-primary);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--ind-surface-focus-ring, #22d3ee);
+  outline-offset: -2px;
+}
+
+:host([active]) .item {
+  background: var(--ind-surface-raised);
+  color: var(--ind-surface-text-primary);
+  font-weight: var(--ind-font-weight-semibold, 600);
+}
+
+:host([active]) .indicator {
+  opacity: 1;
+}
+
+:host([disabled]) {
+  opacity: 0.4;
+  pointer-events: none;
+}

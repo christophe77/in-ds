@@ -1,0 +1,92 @@
+:host {
+  display: inline-flex;
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-base, 12px);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  --_size: 16px;
+}
+
+:host([size="sm"]) { --_size: 12px; }
+:host([size="md"]) { --_size: 16px; }
+:host([size="lg"]) { --_size: 20px; }
+
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  cursor: pointer;
+  user-select: none;
+}
+
+.box {
+  position: relative;
+  display: inline-block;
+  width: var(--_size);
+  height: var(--_size);
+  flex-shrink: 0;
+}
+
+.native {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.mark {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--ind-surface-sunken, light-dark(#ffffff, #000000));
+  border: 1px solid var(--ind-surface-border-default, #2a3340);
+  border-radius: var(--ind-radius-sm, 2px);
+  transition:
+    background var(--ind-motion-duration-fast, 120ms),
+    border-color var(--ind-motion-duration-fast, 120ms);
+}
+
+.mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  display: block;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 70%;
+  opacity: 0;
+  transition: opacity var(--ind-motion-duration-fast, 120ms);
+}
+
+:host([checked]) .mark,
+:host([indeterminate]) .mark {
+  background: var(--ind-button-primary-bg, #2563eb);
+  border-color: var(--ind-button-primary-border, #60a5fa);
+}
+
+:host([checked]) .mark::after {
+  opacity: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' d='M3 8.5l3.5 3.5L13 5'/></svg>");
+}
+
+:host([indeterminate]) .mark::after {
+  opacity: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' d='M3 8h10'/></svg>");
+}
+
+.native:focus-visible + .mark {
+  outline: 2px solid var(--ind-surface-focus-ring, #22d3ee);
+  outline-offset: 2px;
+}
+
+:host([disabled]) {
+  opacity: 0.5;
+}
+:host([disabled]) .wrap {
+  cursor: not-allowed;
+}
+
+.label {
+  line-height: 1.2;
+}

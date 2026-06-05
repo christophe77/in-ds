@@ -1,0 +1,53 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-3, 6px);
+  padding: var(--ind-spacing-5, 12px);
+  background: var(--ind-surface-panel);
+  border: 1px solid var(--ind-surface-border-default);
+  border-radius: var(--ind-radius-md, 3px);
+  font-family: var(--ind-font-family-sans);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  min-width: 160px;
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.title {
+  font-size: var(--ind-font-size-xs, 10px);
+  font-weight: var(--ind-font-weight-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+}
+
+.state-label {
+  font-size: var(--ind-font-size-xl, 16px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  line-height: 1;
+}
+
+.detail {
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+}
+
+/* Bold colored label per state — matches the dot color so the card
+ * reads at a glance across a 4-up grid. */
+:host([state="running"])     .state-label { color: var(--ind-state-running-bg,     #16a34a); }
+:host([state="fault"])       .state-label { color: var(--ind-state-fault-bg,       #dc2626); }
+:host([state="warning"])     .state-label { color: var(--ind-state-warning-bg,     #f59e0b); }
+:host([state="maintenance"]) .state-label { color: var(--ind-state-maintenance-bg, #2563eb); }
+:host([state="stopped"])     .state-label { color: var(--ind-surface-text-secondary); }
+:host([state="unknown"])     .state-label { color: var(--ind-surface-text-muted); }
+
+/* Fault card glows subtly as a visual cue, even without blinking. */
+:host([state="fault"]) {
+  border-color: var(--ind-state-fault-bg, #dc2626);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ind-state-fault-bg, #dc2626) 30%, transparent);
+}
