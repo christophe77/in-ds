@@ -30,6 +30,16 @@ jobs:
           node-version: 20
           cache: pnpm
           registry-url: 'https://registry.npmjs.org'
+          scope: '@ind-ds'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Verify npm publish token
+        run: |
+          npm whoami
+          echo "Token can read @ind-ds scope. Publish will fail with E404 if the token lacks write access to the org."
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

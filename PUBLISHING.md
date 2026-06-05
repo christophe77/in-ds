@@ -25,7 +25,23 @@ Sign in to [npmjs.com](https://www.npmjs.com/), then **Add Organization** → na
 
 ### 2. Create an npm automation token
 
-[npmjs.com → Access Tokens → Generate New Token](https://www.npmjs.com/settings/~/tokens) → **Automation** type. Copy the value (`npm_...`).
+[npmjs.com → Access Tokens → Generate New Token](https://www.npmjs.com/settings/~/tokens)
+
+Use either:
+
+- **Granular Access Token** (recommended) — Permissions: **Read and write** → Organizations: **`@ind-ds`** → Packages: **All packages** (required while the org is still empty or when adding new package names).
+- **Classic Automation token** — from the account that **owns** the `@ind-ds` org.
+
+Copy the value (`npm_...`). **Test it locally before adding to GitHub:**
+
+```bash
+npm whoami --registry=https://registry.npmjs.org
+# must print the npm username that owns @ind-ds
+
+cd packages/tokens && pnpm build
+npm publish --access public --provenance=false --dry-run
+# must list dist/js/tokens.d.ts in the tarball, no E404
+```
 
 ### 3. Add the token to GitHub
 
@@ -96,8 +112,8 @@ pnpm build
 # 3. Login if you haven't (uses the npm token interactively)
 npm login
 
-# 4. Publish — in dep order
-pnpm changeset publish
+# 4. Publish — in dep order (provenance only works in GitHub Actions, not locally)
+pnpm changeset publish --provenance=false
 ```
 
 `pnpm changeset publish` only publishes packages whose version changed since their last published version, in topological order — safe to re-run.
@@ -160,6 +176,16 @@ On [npmjs.com/package/@ind-ds/core](https://www.npmjs.com/package/@ind-ds/core) 
 **`E403 You must verify your email`** — npm requires email verification before publishing. Check your inbox.
 
 **`E401 Unauthorized`** — `NPM_TOKEN` is missing, expired, or not an "Automation" token. Regenerate.
+
+**`E404 Not Found` on `PUT @ind-ds/...` (CI fails, but local `npm publish` works)** — npm returns 404 instead of 403 when the token **cannot publish** under the scope. The `NPM_TOKEN` GitHub secret is almost certainly **not the same token** that worked locally, or it is a **read-only** granular token.
+
+Fix:
+
+1. Create a new token from the npm account that **owns** `@ind-ds` (see step 2 above).
+2. Update the repo secret: **Settings → Secrets → Actions → `NPM_TOKEN` → Update**.
+3. Re-run the **Release** workflow (Actions → Release → Re-run all jobs).
+
+The Release workflow now runs `npm whoami` before publish — if that step fails, the token is wrong before any package is attempted.
 
 **Action ran but no PR was opened** — there are no changesets. Run `pnpm changeset` locally and push the result.
 
