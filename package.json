@@ -4,6 +4,14 @@
   "private": true,
   "description": "Industrial design system for HMI/SCADA — web components, multi-framework wrappers, ISA-18.2 tokens.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christophe77/in-ds.git"
+  },
+  "bugs": {
+    "url": "https://github.com/christophe77/in-ds/issues"
+  },
+  "homepage": "https://github.com/christophe77/in-ds#readme",
   "type": "module",
   "packageManager": "pnpm@9.12.0",
   "workspaces": [
@@ -16,9 +24,13 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "storybook": "turbo run storybook",
-    "clean": "turbo run clean && rimraf node_modules .turbo"
+    "clean": "turbo run clean && rimraf node_modules .turbo",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.9",
     "rimraf": "^5.0.5",
     "turbo": "^2.1.0",
     "typescript": "^5.5.4"

@@ -2,7 +2,28 @@
   "name": "@ind-ds/tokens",
   "version": "0.0.1",
   "description": "Industrial HMI/SCADA design tokens — ISA-18.2 alarm priorities, process states, dense spacing. Built with Style Dictionary.",
+  "keywords": [
+    "design-tokens",
+    "design-system",
+    "style-dictionary",
+    "hmi",
+    "scada",
+    "industrial",
+    "isa-18.2",
+    "css-variables",
+    "tokens"
+  ],
   "license": "MIT",
+  "author": "ind-ds contributors",
+  "homepage": "https://github.com/christophe77/in-ds#readme",
+  "bugs": {
+    "url": "https://github.com/christophe77/in-ds/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christophe77/in-ds.git",
+    "directory": "packages/tokens"
+  },
   "type": "module",
   "sideEffects": false,
   "main": "./dist/js/tokens.js",
@@ -22,14 +43,16 @@
   "files": [
     "dist",
     "tokens",
-    "style-dictionary.config.js"
+    "style-dictionary.config.js",
+    "README.md"
   ],
   "scripts": {
     "build": "node style-dictionary.config.js",
     "clean": "rimraf dist"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "devDependencies": {
     "rimraf": "^5.0.5",

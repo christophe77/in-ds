@@ -2,7 +2,28 @@
   "name": "@ind-ds/core",
   "version": "0.0.1",
   "description": "Web components for the industrial HMI/SCADA design system — Stencil-built, framework-agnostic.",
+  "keywords": [
+    "web-components",
+    "stencil",
+    "design-system",
+    "hmi",
+    "scada",
+    "industrial",
+    "isa-18.2",
+    "custom-elements",
+    "ui-kit"
+  ],
   "license": "MIT",
+  "author": "ind-ds contributors",
+  "homepage": "https://github.com/christophe77/in-ds#readme",
+  "bugs": {
+    "url": "https://github.com/christophe77/in-ds/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christophe77/in-ds.git",
+    "directory": "packages/core"
+  },
   "type": "module",
   "sideEffects": [
     "**/*.css",
@@ -38,7 +59,8 @@
   "files": [
     "dist",
     "loader",
-    "utilities.css"
+    "utilities.css",
+    "README.md"
   ],
   "scripts": {
     "build": "stencil build",
@@ -47,7 +69,8 @@
     "clean": "rimraf dist loader www src/components.d.ts"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "dependencies": {
     "@ind-ds/tokens": "workspace:*"

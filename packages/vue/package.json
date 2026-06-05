@@ -1,8 +1,30 @@
 {
   "name": "@ind-ds/vue",
   "version": "0.0.1",
-  "description": "Vue 3 wrappers for @ind-ds/core web components.",
+  "description": "Vue 3 wrappers for @ind-ds/core web components — typed components with v-model support for an industrial HMI/SCADA design system.",
+  "keywords": [
+    "vue",
+    "vue3",
+    "vue-components",
+    "design-system",
+    "hmi",
+    "scada",
+    "industrial",
+    "isa-18.2",
+    "web-components",
+    "ui-kit"
+  ],
   "license": "MIT",
+  "author": "ind-ds contributors",
+  "homepage": "https://github.com/christophe77/in-ds#readme",
+  "bugs": {
+    "url": "https://github.com/christophe77/in-ds/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christophe77/in-ds.git",
+    "directory": "packages/vue"
+  },
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.js",
@@ -16,7 +38,8 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "README.md"
   ],
   "scripts": {
     "build": "tsc",
@@ -24,7 +47,8 @@
     "clean": "rimraf dist"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "peerDependencies": {
     "vue": ">=3.3"

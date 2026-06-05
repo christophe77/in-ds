@@ -2,7 +2,27 @@
   "name": "@ind-ds/mqtt",
   "version": "0.0.1",
   "description": "MQTT adapter for ind-ds — binds broker topics to web component attributes for live HMI updates.",
+  "keywords": [
+    "mqtt",
+    "realtime",
+    "hmi",
+    "scada",
+    "industrial",
+    "web-components",
+    "telemetry",
+    "iiot"
+  ],
   "license": "MIT",
+  "author": "ind-ds contributors",
+  "homepage": "https://github.com/christophe77/in-ds#readme",
+  "bugs": {
+    "url": "https://github.com/christophe77/in-ds/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christophe77/in-ds.git",
+    "directory": "packages/mqtt"
+  },
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.js",
@@ -16,7 +36,8 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "README.md"
   ],
   "scripts": {
     "build": "tsc",
@@ -24,7 +45,8 @@
     "clean": "rimraf dist"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "dependencies": {
     "mqtt": "^5.10.0"
