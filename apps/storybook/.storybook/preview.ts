@@ -9,9 +9,11 @@ import '@ind-ds/tokens/css/high-contrast';
 // Layout utility classes (.ind-stack, .ind-group, .ind-section-header, etc.).
 import '@ind-ds/core/css/utilities';
 
-// Register all custom elements once.
-import { defineCustomElements } from '@ind-ds/core/loader';
-defineCustomElements();
+// Register all custom elements once. Use the eager custom-elements bundle
+// (not the lazy `loader`): it inlines every component so there is no runtime
+// chunk fetching, which would 404 in a static Storybook served from a
+// sub-path like GitHub Pages' /ind-ds/.
+import '@ind-ds/core/dist/components';
 
 const preview: Preview = {
   parameters: {
