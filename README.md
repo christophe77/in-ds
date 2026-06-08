@@ -30,10 +30,10 @@ ind-ds/
 │   ├── tokens/                 # source of truth → CSS/JS/TS/JSON/Dart
 │   ├── core/                   # Stencil web components
 │   │   └── src/components/
-│   │       ├── atoms/          # LED, gauge, valve, button, badge
-│   │       ├── molecules/      # state cards, mini trends
-│   │       ├── organisms/      # alarm banners, P&ID frames
-│   │       └── templates/      # full screens
+│   │       ├── atoms/          # LED, value, valve, inputs, canvases…
+│   │       ├── molecules/      # health card, fill row, nav item…
+│   │       ├── organisms/      # app header, sidebar, status bar…
+│   │       └── templates/      # Storybook screen compositions (not published)
 │   ├── react/                  # generated React wrappers
 │   ├── vue/                    # generated Vue 3 wrappers
 │   └── mqtt/                   # MQTT → DOM binding
@@ -48,7 +48,7 @@ Published packages live under the [`@ind-ds`](https://www.npmjs.com/org/ind-ds) 
 | Package | What it ships |
 |---|---|
 | [`@ind-ds/tokens`](https://www.npmjs.com/package/@ind-ds/tokens) | CSS variables, ESM/TS tokens, JSON, Dart |
-| [`@ind-ds/core`](https://www.npmjs.com/package/@ind-ds/core) | Web components (`<ind-led>`, `<ind-valve>`, …) + loader |
+| [`@ind-ds/core`](https://www.npmjs.com/package/@ind-ds/core) | [22 web components](#components) (`<ind-led>`, `<ind-valve>`, …) + loader |
 | [`@ind-ds/react`](https://www.npmjs.com/package/@ind-ds/react) | Typed React 18+ wrappers (auto-registers elements) |
 | [`@ind-ds/vue`](https://www.npmjs.com/package/@ind-ds/vue) | Typed Vue 3 wrappers with `v-model` support |
 | [`@ind-ds/mqtt`](https://www.npmjs.com/package/@ind-ds/mqtt) | MQTT → DOM attribute binding helpers |
@@ -378,13 +378,72 @@ pnpm storybook                  # http://localhost:6006
 
 Requires Node 20+ and pnpm 9+.
 
+## Components
+
+**22 web components** ship in `@ind-ds/core`. Each tag has a matching React wrapper (`IndLed`, `IndValue`, …) and Vue wrapper (`IndLed`, `IndValue`, …) regenerated on every Stencil build.
+
+### Atoms (15)
+
+| Tag | Role |
+|---|---|
+| `<ind-led>` | Process-state indicator (`running`, `stopped`, `fault`, `warning`, `maintenance`) with optional blink |
+| `<ind-value>` | Tabular numeric readout — value, unit, trend arrow, ISA alarm severity |
+| `<ind-alarm>` | ISA-18.2 alarm chip (`high-high`, `high`, `low`, `low-low`) |
+| `<ind-valve>` | Valve symbol — `open` / `closed` / `transit` / `fault`, horizontal or vertical |
+| `<ind-status-dot>` | Compact status dot for dense panels |
+| `<ind-button>` | Dense HMI button (`primary`, `secondary`, `ghost`, `danger`) |
+| `<ind-input>` | Text / number field with label, validation, sizes |
+| `<ind-checkbox>` | Checkbox with indeterminate state |
+| `<ind-select>` | Dropdown with typed options |
+| `<ind-textarea>` | Multiline input |
+| `<ind-dialog>` | Modal dialog shell |
+| `<ind-divider>` | Horizontal or vertical rule |
+| `<ind-progress>` | Determinate / indeterminate progress bar |
+| `<ind-scara-canvas>` | 2D top-down SCARA arm — joint angles → SVG forward kinematics |
+| `<ind-shelf-canvas>` | Rack of resupplyable slots with per-slot fill level |
+
+### Molecules (4)
+
+| Tag | Role |
+|---|---|
+| `<ind-health-card>` | Equipment health summary — state, metrics, optional sparkline slot |
+| `<ind-fill-row>` | Label + horizontal fill bar (tank level, capacity, severity tint) |
+| `<ind-nav-item>` | Sidebar / rail navigation entry with icon and active state |
+| `<ind-toolbar-action>` | Toolbar action cluster with optional message counter |
+
+### Organisms (4)
+
+| Tag | Role |
+|---|---|
+| `<ind-app-header>` | Top chrome — title, connection state, user slot |
+| `<ind-sidebar-nav>` | Collapsible sidebar with grouped `ind-nav-item` children |
+| `<ind-status-bar>` | Bottom status strip — alarms, clock, connection, custom slots |
+| `<ind-mqtt-monitor>` | Live MQTT panel — broker status, topic list, message stream |
+
+### Planned
+
+| Tag | Status |
+|---|---|
+| `<ind-trend>` | Mini time-series sparkline ([uPlot](https://github.com/leeoniya/uPlot)) — not shipped yet |
+
+Storybook **templates** (`connection`, `connected-app`) compose the above into full-screen mocks — they are documentation-only, not npm exports.
+
+Per-component lazy import:
+
+```ts
+import { defineCustomElement as defineIndLed } from '@ind-ds/core/dist/components/ind-led.js';
+defineIndLed();
+```
+
+---
+
 ## Packages
 
 - **`@ind-ds/tokens`** — process states, ISA-18.2 alarm priorities, dense spacing, tabular figures, dark / light / high-contrast themes. CSS variables, ESM, JSON, Dart.
-- **`@ind-ds/core`** — Stencil web components: atoms (LED, Value, Alarm, Valve, Button, Input, …), molecules (HealthCard, FillRow, NavItem, …), organisms (AppHeader, SidebarNav, MqttMonitor, StatusBar).
-- **`@ind-ds/react`** — auto-generated typed `forwardRef` wrappers around every custom element.
+- **`@ind-ds/core`** — Stencil web components listed above + `defineCustomElements` loader and layout utilities CSS.
+- **`@ind-ds/react`** — auto-generated typed `forwardRef` wrappers (`IndLed`, `IndValue`, `IndAlarm`, …) for every tag.
 - **`@ind-ds/vue`** — `defineComponent` wrappers with full `v-model` and event forwarding.
-- **`@ind-ds/mqtt`** — `IndMqttClient` + `bindLed` / `bindBlink` helpers.
+- **`@ind-ds/mqtt`** — `IndMqttClient`, `bindLed`, `bindBlink`, and generic `bind()` / `TopicBinding` for any attribute.
 - **`@ind-ds/storybook`** — component playground with HMI viewports and theme toolbar (not published).
 
 ## Adding a new component (end-to-end)
