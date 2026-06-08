@@ -1,6 +1,6 @@
 # ind-ds
 
-**Repository:** [github.com/christophe77/ind-ds](https://github.com/christophe77/ind-ds)
+**Repository:** [github.com/christophe77/ind-ds](https://github.com/christophe77/ind-ds) · **Storybook:** [christophe77.github.io/ind-ds](https://christophe77.github.io/ind-ds/)
 
 Industrial design system for HMI/SCADA interfaces. Web Components at the core, typed wrappers for React and Vue, ISA-18.2-aware tokens, MQTT binding for live process data.
 
@@ -13,7 +13,7 @@ Generic web design systems target marketing sites and SaaS dashboards. They don'
 - **Monorepo** — pnpm workspaces + Turborepo
 - **Core** — [Stencil 4](https://stenciljs.com) → web components + auto-generated React/Vue wrappers
 - **Tokens** — [Style Dictionary 4](https://styledictionary.com) → CSS vars, ES modules, JSON, Dart (for Flutter HMIs)
-- **Playground** — [Storybook 9](https://storybook.js.org) (`@storybook/web-components-vite`) + a11y addon + HMI viewports
+- **Playground** — [Storybook 9](https://storybook.js.org) (`@storybook/web-components-vite`) + a11y addon + HMI viewports — [live preview on GitHub Pages](https://christophe77.github.io/ind-ds/)
 - **Realtime** — `mqtt.js`, thin binding layer
 - **Trends** — [uPlot](https://github.com/leeoniya/uPlot) (planned for `<ind-trend>`) — lightweight, no React/D3
 - ESM-only, `sideEffects: false` (except CSS), tree-shakable, no heavy runtime deps

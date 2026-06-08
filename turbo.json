@@ -9,7 +9,8 @@
         "build/**",
         "loader/**",
         "www/**",
-        "src/generated/**"
+        "src/generated/**",
+        "storybook-static/**"
       ]
     },
     "dev": {

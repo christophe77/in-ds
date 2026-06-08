@@ -10,6 +10,14 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
+  async viteFinal(config) {
+    // GitHub Pages project sites are served under /{repo}/ — set STORYBOOK_BASE_PATH=/ind-ds/ in CI.
+    const base = process.env.STORYBOOK_BASE_PATH;
+    if (base) {
+      config.base = base.endsWith('/') ? base : `${base}/`;
+    }
+    return config;
+  },
 };
 
 export default config;
