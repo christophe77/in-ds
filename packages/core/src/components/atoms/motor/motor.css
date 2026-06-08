@@ -1,0 +1,24 @@
+.glyph {
+  fill: var(--_stroke);
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  font-weight: var(--ind-font-weight-bold, 700);
+  font-size: 14px;
+}
+
+.run-ring {
+  fill: none;
+  stroke: var(--_accent);
+  stroke-width: 2;
+  stroke-dasharray: 6 6;
+  opacity: 0;
+  transform-origin: 22px 24px;
+}
+
+:host([state="running"]) .run-ring {
+  opacity: 1;
+  animation: ind-motor-spin 3s linear infinite;
+}
+
+@keyframes ind-motor-spin {
+  to { transform: rotate(360deg); }
+}

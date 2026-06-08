@@ -1,0 +1,7 @@
+:host([state="running"]) .spin {
+  animation: ind-pump-spin 1.6s linear infinite;
+}
+
+@keyframes ind-pump-spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,16 @@
+:host {
+  display: inline;
+  --_size: var(--ind-font-size-sm, 11px);
+}
+
+:host([size="sm"]) { --_size: var(--ind-font-size-xs, 10px); }
+:host([size="md"]) { --_size: var(--ind-font-size-sm, 11px); }
+:host([size="lg"]) { --_size: var(--ind-font-size-base, 12px); }
+
+.unit {
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  font-size: var(--_size);
+  font-weight: var(--ind-font-weight-regular, 400);
+  color: var(--ind-surface-text-muted, #7a8694);
+  white-space: nowrap;
+}

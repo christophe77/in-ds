@@ -1,0 +1,74 @@
+/* Shared base styles for ind-ds process-equipment symbols.
+ * Referenced via styleUrls alongside each component's own CSS. */
+:host {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ind-spacing-2, 4px);
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  --_w: 48px;
+  --_stroke: var(--ind-state-stopped-border, #8390a0);
+  --_fill: var(--ind-state-stopped-bg, #5a6776);
+  --_accent: var(--ind-state-stopped-bg, #5a6776);
+}
+
+:host([size="sm"]) { --_w: 32px; }
+:host([size="md"]) { --_w: 48px; }
+:host([size="lg"]) { --_w: 72px; }
+
+:host([state="running"])     { --_stroke: var(--ind-state-running-border, #4ade80); --_fill: var(--ind-state-running-bg, #16a34a); --_accent: var(--ind-state-running-bg, #16a34a); }
+:host([state="stopped"])     { --_stroke: var(--ind-state-stopped-border, #8390a0); --_fill: var(--ind-state-stopped-bg, #5a6776); --_accent: var(--ind-state-stopped-bg, #5a6776); }
+:host([state="fault"])       { --_stroke: var(--ind-state-fault-border, #f87171); --_fill: var(--ind-state-fault-bg, #dc2626); --_accent: var(--ind-state-fault-bg, #dc2626); }
+:host([state="warning"])     { --_stroke: var(--ind-state-warning-border, #fcd34d); --_fill: var(--ind-state-warning-bg, #f59e0b); --_accent: var(--ind-state-warning-bg, #f59e0b); }
+:host([state="maintenance"]) { --_stroke: var(--ind-state-maintenance-border, #60a5fa); --_fill: var(--ind-state-maintenance-bg, #2563eb); --_accent: var(--ind-state-maintenance-bg, #2563eb); }
+
+.symbol {
+  display: block;
+  width: var(--_w);
+  height: auto;
+  overflow: visible;
+}
+
+.body {
+  fill: color-mix(in srgb, var(--_fill) 22%, transparent);
+  stroke: var(--_stroke);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.accent {
+  fill: var(--_accent);
+  stroke: none;
+}
+
+.stroke {
+  fill: none;
+  stroke: var(--_stroke);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: var(--ind-font-line-height-tight, 1.1);
+}
+
+.tag {
+  font-family: var(--ind-font-family-mono, ui-monospace, monospace);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.label {
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  font-size: var(--ind-font-size-xs, 10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin, .pulse { animation: none !important; }
+}

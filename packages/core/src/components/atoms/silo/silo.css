@@ -1,0 +1,12 @@
+.liquid {
+  fill: var(--ind-state-stopped-bg, #a8722e);
+  transition: y var(--ind-motion-duration-base, 200ms) var(--ind-motion-easing-standard, ease),
+              height var(--ind-motion-duration-base, 200ms) var(--ind-motion-easing-standard, ease);
+}
+
+:host([alarm="high"]) .liquid { fill: var(--ind-state-fault-bg, #dc2626); }
+:host([alarm="low"]) .liquid  { fill: var(--ind-state-warning-bg, #f59e0b); }
+
+.body {
+  fill: none;
+}

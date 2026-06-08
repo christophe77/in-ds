@@ -1,0 +1,7 @@
+:host([state="running"]) .spin {
+  animation: ind-compressor-spin 1.2s linear infinite;
+}
+
+@keyframes ind-compressor-spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,15 @@
+:host {
+  display: inline;
+}
+
+.ts {
+  font-family: var(--ind-font-family-mono, ui-monospace, monospace);
+  font-size: var(--ind-font-size-sm, 11px);
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  white-space: nowrap;
+}
+
+:host([format="relative"]) .ts {
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+}

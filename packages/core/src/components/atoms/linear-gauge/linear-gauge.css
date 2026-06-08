@@ -1,0 +1,65 @@
+:host {
+  display: inline-block;
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  --_thick: 10px;
+  --_len: 160px;
+}
+
+:host([size="sm"]) { --_thick: 6px; }
+:host([size="lg"]) { --_thick: 14px; }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--ind-spacing-3, 6px);
+  margin-bottom: var(--ind-spacing-2, 4px);
+  font-size: var(--ind-font-size-base, 12px);
+}
+
+.label { color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2)); }
+
+.value {
+  font-family: var(--ind-font-family-mono, ui-monospace, monospace);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.track {
+  position: relative;
+  background: var(--ind-surface-sunken, light-dark(#fff, #000));
+  border: 1px solid var(--ind-surface-border-default, #2a3340);
+  border-radius: var(--ind-radius-sm, 2px);
+  overflow: hidden;
+}
+
+:host([orientation="horizontal"]) .track { width: var(--_len); height: var(--_thick); }
+:host([orientation="vertical"]) .track { width: var(--_thick); height: var(--_len); }
+
+.zone {
+  position: absolute;
+  opacity: 0.4;
+}
+:host([orientation="horizontal"]) .zone { top: 0; bottom: 0; }
+:host([orientation="vertical"]) .zone { left: 0; right: 0; }
+
+.fill {
+  position: absolute;
+  background: var(--ind-button-primary-bg, #2563eb);
+  transition: width var(--ind-motion-duration-base, 200ms) var(--ind-motion-easing-standard, ease),
+              height var(--ind-motion-duration-base, 200ms) var(--ind-motion-easing-standard, ease);
+}
+:host([orientation="horizontal"]) .fill { left: 0; top: 0; bottom: 0; }
+:host([orientation="vertical"]) .fill { bottom: 0; left: 0; right: 0; }
+
+.setpoint {
+  position: absolute;
+  background: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+}
+:host([orientation="horizontal"]) .setpoint { top: -2px; bottom: -2px; width: 2px; transform: translateX(-1px); }
+:host([orientation="vertical"]) .setpoint { left: -2px; right: -2px; height: 2px; transform: translateY(1px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .fill { transition: none; }
+}

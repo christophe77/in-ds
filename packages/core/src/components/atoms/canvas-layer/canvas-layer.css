@@ -1,0 +1,8 @@
+:host {
+  position: absolute;
+  display: inline-block;
+  transform-origin: center;
+}
+
+/* Pair with a positioned container (e.g. an ind P&ID frame) that sets
+ * `position: relative`. Layers stack by their `z` prop. */

@@ -1,0 +1,39 @@
+:host {
+  display: inline-flex;
+}
+
+.tab {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  padding: var(--ind-spacing-3, 6px) var(--ind-spacing-5, 12px);
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  font-size: var(--ind-font-size-base, 12px);
+  font-weight: var(--ind-font-weight-medium, 500);
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  transition: color var(--ind-motion-duration-fast, 120ms) ease, border-color var(--ind-motion-duration-fast, 120ms) ease;
+}
+
+.tab:hover:not(:disabled) { color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5)); }
+
+.tab:focus-visible {
+  outline: 2px solid var(--ind-surface-focus-ring, #67e8f9);
+  outline-offset: -2px;
+}
+
+:host([selected]) .tab {
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  border-bottom-color: var(--ind-button-primary-bg, #2563eb);
+  font-weight: var(--ind-font-weight-semibold, 600);
+}
+
+:host([disabled]) .tab { opacity: 0.5; cursor: not-allowed; }
+
+.icon:empty, .badge:empty { display: none; }
+
+.icon, .badge { display: inline-flex; align-items: center; }

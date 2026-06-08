@@ -1,0 +1,59 @@
+:host {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ind-font-family-mono, ui-monospace, monospace);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  --_size: 40px;
+  --_fill: var(--ind-button-primary-bg, #2563eb);
+}
+
+:host([size="sm"]) { --_size: 28px; }
+:host([size="md"]) { --_size: 40px; }
+:host([size="lg"]) { --_size: 56px; }
+
+:host([variant="success"]) { --_fill: var(--ind-feedback-success-bg, #16a34a); }
+:host([variant="warning"]) { --_fill: var(--ind-feedback-warning-bg, #f59e0b); }
+:host([variant="error"])   { --_fill: var(--ind-feedback-error-bg, #dc2626); }
+
+.ring {
+  display: block;
+  width: var(--_size);
+  height: var(--_size);
+}
+
+.track {
+  fill: none;
+  stroke: var(--ind-surface-border-default, #2a3340);
+  stroke-width: 4;
+}
+
+.bar {
+  fill: none;
+  stroke: var(--_fill);
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset var(--ind-motion-duration-base, 200ms) var(--ind-motion-easing-standard, ease);
+}
+
+:host([indeterminate]) .ring {
+  animation: ind-ring-spin 1.1s linear infinite;
+}
+
+.value {
+  position: absolute;
+  font-size: var(--ind-font-size-xs, 10px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+:host([size="lg"]) .value { font-size: var(--ind-font-size-sm, 11px); }
+
+@keyframes ind-ring-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([indeterminate]) .ring { animation-duration: 2.4s; }
+}

@@ -1,0 +1,65 @@
+:host {
+  display: block;
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  font-size: var(--ind-font-size-base, 12px);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-2, 4px);
+  padding: 2px var(--ind-spacing-3, 6px);
+  cursor: pointer;
+  border-radius: var(--ind-radius-sm, 2px);
+  user-select: none;
+}
+
+.row:hover { background: var(--ind-surface-raised, #1b222c); }
+
+.row:focus-visible {
+  outline: 2px solid var(--ind-surface-focus-ring, #67e8f9);
+  outline-offset: -2px;
+}
+
+:host([selected]) .row {
+  background: color-mix(in srgb, var(--ind-button-primary-bg, #2563eb) 28%, transparent);
+}
+
+.indent { width: var(--_indent, 0); flex: none; }
+
+.twisty {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ind-surface-text-muted, #7a8694);
+  flex: none;
+}
+.twisty.is-leaf { cursor: default; }
+
+.twisty svg {
+  width: 12px;
+  height: 12px;
+  transition: transform var(--ind-motion-duration-fast, 120ms) ease;
+}
+.twisty svg path { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+:host([expanded]) .twisty svg { transform: rotate(90deg); }
+
+.icon { display: inline-flex; align-items: center; }
+.icon:empty { display: none; }
+
+.label { white-space: nowrap; }
+
+.children { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .twisty svg { transition: none; }
+}

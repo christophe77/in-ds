@@ -48,7 +48,7 @@ Published packages live under the [`@ind-ds`](https://www.npmjs.com/org/ind-ds) 
 | Package | What it ships |
 |---|---|
 | [`@ind-ds/tokens`](https://www.npmjs.com/package/@ind-ds/tokens) | CSS variables, ESM/TS tokens, JSON, Dart |
-| [`@ind-ds/core`](https://www.npmjs.com/package/@ind-ds/core) | [22 web components](#components) (`<ind-led>`, `<ind-valve>`, …) + loader |
+| [`@ind-ds/core`](https://www.npmjs.com/package/@ind-ds/core) | [61 web components](#components) (`<ind-led>`, `<ind-valve>`, …) + loader |
 | [`@ind-ds/react`](https://www.npmjs.com/package/@ind-ds/react) | Typed React 18+ wrappers (auto-registers elements) |
 | [`@ind-ds/vue`](https://www.npmjs.com/package/@ind-ds/vue) | Typed Vue 3 wrappers with `v-model` support |
 | [`@ind-ds/mqtt`](https://www.npmjs.com/package/@ind-ds/mqtt) | MQTT → DOM attribute binding helpers |
@@ -380,27 +380,91 @@ Requires Node 20+ and pnpm 9+.
 
 ## Components
 
-**22 web components** ship in `@ind-ds/core`. Each tag has a matching React wrapper (`IndLed`, `IndValue`, …) and Vue wrapper (`IndLed`, `IndValue`, …) regenerated on every Stencil build.
+**61 web components** ship in `@ind-ds/core` (53 atoms, 4 molecules, 4 organisms). Each tag has a matching React wrapper (`IndLed`, `IndValue`, …) and Vue wrapper regenerated on every Stencil build.
 
-### Atoms (15)
+### Atoms — indicators
 
 | Tag | Role |
 |---|---|
 | `<ind-led>` | Process-state indicator (`running`, `stopped`, `fault`, `warning`, `maintenance`) with optional blink |
-| `<ind-value>` | Tabular numeric readout — value, unit, trend arrow, ISA alarm severity |
-| `<ind-alarm>` | ISA-18.2 alarm chip (`high-high`, `high`, `low`, `low-low`) |
-| `<ind-valve>` | Valve symbol — `open` / `closed` / `transit` / `fault`, horizontal or vertical |
 | `<ind-status-dot>` | Compact status dot for dense panels |
+| `<ind-alarm>` | ISA-18.2 alarm chip (`high-high`, `high`, `low`, `low-low`) |
+| `<ind-badge>` | Semantic pill / state badge |
+| `<ind-counter>` | Numeric count chip with `max` clamp and zero-dot mode |
+| `<ind-signal-quality>` | Bar-style signal/quality meter |
+| `<ind-connection-indicator>` | Connected / connecting / disconnected / error dot + label |
+| `<ind-heartbeat>` | Liveness pulse, stops when `alive=false` |
+| `<ind-sparkline>` | Lightweight trend/mini-trend polyline (no chart lib) |
+| `<ind-progress>` | Determinate / indeterminate progress bar |
+| `<ind-progress-ring>` | Circular progress / spinner with optional center value |
+
+### Atoms — process equipment
+
+| Tag | Role |
+|---|---|
+| `<ind-valve>` | Valve symbol — `open` / `closed` / `transit` / `fault` |
+| `<ind-pump>` | Centrifugal pump (impeller spins when running) |
+| `<ind-motor>` | Motor with shaft + running ring |
+| `<ind-fan>` | Fan / blower with spinning blades |
+| `<ind-compressor>` | Centrifugal compressor |
+| `<ind-conveyor>` | Belt conveyor with forward/reverse flow |
+| `<ind-heater>` | Heating element (glows when running) |
+| `<ind-cooler>` | Cooler / chiller |
+| `<ind-tank>` | Liquid tank with `level` fill + alarm tint |
+| `<ind-silo>` | Hopper-bottom silo with `level` fill |
+| `<ind-pipe>` | Pipe segment with animated flow direction |
+
+### Atoms — inputs
+
+| Tag | Role |
+|---|---|
 | `<ind-button>` | Dense HMI button (`primary`, `secondary`, `ghost`, `danger`) |
-| `<ind-input>` | Text / number field with label, validation, sizes |
+| `<ind-input>` | Text / numeric field with label, validation, sizes |
 | `<ind-checkbox>` | Checkbox with indeterminate state |
 | `<ind-select>` | Dropdown with typed options |
 | `<ind-textarea>` | Multiline input |
-| `<ind-dialog>` | Modal dialog shell |
-| `<ind-divider>` | Horizontal or vertical rule |
-| `<ind-progress>` | Determinate / indeterminate progress bar |
+| `<ind-toggle>` | On/off switch with optional in-track text |
+| `<ind-selector-switch>` | Multi-position selector (OFF / HAND / AUTO) |
+| `<ind-estop>` | Latching emergency-stop mushroom button |
+| `<ind-setpoint>` | Setpoint editor with PV compare + step buttons |
+| `<ind-slider>` | Range slider with value/unit readout |
+| `<ind-knob>` | Rotary knob (drag + keyboard) |
+| `<ind-datetime-picker>` | Date / time / datetime field |
+
+### Atoms — navigation
+
+| Tag | Role |
+|---|---|
+| `<ind-icon>` | Built-in HMI icon set + custom-SVG slot |
+| `<ind-nav-item>` | Sidebar / rail navigation entry (also a molecule export) |
+| `<ind-breadcrumb-item>` | Breadcrumb crumb with separator + current state |
+| `<ind-tab>` | Tab with icon/badge slots |
+| `<ind-tree-node>` | Expandable tree node with indent + selection |
+
+### Atoms — data display
+
+| Tag | Role |
+|---|---|
+| `<ind-value>` | Tabular numeric readout — value, unit, trend, ISA alarm severity |
+| `<ind-label>` | Text label / caption with tone + required marker |
+| `<ind-unit-label>` | Engineering-unit text |
+| `<ind-timestamp>` | Formatted time (`datetime` / `date` / `time` / `relative` / `iso`) |
+| `<ind-tag-name>` | Monospace equipment/instrument tag, optional boxed |
+| `<ind-alarm-count>` | ISA-priority alarm-count chips (HH / H / L / LL) |
+
+### Atoms — charts & visualization
+
+| Tag | Role |
+|---|---|
+| `<ind-gauge>` | Radial gauge with colored zones + needle |
+| `<ind-linear-gauge>` | Horizontal/vertical gauge with zones + setpoint marker |
+| `<ind-xy-point>` | XY operating point with optional trail |
+| `<ind-process-symbol>` | ISA-5.1 instrument balloon (circle / square / diamond / hexagon) |
+| `<ind-canvas-layer>` | Absolute-positioned layer for composing mimic diagrams |
 | `<ind-scara-canvas>` | 2D top-down SCARA arm — joint angles → SVG forward kinematics |
 | `<ind-shelf-canvas>` | Rack of resupplyable slots with per-slot fill level |
+| `<ind-divider>` | Horizontal or vertical rule |
+| `<ind-dialog>` | Modal dialog shell |
 
 ### Molecules (4)
 
@@ -424,7 +488,7 @@ Requires Node 20+ and pnpm 9+.
 
 | Tag | Status |
 |---|---|
-| `<ind-trend>` | Mini time-series sparkline ([uPlot](https://github.com/leeoniya/uPlot)) — not shipped yet |
+| `<ind-trend>` | Full time-series trend ([uPlot](https://github.com/leeoniya/uPlot)) — not shipped yet. For lightweight inline trends use `<ind-sparkline>`. |
 
 Storybook **templates** (`connection`, `connected-app`) compose the above into full-screen mocks — they are documentation-only, not npm exports.
 

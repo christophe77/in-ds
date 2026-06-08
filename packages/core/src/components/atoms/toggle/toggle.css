@@ -1,0 +1,78 @@
+:host {
+  display: inline-flex;
+  --_w: 36px;
+  --_h: 18px;
+  --_pad: 2px;
+}
+
+:host([size="sm"]) { --_w: 28px; --_h: 14px; }
+:host([size="lg"]) { --_w: 46px; --_h: 24px; }
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  font-size: var(--ind-font-size-base, 12px);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+}
+
+.control:disabled { cursor: not-allowed; opacity: 0.5; }
+
+.track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: var(--_w);
+  height: var(--_h);
+  background: var(--ind-state-stopped-bg, #5a6776);
+  border: 1px solid var(--ind-surface-border-strong, #5a6776);
+  border-radius: var(--ind-radius-full, 9999px);
+  transition: background-color var(--ind-motion-duration-base, 200ms) var(--ind-motion-easing-standard, ease);
+}
+
+.thumb {
+  position: absolute;
+  top: 50%;
+  left: var(--_pad);
+  transform: translateY(-50%);
+  width: calc(var(--_h) - var(--_pad) * 2);
+  height: calc(var(--_h) - var(--_pad) * 2);
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  transition: left var(--ind-motion-duration-base, 200ms) var(--ind-motion-easing-standard, ease);
+}
+
+.text {
+  flex: 1;
+  text-align: center;
+  font-size: 8px;
+  font-weight: var(--ind-font-weight-bold, 700);
+  text-transform: uppercase;
+  color: var(--ind-surface-text-inverse, #f4f6f8);
+  padding: 0 4px;
+}
+
+:host([checked]) .track {
+  background: var(--ind-state-running-bg, #16a34a);
+  border-color: var(--ind-state-running-border, #4ade80);
+}
+
+:host([checked]) .thumb {
+  left: calc(100% - var(--_h) + var(--_pad));
+}
+
+.control:focus-visible .track {
+  outline: 2px solid var(--ind-surface-focus-ring, #67e8f9);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb, .track { transition: none; }
+}

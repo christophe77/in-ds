@@ -1,0 +1,30 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+  --_size: 16px;
+}
+
+:host([size="sm"]) { --_size: 12px; }
+:host([size="md"]) { --_size: 16px; }
+:host([size="lg"]) { --_size: 24px; }
+
+.icon {
+  width: var(--_size);
+  height: var(--_size);
+  display: block;
+}
+
+.icon path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+::slotted(svg) {
+  width: var(--_size);
+  height: var(--_size);
+}

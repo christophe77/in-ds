@@ -1,0 +1,42 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  font-size: var(--ind-font-size-base, 12px);
+}
+
+.crumb {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  text-decoration: none;
+}
+
+a.crumb:hover,
+button.crumb:hover {
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  text-decoration: underline;
+}
+
+.crumb:focus-visible {
+  outline: 2px solid var(--ind-surface-focus-ring, #67e8f9);
+  outline-offset: 2px;
+  border-radius: var(--ind-radius-sm, 2px);
+}
+
+:host([current]) .crumb {
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  font-weight: var(--ind-font-weight-semibold, 600);
+  cursor: default;
+}
+
+.sep {
+  color: var(--ind-surface-text-muted, #7a8694);
+  user-select: none;
+}

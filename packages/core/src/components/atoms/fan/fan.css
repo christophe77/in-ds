@@ -1,0 +1,11 @@
+.hub {
+  fill: var(--_stroke);
+}
+
+:host([state="running"]) .spin {
+  animation: ind-fan-spin 0.9s linear infinite;
+}
+
+@keyframes ind-fan-spin {
+  to { transform: rotate(360deg); }
+}

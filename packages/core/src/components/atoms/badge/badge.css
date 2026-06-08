@@ -1,0 +1,42 @@
+:host {
+  display: inline-flex;
+  --_bg: var(--ind-surface-raised, #1b222c);
+  --_fg: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  --_border: var(--ind-surface-border-default, #2a3340);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-2, 4px);
+  padding: 1px var(--ind-spacing-3, 6px);
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  font-size: var(--ind-font-size-xs, 10px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  line-height: var(--ind-font-line-height-tight, 1.1);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--_fg);
+  background: var(--_bg);
+  border: 1px solid var(--_border);
+  border-radius: var(--ind-radius-full, 9999px);
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+:host([size="md"]) .badge { font-size: var(--ind-font-size-xs, 10px); padding: 2px var(--ind-spacing-3, 6px); }
+:host([size="sm"]) .badge { font-size: 9px; padding: 0 var(--ind-spacing-2, 4px); }
+
+:host([variant="running"]),
+:host([variant="success"]) { --_bg: var(--ind-state-running-bg, #16a34a); --_fg: var(--ind-state-running-fg, #fff); --_border: var(--ind-state-running-border, #4ade80); }
+:host([variant="stopped"]) { --_bg: var(--ind-state-stopped-bg, #5a6776); --_fg: var(--ind-state-stopped-fg, #fff); --_border: var(--ind-state-stopped-border, #8390a0); }
+:host([variant="fault"]),
+:host([variant="error"])   { --_bg: var(--ind-state-fault-bg, #dc2626); --_fg: var(--ind-state-fault-fg, #fff); --_border: var(--ind-state-fault-border, #f87171); }
+:host([variant="warning"]) { --_bg: var(--ind-state-warning-bg, #f59e0b); --_fg: var(--ind-state-warning-fg, #1a1205); --_border: var(--ind-state-warning-border, #fcd34d); }
+:host([variant="maintenance"]) { --_bg: var(--ind-state-maintenance-bg, #2563eb); --_fg: var(--ind-state-maintenance-fg, #fff); --_border: var(--ind-state-maintenance-border, #60a5fa); }
+:host([variant="info"])    { --_bg: var(--ind-feedback-info-bg, #0891b2); --_fg: var(--ind-feedback-info-fg, #fff); --_border: var(--ind-feedback-info-border, #67e8f9); }
+
+:host([outline]) .badge {
+  background: transparent;
+  color: var(--_border);
+}

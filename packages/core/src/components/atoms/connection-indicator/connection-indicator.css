@@ -1,0 +1,42 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  font-size: var(--ind-font-size-base, 12px);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  --_size: 9px;
+  --_color: var(--ind-state-stopped-bg, #5a6776);
+}
+
+:host([size="sm"]) { --_size: 7px; font-size: var(--ind-font-size-sm, 11px); }
+:host([size="lg"]) { --_size: 12px; font-size: var(--ind-font-size-lg, 14px); }
+
+:host([state="connected"])    { --_color: var(--ind-state-running-bg, #16a34a); }
+:host([state="connecting"])   { --_color: var(--ind-state-warning-bg, #f59e0b); }
+:host([state="disconnected"]) { --_color: var(--ind-state-stopped-bg, #5a6776); }
+:host([state="error"])        { --_color: var(--ind-state-fault-bg, #dc2626); }
+
+.dot {
+  width: var(--_size);
+  height: var(--_size);
+  border-radius: 50%;
+  background: var(--_color);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--_color) 60%, transparent);
+  flex: none;
+}
+
+:host([state="connecting"]) .dot,
+:host([state="error"]) .dot {
+  animation: ind-conn-pulse 1s ease-in-out infinite;
+}
+
+.label { color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2)); }
+
+@keyframes ind-conn-pulse {
+  50% { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot { animation: none !important; }
+}

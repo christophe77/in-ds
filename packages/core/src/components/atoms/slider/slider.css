@@ -1,0 +1,87 @@
+:host {
+  display: block;
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  --_track-h: 4px;
+  --_thumb: 14px;
+  --_accent: var(--ind-button-primary-bg, #2563eb);
+}
+
+:host([size="sm"]) { --_track-h: 3px; --_thumb: 11px; }
+:host([size="lg"]) { --_track-h: 6px; --_thumb: 18px; }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--ind-spacing-3, 6px);
+  margin-bottom: var(--ind-spacing-2, 4px);
+  font-size: var(--ind-font-size-base, 12px);
+}
+
+.label { color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2)); }
+
+.value {
+  font-family: var(--ind-font-family-mono, ui-monospace, monospace);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: var(--_thumb);
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+
+.range:disabled { cursor: not-allowed; opacity: 0.5; }
+
+/* WebKit */
+.range::-webkit-slider-runnable-track {
+  height: var(--_track-h);
+  border-radius: var(--ind-radius-full, 9999px);
+  background: linear-gradient(
+    to right,
+    var(--_accent) 0 var(--_pct, 0%),
+    var(--ind-surface-border-default, #2a3340) var(--_pct, 0%) 100%
+  );
+}
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--_thumb);
+  height: var(--_thumb);
+  margin-top: calc((var(--_track-h) - var(--_thumb)) / 2);
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--_accent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Firefox */
+.range::-moz-range-track {
+  height: var(--_track-h);
+  border-radius: var(--ind-radius-full, 9999px);
+  background: var(--ind-surface-border-default, #2a3340);
+}
+.range::-moz-range-progress {
+  height: var(--_track-h);
+  border-radius: var(--ind-radius-full, 9999px);
+  background: var(--_accent);
+}
+.range::-moz-range-thumb {
+  width: var(--_thumb);
+  height: var(--_thumb);
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--_accent);
+}
+
+.range:focus-visible {
+  outline: 2px solid var(--ind-surface-focus-ring, #67e8f9);
+  outline-offset: 4px;
+  border-radius: var(--ind-radius-sm, 2px);
+}
