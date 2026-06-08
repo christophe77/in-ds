@@ -1,6 +1,6 @@
 {
   "name": "@ind-ds/core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Web components for the industrial HMI/SCADA design system — Stencil-built, framework-agnostic.",
   "keywords": [
     "web-components",
