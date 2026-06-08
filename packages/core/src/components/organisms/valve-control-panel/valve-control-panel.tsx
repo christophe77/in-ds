@@ -20,6 +20,12 @@ export class IndValveControlPanel {
   @Prop() modulating: boolean = false;
   /** Position setpoint (two-way). */
   @Prop({ mutable: true }) positionSetpoint: number = 0;
+  /** Show the Open command button. */
+  @Prop() showOpen: boolean = true;
+  /** Show the Stop command button. */
+  @Prop() showStop: boolean = true;
+  /** Show the Close command button. */
+  @Prop() showClose: boolean = true;
 
   @Event() indOpen!: EventEmitter<void>;
   @Event() indClose!: EventEmitter<void>;
@@ -43,11 +49,19 @@ export class IndValveControlPanel {
         </div>
         <div class="panel-body">
           <ind-valve-card tag={this.tag} label={this.heading} state={this.state} position={this.position} />
-          <ind-command-group label="Valve commands">
-            <ind-button variant="primary" size="sm" label="Open" disabled={this.state === 'open'} onIndActivate={() => this.indOpen.emit()} />
-            <ind-button variant="default" size="sm" label="Stop" onIndActivate={() => this.indStop.emit()} />
-            <ind-button variant="danger" size="sm" label="Close" disabled={this.state === 'closed'} onIndActivate={() => this.indClose.emit()} />
-          </ind-command-group>
+          {(this.showOpen || this.showStop || this.showClose) && (
+            <ind-command-group label="Valve commands">
+              {this.showOpen && (
+                <ind-button variant="primary" size="sm" label="Open" disabled={this.state === 'open'} onIndActivate={() => this.indOpen.emit()} />
+              )}
+              {this.showStop && (
+                <ind-button variant="default" size="sm" label="Stop" onIndActivate={() => this.indStop.emit()} />
+              )}
+              {this.showClose && (
+                <ind-button variant="danger" size="sm" label="Close" disabled={this.state === 'closed'} onIndActivate={() => this.indClose.emit()} />
+              )}
+            </ind-command-group>
+          )}
           {this.modulating && (
             <ind-speed-control label="Position setpoint" value={this.positionSetpoint} unit="%" onIndChange={this.onPosition} />
           )}

@@ -18,6 +18,9 @@ commands and an optional position setpoint for modulating valves.
 | `modulating`       | `modulating`        | Allow position control (modulating valve).        | `boolean`                                    | `false`     |
 | `position`         | `position`          | Current position 0–100 %. Omit for on/off valves. | `number \| undefined`                        | `undefined` |
 | `positionSetpoint` | `position-setpoint` | Position setpoint (two-way).                      | `number`                                     | `0`         |
+| `showClose`        | `show-close`        | Show the Close command button.                    | `boolean`                                    | `true`      |
+| `showOpen`         | `show-open`         | Show the Open command button.                     | `boolean`                                    | `true`      |
+| `showStop`         | `show-stop`         | Show the Stop command button.                     | `boolean`                                    | `true`      |
 | `state`            | `state`             |                                                   | `"closed" \| "fault" \| "open" \| "transit"` | `'closed'`  |
 | `tag`              | `tag`               |                                                   | `string \| undefined`                        | `undefined` |
 
