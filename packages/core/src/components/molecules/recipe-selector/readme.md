@@ -42,6 +42,10 @@ commits the recipe to the controller.
 
 ## Dependencies
 
+### Used by
+
+ - [ind-recipe-management-panel](../../organisms/recipe-management-panel)
+
 ### Depends on
 
 - [ind-select](../../atoms/select)
@@ -52,6 +56,7 @@ commits the recipe to the controller.
 graph TD;
   ind-recipe-selector --> ind-select
   ind-recipe-selector --> ind-button
+  ind-recipe-management-panel --> ind-recipe-selector
   style ind-recipe-selector fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

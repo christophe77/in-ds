@@ -1,0 +1,17 @@
+:host {
+  min-width: 420px;
+}
+
+.panel-list {
+  max-height: 420px;
+}
+
+.filter {
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-sm, 11px);
+  background: var(--ind-surface-sunken);
+  color: var(--ind-surface-text-primary);
+  border: 1px solid var(--ind-surface-border-default);
+  border-radius: var(--ind-radius-sm, 2px);
+  padding: 3px 6px;
+}

@@ -34,6 +34,10 @@ readouts. Drop into an equipment overview grid.
 
 ## Dependencies
 
+### Used by
+
+ - [ind-motor-control-panel](../../organisms/motor-control-panel)
+
 ### Depends on
 
 - [ind-motor](../../atoms/motor)
@@ -44,6 +48,7 @@ readouts. Drop into an equipment overview grid.
 graph TD;
   ind-motor-card --> ind-motor
   ind-motor-card --> ind-value
+  ind-motor-control-panel --> ind-motor-card
   style ind-motor-card fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -32,6 +32,19 @@ alarm summary for a unit or the whole plant, colored by priority.
 | `"total"`      |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-alarm-summary](../../organisms/alarm-summary)
+
+### Graph
+```mermaid
+graph TD;
+  ind-alarm-summary --> ind-alarm-badge-group
+  style ind-alarm-badge-group fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

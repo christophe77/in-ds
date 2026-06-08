@@ -33,6 +33,10 @@ optional position (%) for modulating valves.
 
 ## Dependencies
 
+### Used by
+
+ - [ind-valve-control-panel](../../organisms/valve-control-panel)
+
 ### Depends on
 
 - [ind-valve](../../atoms/valve)
@@ -43,6 +47,7 @@ optional position (%) for modulating valves.
 graph TD;
   ind-valve-card --> ind-valve
   ind-valve-card --> ind-value
+  ind-valve-control-panel --> ind-valve-card
   style ind-valve-card fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

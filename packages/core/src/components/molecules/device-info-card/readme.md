@@ -35,6 +35,10 @@ address) plus a live connection indicator. For a device detail panel.
 
 ## Dependencies
 
+### Used by
+
+ - [ind-device-diagnostics-panel](../../organisms/device-diagnostics-panel)
+
 ### Depends on
 
 - [ind-connection-indicator](../../atoms/connection-indicator)
@@ -43,6 +47,7 @@ address) plus a live connection indicator. For a device detail panel.
 ```mermaid
 graph TD;
   ind-device-info-card --> ind-connection-indicator
+  ind-device-diagnostics-panel --> ind-device-info-card
   style ind-device-info-card fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

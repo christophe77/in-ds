@@ -34,6 +34,10 @@ Pump faceplate: animated `<ind-pump>` symbol plus flow / pressure readouts.
 
 ## Dependencies
 
+### Used by
+
+ - [ind-pump-control-panel](../../organisms/pump-control-panel)
+
 ### Depends on
 
 - [ind-pump](../../atoms/pump)
@@ -44,6 +48,7 @@ Pump faceplate: animated `<ind-pump>` symbol plus flow / pressure readouts.
 graph TD;
   ind-pump-card --> ind-pump
   ind-pump-card --> ind-value
+  ind-pump-control-panel --> ind-pump-card
   style ind-pump-card fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

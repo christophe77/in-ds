@@ -31,6 +31,10 @@ message. Read-only.
 
 ## Dependencies
 
+### Used by
+
+ - [ind-event-journal](../../organisms/event-journal)
+
 ### Depends on
 
 - [ind-status-dot](../../atoms/status-dot)
@@ -39,6 +43,7 @@ message. Read-only.
 ```mermaid
 graph TD;
   ind-event-row --> ind-status-dot
+  ind-event-journal --> ind-event-row
   style ind-event-row fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

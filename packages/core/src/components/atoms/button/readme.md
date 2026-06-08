@@ -36,16 +36,26 @@
 
 ### Used by
 
+ - [ind-alarm-panel](../../organisms/alarm-panel)
  - [ind-alarm-row](../../molecules/alarm-row)
+ - [ind-batch-control-panel](../../organisms/batch-control-panel)
+ - [ind-firmware-update-panel](../../organisms/firmware-update-panel)
+ - [ind-recipe-management-panel](../../organisms/recipe-management-panel)
  - [ind-recipe-selector](../../molecules/recipe-selector)
  - [ind-start-stop-control](../../molecules/start-stop-control)
+ - [ind-valve-control-panel](../../organisms/valve-control-panel)
 
 ### Graph
 ```mermaid
 graph TD;
+  ind-alarm-panel --> ind-button
   ind-alarm-row --> ind-button
+  ind-batch-control-panel --> ind-button
+  ind-firmware-update-panel --> ind-button
+  ind-recipe-management-panel --> ind-button
   ind-recipe-selector --> ind-button
   ind-start-stop-control --> ind-button
+  ind-valve-control-panel --> ind-button
   style ind-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

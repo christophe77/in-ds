@@ -43,6 +43,7 @@
  - [ind-tank-level-card](../../molecules/tank-level-card)
  - [ind-trend-widget](../../molecules/trend-widget)
  - [ind-valve-card](../../molecules/valve-card)
+ - [ind-workstation-monitor](../../organisms/workstation-monitor)
 
 ### Graph
 ```mermaid
@@ -54,6 +55,7 @@ graph TD;
   ind-tank-level-card --> ind-value
   ind-trend-widget --> ind-value
   ind-valve-card --> ind-value
+  ind-workstation-monitor --> ind-value
   style ind-value fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

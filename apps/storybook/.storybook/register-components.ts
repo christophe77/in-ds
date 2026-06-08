@@ -124,3 +124,38 @@ import '@ind-ds/core/dist/components/ind-app-header.js';
 import '@ind-ds/core/dist/components/ind-sidebar-nav.js';
 import '@ind-ds/core/dist/components/ind-status-bar.js';
 import '@ind-ds/core/dist/components/ind-mqtt-monitor.js';
+
+// Organisms — monitoring
+import '@ind-ds/core/dist/components/ind-alarm-panel.js';
+import '@ind-ds/core/dist/components/ind-alarm-summary.js';
+import '@ind-ds/core/dist/components/ind-event-journal.js';
+import '@ind-ds/core/dist/components/ind-historian-viewer.js';
+import '@ind-ds/core/dist/components/ind-trend-viewer.js';
+import '@ind-ds/core/dist/components/ind-equipment-dashboard.js';
+import '@ind-ds/core/dist/components/ind-production-dashboard.js';
+import '@ind-ds/core/dist/components/ind-energy-dashboard.js';
+
+// Organisms — control
+import '@ind-ds/core/dist/components/ind-process-control-panel.js';
+import '@ind-ds/core/dist/components/ind-motor-control-panel.js';
+import '@ind-ds/core/dist/components/ind-pump-control-panel.js';
+import '@ind-ds/core/dist/components/ind-valve-control-panel.js';
+import '@ind-ds/core/dist/components/ind-batch-control-panel.js';
+import '@ind-ds/core/dist/components/ind-recipe-management-panel.js';
+
+// Organisms — navigation
+import '@ind-ds/core/dist/components/ind-context-toolbar.js';
+import '@ind-ds/core/dist/components/ind-command-center.js';
+
+// Organisms — maintenance
+import '@ind-ds/core/dist/components/ind-asset-overview.js';
+import '@ind-ds/core/dist/components/ind-maintenance-dashboard.js';
+import '@ind-ds/core/dist/components/ind-device-diagnostics-panel.js';
+import '@ind-ds/core/dist/components/ind-firmware-update-panel.js';
+
+// Organisms — production
+import '@ind-ds/core/dist/components/ind-production-line-overview.js';
+import '@ind-ds/core/dist/components/ind-machine-overview.js';
+import '@ind-ds/core/dist/components/ind-production-cell.js';
+import '@ind-ds/core/dist/components/ind-workstation-monitor.js';
+import '@ind-ds/core/dist/components/ind-oee-dashboard.js';

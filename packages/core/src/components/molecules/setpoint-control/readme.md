@@ -44,6 +44,10 @@ and re-emits the committed value so a parent can write it to the controller.
 
 ## Dependencies
 
+### Used by
+
+ - [ind-process-control-panel](../../organisms/process-control-panel)
+
 ### Depends on
 
 - [ind-setpoint](../../atoms/setpoint)
@@ -52,6 +56,7 @@ and re-emits the committed value so a parent can write it to the controller.
 ```mermaid
 graph TD;
   ind-setpoint-control --> ind-setpoint
+  ind-process-control-panel --> ind-setpoint-control
   style ind-setpoint-control fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

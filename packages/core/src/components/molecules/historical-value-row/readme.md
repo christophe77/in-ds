@@ -31,6 +31,19 @@ OPC-style data quality flag. Read-only.
 | `"value"`   |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-historian-viewer](../../organisms/historian-viewer)
+
+### Graph
+```mermaid
+graph TD;
+  ind-historian-viewer --> ind-historical-value-row
+  style ind-historical-value-row fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

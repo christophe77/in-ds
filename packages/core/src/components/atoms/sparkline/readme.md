@@ -33,12 +33,16 @@
 ### Used by
 
  - [ind-energy-card](../../molecules/energy-card)
+ - [ind-historian-viewer](../../organisms/historian-viewer)
+ - [ind-trend-viewer](../../organisms/trend-viewer)
  - [ind-trend-widget](../../molecules/trend-widget)
 
 ### Graph
 ```mermaid
 graph TD;
   ind-energy-card --> ind-sparkline
+  ind-historian-viewer --> ind-sparkline
+  ind-trend-viewer --> ind-sparkline
   ind-trend-widget --> ind-sparkline
   style ind-sparkline fill:#f9f,stroke:#333,stroke-width:4px
 ```

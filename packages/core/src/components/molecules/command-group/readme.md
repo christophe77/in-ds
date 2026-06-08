@@ -20,6 +20,23 @@ each button keeps its own `indActivate` event.
 | `orientation` | `orientation` | Layout direction.                                           | `"horizontal" \| "vertical"` | `'horizontal'` |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-batch-control-panel](../../organisms/batch-control-panel)
+ - [ind-firmware-update-panel](../../organisms/firmware-update-panel)
+ - [ind-valve-control-panel](../../organisms/valve-control-panel)
+
+### Graph
+```mermaid
+graph TD;
+  ind-batch-control-panel --> ind-command-group
+  ind-firmware-update-panel --> ind-command-group
+  ind-valve-control-panel --> ind-command-group
+  style ind-command-group fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

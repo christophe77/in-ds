@@ -1,0 +1,29 @@
+:host {
+  min-width: 480px;
+}
+
+.total {
+  margin-left: auto;
+  display: flex;
+  align-items: baseline;
+  gap: var(--ind-spacing-2, 4px);
+}
+
+.total-label {
+  font-size: var(--ind-font-size-xs, 10px);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ind-surface-text-muted);
+  margin-right: var(--ind-spacing-2, 4px);
+}
+
+.total-value {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-xl, 16px);
+  font-weight: var(--ind-font-weight-bold, 700);
+}
+
+.total-unit {
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-secondary);
+}

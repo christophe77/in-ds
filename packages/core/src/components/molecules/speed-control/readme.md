@@ -42,6 +42,11 @@ set a percentage or engineering speed, and re-emits live + committed values.
 
 ## Dependencies
 
+### Used by
+
+ - [ind-motor-control-panel](../../organisms/motor-control-panel)
+ - [ind-valve-control-panel](../../organisms/valve-control-panel)
+
 ### Depends on
 
 - [ind-knob](../../atoms/knob)
@@ -52,6 +57,8 @@ set a percentage or engineering speed, and re-emits live + committed values.
 graph TD;
   ind-speed-control --> ind-knob
   ind-speed-control --> ind-slider
+  ind-motor-control-panel --> ind-speed-control
+  ind-valve-control-panel --> ind-speed-control
   style ind-speed-control fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -1,0 +1,30 @@
+:host {
+  min-width: 320px;
+}
+
+ind-progress {
+  width: 100%;
+}
+
+.job {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ind-spacing-3, 6px);
+}
+
+.job-label {
+  font-size: var(--ind-font-size-xs, 10px);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ind-surface-text-muted);
+}
+
+.job-name {
+  font-size: var(--ind-font-size-md, 13px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+}
+
+.figures {
+  display: flex;
+  gap: var(--ind-spacing-7, 20px);
+}

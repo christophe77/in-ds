@@ -1,0 +1,7 @@
+:host {
+  min-width: 360px;
+}
+
+.panel-list {
+  max-height: 420px;
+}

@@ -1,0 +1,17 @@
+:host {
+  min-width: 320px;
+}
+
+.overview {
+  padding: var(--ind-spacing-4, 8px) var(--ind-spacing-5, 12px);
+  border-bottom: 1px solid var(--ind-surface-border-subtle);
+}
+
+.overview ind-sparkline {
+  width: 100%;
+  height: 48px;
+}
+
+.panel-list {
+  max-height: 360px;
+}

@@ -48,6 +48,11 @@ scrolling parameter table.
 
 ## Dependencies
 
+### Used by
+
+ - [ind-batch-control-panel](../../organisms/batch-control-panel)
+ - [ind-recipe-management-panel](../../organisms/recipe-management-panel)
+
 ### Depends on
 
 - [ind-input](../../atoms/input)
@@ -56,6 +61,8 @@ scrolling parameter table.
 ```mermaid
 graph TD;
   ind-batch-parameter-row --> ind-input
+  ind-batch-control-panel --> ind-batch-parameter-row
+  ind-recipe-management-panel --> ind-batch-parameter-row
   style ind-batch-parameter-row fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

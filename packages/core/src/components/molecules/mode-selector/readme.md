@@ -37,6 +37,12 @@ around `<ind-selector-switch>` that re-emits the chosen mode.
 
 ## Dependencies
 
+### Used by
+
+ - [ind-motor-control-panel](../../organisms/motor-control-panel)
+ - [ind-process-control-panel](../../organisms/process-control-panel)
+ - [ind-pump-control-panel](../../organisms/pump-control-panel)
+
 ### Depends on
 
 - [ind-selector-switch](../../atoms/selector-switch)
@@ -45,6 +51,9 @@ around `<ind-selector-switch>` that re-emits the chosen mode.
 ```mermaid
 graph TD;
   ind-mode-selector --> ind-selector-switch
+  ind-motor-control-panel --> ind-mode-selector
+  ind-process-control-panel --> ind-mode-selector
+  ind-pump-control-panel --> ind-mode-selector
   style ind-mode-selector fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

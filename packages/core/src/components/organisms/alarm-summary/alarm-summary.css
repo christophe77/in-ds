@@ -1,0 +1,30 @@
+:host {
+  min-width: 220px;
+}
+
+.figures {
+  display: flex;
+  gap: var(--ind-spacing-7, 20px);
+}
+
+.figure {
+  display: flex;
+  flex-direction: column;
+}
+
+.figure-value {
+  font-size: var(--ind-font-size-3xl, 28px);
+  font-weight: var(--ind-font-weight-bold, 700);
+  line-height: 1;
+}
+
+.figure-label {
+  font-size: var(--ind-font-size-xs, 10px);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ind-surface-text-muted);
+}
+
+.figure-alert .figure-value {
+  color: var(--ind-state-fault-bg, #dc2626);
+}

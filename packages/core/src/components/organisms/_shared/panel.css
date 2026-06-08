@@ -1,0 +1,96 @@
+/* Shared chrome for organism panels. Pulled in first via
+ * `styleUrls: ['../_shared/panel.css', 'xxx.css']`. */
+:host {
+  display: flex;
+  flex-direction: column;
+  background: var(--ind-surface-panel);
+  border: 1px solid var(--ind-surface-border-default);
+  border-radius: var(--ind-radius-md, 3px);
+  font-family: var(--ind-font-family-sans);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  box-sizing: border-box;
+  overflow: hidden;
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-4, 8px);
+  padding: var(--ind-spacing-4, 8px) var(--ind-spacing-5, 12px);
+  border-bottom: 1px solid var(--ind-surface-border-subtle);
+  background: var(--ind-surface-raised);
+  flex: 0 0 auto;
+}
+
+.panel-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.panel-title {
+  font-size: var(--ind-font-size-md, 13px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+  line-height: 1.2;
+}
+
+.panel-subtitle {
+  font-size: var(--ind-font-size-xs, 10px);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+}
+
+.panel-tag {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-secondary);
+}
+
+.panel-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+}
+
+.panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-4, 8px);
+  padding: var(--ind-spacing-5, 12px);
+  min-height: 0;
+}
+
+.panel-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  padding: var(--ind-spacing-3, 6px) var(--ind-spacing-5, 12px);
+  border-bottom: 1px solid var(--ind-surface-border-subtle);
+  flex: 0 0 auto;
+}
+
+.panel-list {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.panel-grid {
+  display: grid;
+  gap: var(--ind-spacing-4, 8px);
+  padding: var(--ind-spacing-5, 12px);
+}
+
+.panel-empty {
+  padding: var(--ind-spacing-7, 20px);
+  text-align: center;
+  color: var(--ind-surface-text-muted);
+  font-size: var(--ind-font-size-sm, 11px);
+}
+
+.panel-spacer {
+  flex: 1 1 auto;
+}

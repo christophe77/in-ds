@@ -1,0 +1,10 @@
+:host {
+  min-width: 280px;
+}
+
+.panel-body > ind-speed-control {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  min-width: 0;
+}

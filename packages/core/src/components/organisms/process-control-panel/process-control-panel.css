@@ -1,0 +1,13 @@
+:host {
+  min-width: 280px;
+}
+
+/* The faceplate children already have their own card chrome, so flatten them. */
+.panel-body ind-start-stop-control,
+.panel-body ind-setpoint-control,
+.panel-body ind-mode-selector {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  min-width: 0;
+}

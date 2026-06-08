@@ -1,0 +1,43 @@
+:host {
+  min-width: 300px;
+}
+
+.panel-body > ind-device-info-card {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  min-width: 0;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--ind-spacing-3, 6px);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: var(--ind-spacing-3, 6px);
+  background: var(--ind-surface-sunken);
+  border-radius: var(--ind-radius-sm, 2px);
+  border-left: 2px solid var(--ind-surface-border-strong);
+}
+
+.metric-label {
+  font-size: var(--ind-font-size-xs, 10px);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ind-surface-text-muted);
+}
+
+.metric-value {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-md, 13px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+}
+
+.metric-ok { border-left-color: var(--ind-state-running-bg, #16a34a); }
+.metric-warn { border-left-color: var(--ind-state-warning-bg, #f59e0b); }
+.metric-fault { border-left-color: var(--ind-state-fault-bg, #dc2626); }

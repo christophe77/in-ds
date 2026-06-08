@@ -1,0 +1,57 @@
+:host {
+  min-width: 520px;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  padding: var(--ind-spacing-5, 12px);
+  overflow-x: auto;
+}
+
+.station {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-2, 4px);
+  min-width: 96px;
+  padding: var(--ind-spacing-4, 8px);
+  background: var(--ind-surface-sunken);
+  border: 1px solid var(--ind-surface-border-default);
+  border-radius: var(--ind-radius-sm, 2px);
+  border-top: 3px solid var(--ind-surface-border-strong);
+}
+
+.station-fault { border-top-color: var(--ind-state-fault-bg, #dc2626); }
+.station-warning { border-top-color: var(--ind-state-warning-bg, #f59e0b); }
+.station-running { border-top-color: var(--ind-state-running-bg, #16a34a); }
+.station-maintenance { border-top-color: var(--ind-state-maintenance-bg, #2563eb); }
+
+.station-head {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-2, 4px);
+}
+
+.station-tag {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-xs, 10px);
+  color: var(--ind-surface-text-muted);
+}
+
+.station-name {
+  font-size: var(--ind-font-size-base, 12px);
+  font-weight: var(--ind-font-weight-medium, 500);
+}
+
+.station-rate {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-secondary);
+}
+
+.arrow {
+  color: var(--ind-surface-text-muted);
+  font-size: var(--ind-font-size-lg, 14px);
+  flex: 0 0 auto;
+}

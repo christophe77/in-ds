@@ -34,12 +34,20 @@
 
 ### Used by
 
+ - [ind-asset-overview](../../organisms/asset-overview)
+ - [ind-batch-control-panel](../../organisms/batch-control-panel)
  - [ind-fill-row](../../molecules/fill-row)
+ - [ind-firmware-update-panel](../../organisms/firmware-update-panel)
+ - [ind-workstation-monitor](../../organisms/workstation-monitor)
 
 ### Graph
 ```mermaid
 graph TD;
+  ind-asset-overview --> ind-progress
+  ind-batch-control-panel --> ind-progress
   ind-fill-row --> ind-progress
+  ind-firmware-update-panel --> ind-progress
+  ind-workstation-monitor --> ind-progress
   style ind-progress fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

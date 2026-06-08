@@ -380,7 +380,7 @@ Requires Node 20+ and pnpm 9+.
 
 ## Components
 
-**88 web components** ship in `@ind-ds/core` (53 atoms, 31 molecules, 4 organisms). Each tag has a matching React wrapper (`IndLed`, `IndValue`, …) and Vue wrapper regenerated on every Stencil build.
+**113 web components** ship in `@ind-ds/core` (53 atoms, 31 molecules, 29 organisms). Each tag has a matching React wrapper (`IndLed`, `IndValue`, …) and Vue wrapper regenerated on every Stencil build.
 
 ### Atoms — indicators
 
@@ -528,7 +528,7 @@ Requires Node 20+ and pnpm 9+.
 | `<ind-device-connection-card>` | Driver connection — protocol, endpoint, state, latency |
 | `<ind-network-status-card>` | Network link — signal quality, address, throughput, state |
 
-### Organisms (4)
+### Organisms — chrome
 
 | Tag | Role |
 |---|---|
@@ -536,6 +536,51 @@ Requires Node 20+ and pnpm 9+.
 | `<ind-sidebar-nav>` | Collapsible sidebar with grouped `ind-nav-item` children |
 | `<ind-status-bar>` | Bottom status strip — alarms, clock, connection, custom slots |
 | `<ind-mqtt-monitor>` | Live MQTT panel — broker status, topic list, message stream |
+| `<ind-context-toolbar>` | Contextual toolbar — title / breadcrumb + contextual actions |
+| `<ind-command-center>` | Grid palette of command buttons / groups |
+
+### Organisms — monitoring
+
+| Tag | Role |
+|---|---|
+| `<ind-alarm-panel>` | Active alarm list (unacked-first, ISA sorted) with ACK / ACK-all |
+| `<ind-alarm-summary>` | Alarm KPI block — total / unacked + priority breakdown |
+| `<ind-event-journal>` | Event log with severity filter |
+| `<ind-historian-viewer>` | Single-tag history table + sparkline overview |
+| `<ind-trend-viewer>` | Multi-series sparkline trend viewer with legend |
+| `<ind-equipment-dashboard>` | Responsive grid host for equipment faceplates |
+| `<ind-production-dashboard>` | KPI / tag / trend dashboard grid |
+| `<ind-energy-dashboard>` | Energy cards grid with headline total |
+
+### Organisms — control
+
+| Tag | Role |
+|---|---|
+| `<ind-process-control-panel>` | Generic loop — run command, setpoint vs PV, mode |
+| `<ind-motor-control-panel>` | Motor faceplate + start/stop + speed + mode |
+| `<ind-pump-control-panel>` | Pump faceplate + start/stop + mode |
+| `<ind-valve-control-panel>` | Valve faceplate + Open/Close/Stop + position |
+| `<ind-batch-control-panel>` | Phase + progress + Start/Hold/Stop + parameters |
+| `<ind-recipe-management-panel>` | Recipe pick/load + parameter set + save |
+
+### Organisms — maintenance
+
+| Tag | Role |
+|---|---|
+| `<ind-asset-overview>` | Asset register — state, health bar, detail |
+| `<ind-maintenance-dashboard>` | MTBF / MTTR / WO KPIs + due-task list |
+| `<ind-device-diagnostics-panel>` | Nameplate + connection + diagnostic metrics |
+| `<ind-firmware-update-panel>` | Version compare + progress + Check / Install |
+
+### Organisms — production
+
+| Tag | Role |
+|---|---|
+| `<ind-production-line-overview>` | Station sequence with flow arrows |
+| `<ind-machine-overview>` | Machine header (state + OEE) + equipment grid |
+| `<ind-production-cell>` | Work-cell container grouping machines / equipment |
+| `<ind-workstation-monitor>` | Operator station — job, produced/rejected, target |
+| `<ind-oee-dashboard>` | OEE headline + Availability / Performance / Quality gauges |
 
 ### Planned
 

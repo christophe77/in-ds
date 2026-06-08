@@ -1,0 +1,10 @@
+:host {
+  min-width: 340px;
+}
+
+.params {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--ind-surface-border-subtle);
+  border-radius: var(--ind-radius-sm, 2px);
+}

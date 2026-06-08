@@ -1,0 +1,47 @@
+:host {
+  min-width: 300px;
+}
+
+ind-progress {
+  width: 100%;
+}
+
+.versions {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-5, 12px);
+}
+
+.ver {
+  display: flex;
+  flex-direction: column;
+}
+
+.ver-label {
+  font-size: var(--ind-font-size-xs, 10px);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ind-surface-text-muted);
+}
+
+.ver-value {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-lg, 14px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+}
+
+.arrow {
+  color: var(--ind-surface-text-muted);
+}
+
+.state {
+  font-size: var(--ind-font-size-sm, 11px);
+  font-weight: var(--ind-font-weight-bold, 700);
+  padding: 2px 8px;
+  border-radius: var(--ind-radius-full, 9999px);
+  background: var(--ind-surface-raised);
+}
+
+.state-available { color: var(--ind-state-warning-bg, #f59e0b); }
+.state-up-to-date { color: var(--ind-state-running-bg, #16a34a); }
+.state-error { color: var(--ind-state-fault-bg, #dc2626); }

@@ -1,0 +1,15 @@
+/* Flatten the faceplate / control molecules when embedded in a control panel,
+ * so the panel provides the single card chrome. */
+.panel-body > ind-motor-card,
+.panel-body > ind-pump-card,
+.panel-body > ind-valve-card,
+.panel-body > ind-start-stop-control,
+.panel-body > ind-setpoint-control,
+.panel-body > ind-speed-control,
+.panel-body > ind-mode-selector,
+.panel-body > ind-recipe-selector {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  min-width: 0;
+}

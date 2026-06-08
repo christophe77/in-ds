@@ -84,3 +84,21 @@ export type { DataQuality } from './components/molecules/historical-value-row/hi
 // Organisms
 export type { AppHeaderConnectionState } from './components/organisms/app-header/app-header';
 export type { StatusBarState } from './components/organisms/status-bar/status-bar';
+
+// Organisms — monitoring
+export type { AlarmPanelItem } from './components/organisms/alarm-panel/alarm-panel';
+export type { EventJournalItem } from './components/organisms/event-journal/event-journal';
+export type { HistorianSample } from './components/organisms/historian-viewer/historian-viewer';
+export type { TrendSeries } from './components/organisms/trend-viewer/trend-viewer';
+
+// Organisms — control
+export type { BatchState, BatchParam } from './components/organisms/batch-control-panel/batch-control-panel';
+
+// Organisms — maintenance
+export type { AssetItem } from './components/organisms/asset-overview/asset-overview';
+export type { MaintenanceDueItem } from './components/organisms/maintenance-dashboard/maintenance-dashboard';
+export type { DiagnosticMetric } from './components/organisms/device-diagnostics-panel/device-diagnostics-panel';
+export type { FirmwareState } from './components/organisms/firmware-update-panel/firmware-update-panel';
+
+// Organisms — production
+export type { LineStation } from './components/organisms/production-line-overview/production-line-overview';

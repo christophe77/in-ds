@@ -1,0 +1,30 @@
+:host {
+  min-width: 460px;
+}
+
+.headline {
+  margin-left: auto;
+  display: flex;
+  align-items: baseline;
+  gap: var(--ind-spacing-2, 4px);
+}
+
+.headline-value {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-3xl, 28px);
+  font-weight: var(--ind-font-weight-bold, 700);
+  line-height: 1;
+}
+
+.headline-unit {
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-secondary);
+}
+
+.gauges {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--ind-spacing-4, 8px);
+  padding: var(--ind-spacing-5, 12px);
+  justify-items: center;
+}

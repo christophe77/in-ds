@@ -42,6 +42,10 @@ the message, a timestamp and an acknowledge button. Emits `indAck`.
 
 ## Dependencies
 
+### Used by
+
+ - [ind-alarm-panel](../../organisms/alarm-panel)
+
 ### Depends on
 
 - [ind-button](../../atoms/button)
@@ -50,6 +54,7 @@ the message, a timestamp and an acknowledge button. Emits `indAck`.
 ```mermaid
 graph TD;
   ind-alarm-row --> ind-button
+  ind-alarm-panel --> ind-alarm-row
   style ind-alarm-row fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

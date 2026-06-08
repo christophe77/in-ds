@@ -36,6 +36,19 @@ arrow direction, since "down" is not always bad.
 | `"unit"`    |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-maintenance-dashboard](../../organisms/maintenance-dashboard)
+
+### Graph
+```mermaid
+graph TD;
+  ind-maintenance-dashboard --> ind-kpi-card
+  style ind-kpi-card fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

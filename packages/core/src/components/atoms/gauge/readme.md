@@ -32,6 +32,19 @@
 | `"unit"`    |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-oee-dashboard](../../organisms/oee-dashboard)
+
+### Graph
+```mermaid
+graph TD;
+  ind-oee-dashboard --> ind-gauge
+  style ind-gauge fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

@@ -1,0 +1,22 @@
+:host {
+  min-width: 480px;
+}
+
+.oee {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-secondary);
+  margin-right: var(--ind-spacing-3, 6px);
+}
+
+.state {
+  font-size: var(--ind-font-size-sm, 11px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+}
+
+.state-running { color: var(--ind-state-running-bg, #16a34a); }
+.state-fault { color: var(--ind-state-fault-bg, #dc2626); }
+.state-warning { color: var(--ind-state-warning-bg, #f59e0b); }
+.state-maintenance { color: var(--ind-state-maintenance-bg, #2563eb); }
+.state-stopped { color: var(--ind-surface-text-secondary); }
+.state-unknown { color: var(--ind-surface-text-muted); }

@@ -41,6 +41,12 @@ Start / stop command pair with a running LED. Emits discrete `indStart` /
 
 ## Dependencies
 
+### Used by
+
+ - [ind-motor-control-panel](../../organisms/motor-control-panel)
+ - [ind-process-control-panel](../../organisms/process-control-panel)
+ - [ind-pump-control-panel](../../organisms/pump-control-panel)
+
 ### Depends on
 
 - [ind-led](../../atoms/led)
@@ -51,6 +57,9 @@ Start / stop command pair with a running LED. Emits discrete `indStart` /
 graph TD;
   ind-start-stop-control --> ind-led
   ind-start-stop-control --> ind-button
+  ind-motor-control-panel --> ind-start-stop-control
+  ind-process-control-panel --> ind-start-stop-control
+  ind-pump-control-panel --> ind-start-stop-control
   style ind-start-stop-control fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
