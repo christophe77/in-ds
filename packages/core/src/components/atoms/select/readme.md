@@ -37,6 +37,19 @@
 | `"wrap"`   |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-recipe-selector](../../molecules/recipe-selector)
+
+### Graph
+```mermaid
+graph TD;
+  ind-recipe-selector --> ind-select
+  style ind-select fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

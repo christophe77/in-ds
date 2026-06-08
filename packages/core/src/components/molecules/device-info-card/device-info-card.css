@@ -1,0 +1,27 @@
+:host {
+  min-width: 220px;
+}
+
+.card-head {
+  align-items: center;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--ind-spacing-2, 4px) var(--ind-spacing-5, 12px);
+  margin: 0;
+}
+
+.dt {
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+}
+
+.dd {
+  margin: 0;
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-primary);
+  text-align: right;
+}

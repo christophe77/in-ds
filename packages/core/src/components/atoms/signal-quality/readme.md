@@ -23,6 +23,19 @@
 | `"label"` |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-network-status-card](../../molecules/network-status-card)
+
+### Graph
+```mermaid
+graph TD;
+  ind-network-status-card --> ind-signal-quality
+  style ind-signal-quality fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

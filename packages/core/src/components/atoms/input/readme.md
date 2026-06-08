@@ -57,6 +57,19 @@ Type: `Promise<void>`
 | `"wrap"`  |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-batch-parameter-row](../../molecules/batch-parameter-row)
+
+### Graph
+```mermaid
+graph TD;
+  ind-batch-parameter-row --> ind-input
+  style ind-input fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

@@ -1,0 +1,31 @@
+:host {
+  min-width: 150px;
+}
+
+.readout {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ind-spacing-2, 4px);
+}
+
+.number {
+  font-size: var(--ind-font-size-3xl, 28px);
+  font-weight: var(--ind-font-weight-bold, 700);
+  line-height: 1;
+}
+
+.unit {
+  font-size: var(--ind-font-size-lg, 14px);
+  color: var(--ind-surface-text-secondary);
+}
+
+.delta {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-2, 4px);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-muted);
+}
+
+:host([variant="good"]) .delta { color: var(--ind-state-running-bg, #16a34a); }
+:host([variant="bad"])  .delta { color: var(--ind-state-fault-bg, #dc2626); }

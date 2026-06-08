@@ -23,6 +23,19 @@
 | `"led"`   |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-start-stop-control](../../molecules/start-stop-control)
+
+### Graph
+```mermaid
+graph TD;
+  ind-start-stop-control --> ind-led
+  style ind-led fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

@@ -1,0 +1,20 @@
+/* Shared layout for the equipment faceplate cards (motor, pump, valve, tank).
+ * Loaded after card.css and before each component's own sheet. */
+.body {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-5, 12px);
+}
+
+.symbol {
+  flex: 0 0 auto;
+}
+
+.metrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-2, 4px);
+  margin-left: auto;
+  align-items: flex-end;
+  text-align: right;
+}

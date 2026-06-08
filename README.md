@@ -380,7 +380,7 @@ Requires Node 20+ and pnpm 9+.
 
 ## Components
 
-**61 web components** ship in `@ind-ds/core` (53 atoms, 4 molecules, 4 organisms). Each tag has a matching React wrapper (`IndLed`, `IndValue`, …) and Vue wrapper regenerated on every Stencil build.
+**88 web components** ship in `@ind-ds/core` (53 atoms, 31 molecules, 4 organisms). Each tag has a matching React wrapper (`IndLed`, `IndValue`, …) and Vue wrapper regenerated on every Stencil build.
 
 ### Atoms — indicators
 
@@ -466,7 +466,7 @@ Requires Node 20+ and pnpm 9+.
 | `<ind-divider>` | Horizontal or vertical rule |
 | `<ind-dialog>` | Modal dialog shell |
 
-### Molecules (4)
+### Molecules — general
 
 | Tag | Role |
 |---|---|
@@ -474,6 +474,59 @@ Requires Node 20+ and pnpm 9+.
 | `<ind-fill-row>` | Label + horizontal fill bar (tank level, capacity, severity tint) |
 | `<ind-nav-item>` | Sidebar / rail navigation entry with icon and active state |
 | `<ind-toolbar-action>` | Toolbar action cluster with optional message counter |
+
+### Molecules — process monitoring
+
+| Tag | Role |
+|---|---|
+| `<ind-tag-card>` | Single process tag — identifier, live value and status dot |
+| `<ind-equipment-status-card>` | Generic equipment status with a slotted process symbol + state badge |
+| `<ind-motor-card>` | Motor faceplate — symbol + speed / current / load readouts |
+| `<ind-pump-card>` | Pump faceplate — symbol + flow / pressure readouts |
+| `<ind-valve-card>` | Valve faceplate — symbol + open/closed state + position |
+| `<ind-tank-level-card>` | Tank faceplate — symbol + level value + linear gauge |
+| `<ind-alarm-badge-group>` | ISA-18.2 priority counters (HH / H / L / LL) with optional total |
+| `<ind-kpi-card>` | Headline KPI — large value, delta and trend arrow |
+| `<ind-energy-card>` | Power / energy KPI with sparkline and cumulative total |
+
+### Molecules — inputs & controls
+
+| Tag | Role |
+|---|---|
+| `<ind-setpoint-control>` | Labelled setpoint faceplate (SP vs PV) |
+| `<ind-start-stop-control>` | Start / stop command pair with running LED |
+| `<ind-speed-control>` | Speed / rate control (slider or knob) |
+| `<ind-temperature-control>` | Temperature loop — setpoint, PV and heat/cool indicator |
+| `<ind-mode-selector>` | Operating-mode selector (Off / Manual / Auto) |
+| `<ind-recipe-selector>` | Recipe picker with Load command |
+| `<ind-batch-parameter-row>` | Editable batch / recipe parameter row |
+
+### Molecules — navigation
+
+| Tag | Role |
+|---|---|
+| `<ind-sidebar-group>` | Collapsible sidebar section heading for nav items |
+| `<ind-command-group>` | Segmented / attached cluster of command buttons |
+
+### Molecules — data
+
+| Tag | Role |
+|---|---|
+| `<ind-trend-widget>` | Compact trend — value + sparkline + min/max bounds |
+| `<ind-alarm-row>` | Alarm list line — priority, tag, message, time, acknowledge |
+| `<ind-event-row>` | Event log line — time, severity dot, source, message |
+| `<ind-audit-row>` | Audit-trail line — time, user, action, detail |
+| `<ind-historical-value-row>` | Historical sample — time, value, OPC data-quality flag |
+| `<ind-device-info-card>` | Device nameplate — vendor / model / firmware / serial + connection |
+
+### Molecules — communication
+
+| Tag | Role |
+|---|---|
+| `<ind-mqtt-tag-binding>` | MQTT topic binding — value, QoS, retain, broker state |
+| `<ind-opcua-tag-binding>` | OPC UA node binding — value, data quality, session state |
+| `<ind-device-connection-card>` | Driver connection — protocol, endpoint, state, latency |
+| `<ind-network-status-card>` | Network link — signal quality, address, throughput, state |
 
 ### Organisms (4)
 

@@ -1,0 +1,12 @@
+:host {
+  min-width: 180px;
+}
+
+.arrow.trend-up   { color: var(--ind-state-fault-bg, #dc2626); }
+.arrow.trend-down { color: var(--ind-state-running-bg, #16a34a); }
+.arrow.trend-flat { color: var(--ind-surface-text-muted); }
+
+.spark {
+  width: 100%;
+  height: 36px;
+}

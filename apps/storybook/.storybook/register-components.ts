@@ -79,6 +79,45 @@ import '@ind-ds/core/dist/components/ind-canvas-layer.js';
 import '@ind-ds/core/dist/components/ind-health-card.js';
 import '@ind-ds/core/dist/components/ind-fill-row.js';
 import '@ind-ds/core/dist/components/ind-toolbar-action.js';
+import '@ind-ds/core/dist/components/ind-nav-item.js';
+
+// Molecules — process monitoring
+import '@ind-ds/core/dist/components/ind-tag-card.js';
+import '@ind-ds/core/dist/components/ind-equipment-status-card.js';
+import '@ind-ds/core/dist/components/ind-motor-card.js';
+import '@ind-ds/core/dist/components/ind-pump-card.js';
+import '@ind-ds/core/dist/components/ind-valve-card.js';
+import '@ind-ds/core/dist/components/ind-tank-level-card.js';
+import '@ind-ds/core/dist/components/ind-alarm-badge-group.js';
+import '@ind-ds/core/dist/components/ind-kpi-card.js';
+import '@ind-ds/core/dist/components/ind-energy-card.js';
+
+// Molecules — inputs & controls
+import '@ind-ds/core/dist/components/ind-setpoint-control.js';
+import '@ind-ds/core/dist/components/ind-start-stop-control.js';
+import '@ind-ds/core/dist/components/ind-speed-control.js';
+import '@ind-ds/core/dist/components/ind-temperature-control.js';
+import '@ind-ds/core/dist/components/ind-mode-selector.js';
+import '@ind-ds/core/dist/components/ind-recipe-selector.js';
+import '@ind-ds/core/dist/components/ind-batch-parameter-row.js';
+
+// Molecules — navigation
+import '@ind-ds/core/dist/components/ind-sidebar-group.js';
+import '@ind-ds/core/dist/components/ind-command-group.js';
+
+// Molecules — data
+import '@ind-ds/core/dist/components/ind-trend-widget.js';
+import '@ind-ds/core/dist/components/ind-alarm-row.js';
+import '@ind-ds/core/dist/components/ind-event-row.js';
+import '@ind-ds/core/dist/components/ind-audit-row.js';
+import '@ind-ds/core/dist/components/ind-historical-value-row.js';
+import '@ind-ds/core/dist/components/ind-device-info-card.js';
+
+// Molecules — communication
+import '@ind-ds/core/dist/components/ind-mqtt-tag-binding.js';
+import '@ind-ds/core/dist/components/ind-opcua-tag-binding.js';
+import '@ind-ds/core/dist/components/ind-device-connection-card.js';
+import '@ind-ds/core/dist/components/ind-network-status-card.js';
 
 // Organisms
 import '@ind-ds/core/dist/components/ind-app-header.js';

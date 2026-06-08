@@ -1,0 +1,51 @@
+/* Shared chrome for molecule "card" components. Pulled in first via
+ * `styleUrls: ['../_shared/card.css', 'xxx.css']` so each card can override. */
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-3, 6px);
+  padding: var(--ind-spacing-5, 12px);
+  background: var(--ind-surface-panel);
+  border: 1px solid var(--ind-surface-border-default);
+  border-radius: var(--ind-radius-md, 3px);
+  font-family: var(--ind-font-family-sans);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+  box-sizing: border-box;
+  min-width: 160px;
+}
+
+.card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ind-spacing-3, 6px);
+}
+
+.card-title {
+  font-size: var(--ind-font-size-xs, 10px);
+  font-weight: var(--ind-font-weight-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+}
+
+.card-tag {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+}
+
+.card-detail {
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+}
+
+/* Fault chrome cue, opt-in by reflecting state="fault" on the host. */
+:host([state="fault"]) {
+  border-color: var(--ind-state-fault-bg, #dc2626);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ind-state-fault-bg, #dc2626) 30%, transparent);
+}
+:host([state="warning"]) {
+  border-color: color-mix(in srgb, var(--ind-state-warning-bg, #f59e0b) 60%, var(--ind-surface-border-default));
+}

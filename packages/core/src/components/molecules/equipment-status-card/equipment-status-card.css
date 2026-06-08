@@ -1,0 +1,29 @@
+.body {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-5, 12px);
+}
+
+.symbol {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+  margin-left: auto;
+}
+
+.state-label {
+  font-size: var(--ind-font-size-lg, 14px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+}
+
+:host([state="running"])     .state-label { color: var(--ind-state-running-bg, #16a34a); }
+:host([state="fault"])       .state-label { color: var(--ind-state-fault-bg, #dc2626); }
+:host([state="warning"])     .state-label { color: var(--ind-state-warning-bg, #f59e0b); }
+:host([state="maintenance"]) .state-label { color: var(--ind-state-maintenance-bg, #2563eb); }
+:host([state="stopped"])     .state-label { color: var(--ind-surface-text-secondary); }
+:host([state="unknown"])     .state-label { color: var(--ind-surface-text-muted); }

@@ -1,0 +1,13 @@
+:host {
+  min-width: 190px;
+}
+
+.state-label {
+  font-size: var(--ind-font-size-lg, 14px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+}
+
+.state-open   { color: var(--ind-state-running-bg, #16a34a); }
+.state-closed { color: var(--ind-surface-text-secondary); }
+.state-transit { color: var(--ind-state-warning-bg, #f59e0b); }
+.state-fault  { color: var(--ind-state-fault-bg, #dc2626); }

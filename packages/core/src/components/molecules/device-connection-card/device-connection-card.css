@@ -1,0 +1,19 @@
+:host {
+  min-width: 210px;
+}
+
+/* The connection card uses its own state vocabulary, so map error→fault chrome. */
+:host([state="error"]) {
+  border-color: var(--ind-state-fault-bg, #dc2626);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ind-state-fault-bg, #dc2626) 30%, transparent);
+}
+
+.endpoint {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-secondary);
+  background: var(--ind-surface-sunken);
+  padding: 3px 6px;
+  border-radius: var(--ind-radius-sm, 2px);
+  word-break: break-all;
+}

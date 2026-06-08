@@ -1,0 +1,3 @@
+:host {
+  grid-template-columns: auto 12px auto 1fr;
+}

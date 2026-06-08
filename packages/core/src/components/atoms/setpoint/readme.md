@@ -42,6 +42,21 @@
 | `"sp"`    |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-setpoint-control](../../molecules/setpoint-control)
+ - [ind-temperature-control](../../molecules/temperature-control)
+
+### Graph
+```mermaid
+graph TD;
+  ind-setpoint-control --> ind-setpoint
+  ind-temperature-control --> ind-setpoint
+  style ind-setpoint fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

@@ -32,6 +32,31 @@
 | `"unit"`    |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-energy-card](../../molecules/energy-card)
+ - [ind-motor-card](../../molecules/motor-card)
+ - [ind-pump-card](../../molecules/pump-card)
+ - [ind-tag-card](../../molecules/tag-card)
+ - [ind-tank-level-card](../../molecules/tank-level-card)
+ - [ind-trend-widget](../../molecules/trend-widget)
+ - [ind-valve-card](../../molecules/valve-card)
+
+### Graph
+```mermaid
+graph TD;
+  ind-energy-card --> ind-value
+  ind-motor-card --> ind-value
+  ind-pump-card --> ind-value
+  ind-tag-card --> ind-value
+  ind-tank-level-card --> ind-value
+  ind-trend-widget --> ind-value
+  ind-valve-card --> ind-value
+  style ind-value fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

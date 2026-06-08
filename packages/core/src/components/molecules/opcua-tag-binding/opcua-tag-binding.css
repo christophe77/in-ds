@@ -1,0 +1,7 @@
+:host {
+  min-width: 240px;
+}
+
+.quality-good { color: var(--ind-state-running-bg, #16a34a); }
+.quality-uncertain { color: var(--ind-state-warning-bg, #f59e0b); }
+.quality-bad { color: var(--ind-state-fault-bg, #dc2626); }

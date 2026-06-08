@@ -29,6 +29,19 @@
 | `"tag"`     |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-valve-card](../../molecules/valve-card)
+
+### Graph
+```mermaid
+graph TD;
+  ind-valve-card --> ind-valve
+  style ind-valve fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

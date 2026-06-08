@@ -32,6 +32,23 @@
 | `"hold-progress"` |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-alarm-row](../../molecules/alarm-row)
+ - [ind-recipe-selector](../../molecules/recipe-selector)
+ - [ind-start-stop-control](../../molecules/start-stop-control)
+
+### Graph
+```mermaid
+graph TD;
+  ind-alarm-row --> ind-button
+  ind-recipe-selector --> ind-button
+  ind-start-stop-control --> ind-button
+  style ind-button fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

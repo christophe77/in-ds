@@ -1,0 +1,34 @@
+/* Shared chrome for log-style molecule rows (alarm, event, audit, historical).
+ * Each component sets its own grid-template-columns. */
+:host {
+  display: grid;
+  align-items: center;
+  gap: var(--ind-spacing-4, 8px);
+  padding: var(--ind-spacing-3, 6px) var(--ind-spacing-4, 8px);
+  font-family: var(--ind-font-family-sans);
+  font-size: var(--ind-font-size-base, 12px);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  border-bottom: 1px solid var(--ind-surface-border-subtle);
+  box-sizing: border-box;
+  font-feature-settings: var(--ind-font-feature-tabular, "tnum" 1);
+}
+
+.time {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-muted, light-dark(#5a6776, #8390a0));
+  white-space: nowrap;
+}
+
+.tag {
+  font-family: var(--ind-font-family-mono);
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  white-space: nowrap;
+}
+
+.msg {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

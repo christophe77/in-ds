@@ -15,6 +15,19 @@
 | `tag`    | `tag`     | Equipment tag (e.g. "M-201"). | `string \| undefined`                                             | `undefined` |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-motor-card](../../molecules/motor-card)
+
+### Graph
+```mermaid
+graph TD;
+  ind-motor-card --> ind-motor
+  style ind-motor fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

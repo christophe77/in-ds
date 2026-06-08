@@ -1,0 +1,31 @@
+:host {
+  min-width: 200px;
+}
+
+:host([state="error"]) {
+  border-color: var(--ind-state-fault-bg, #dc2626);
+}
+
+.signal {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-4, 8px);
+}
+
+.address {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-secondary);
+}
+
+.throughput {
+  display: flex;
+  gap: var(--ind-spacing-6, 16px);
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-primary);
+}
+
+.arrow {
+  color: var(--ind-surface-text-muted);
+}

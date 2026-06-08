@@ -1,0 +1,28 @@
+:host {
+  grid-template-columns: 1fr auto auto;
+}
+
+.value {
+  font-family: var(--ind-font-family-mono);
+  font-weight: var(--ind-font-weight-medium, 500);
+  text-align: right;
+}
+
+.unit {
+  color: var(--ind-surface-text-secondary);
+  font-weight: var(--ind-font-weight-regular, 400);
+}
+
+.quality {
+  font-size: var(--ind-font-size-xs, 10px);
+  font-weight: var(--ind-font-weight-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 5px;
+  border-radius: var(--ind-radius-sm, 2px);
+  white-space: nowrap;
+}
+
+.quality-good { color: var(--ind-state-running-bg, #16a34a); background: color-mix(in srgb, var(--ind-state-running-bg, #16a34a) 16%, transparent); }
+.quality-uncertain { color: var(--ind-state-warning-bg, #f59e0b); background: color-mix(in srgb, var(--ind-state-warning-bg, #f59e0b) 16%, transparent); }
+.quality-bad { color: var(--ind-state-fault-bg, #dc2626); background: color-mix(in srgb, var(--ind-state-fault-bg, #dc2626) 16%, transparent); }

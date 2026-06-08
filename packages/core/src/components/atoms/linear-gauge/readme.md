@@ -34,6 +34,19 @@
 | `"value"`    |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-tank-level-card](../../molecules/tank-level-card)
+
+### Graph
+```mermaid
+graph TD;
+  ind-tank-level-card --> ind-linear-gauge
+  style ind-linear-gauge fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

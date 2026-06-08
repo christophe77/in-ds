@@ -1,0 +1,13 @@
+:host {
+  min-width: 240px;
+}
+
+.row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--ind-spacing-4, 8px);
+}
+
+.select {
+  flex: 1 1 auto;
+}

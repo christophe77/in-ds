@@ -31,6 +31,19 @@
 | `"switch"`      |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-mode-selector](../../molecules/mode-selector)
+
+### Graph
+```mermaid
+graph TD;
+  ind-mode-selector --> ind-selector-switch
+  style ind-selector-switch fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

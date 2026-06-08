@@ -1,0 +1,41 @@
+/* Shared chrome for protocol tag-binding cards (MQTT, OPC UA). */
+.card-head {
+  align-items: center;
+}
+
+.address {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  background: var(--ind-surface-sunken);
+  padding: 3px 6px;
+  border-radius: var(--ind-radius-sm, 2px);
+  word-break: break-all;
+}
+
+.readout {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ind-spacing-4, 8px);
+}
+
+.value {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-lg, 14px);
+  font-weight: var(--ind-font-weight-semibold, 600);
+}
+
+.flags {
+  display: inline-flex;
+  gap: var(--ind-spacing-2, 4px);
+}
+
+.flag {
+  font-size: var(--ind-font-size-xs, 10px);
+  color: var(--ind-surface-text-muted);
+  background: var(--ind-surface-raised);
+  border-radius: var(--ind-radius-sm, 2px);
+  padding: 1px 5px;
+  white-space: nowrap;
+}

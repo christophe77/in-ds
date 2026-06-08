@@ -60,6 +60,27 @@ export type { ProcessSymbolShape, ProcessSymbolState, ProcessSymbolSize } from '
 export type { HealthState } from './components/molecules/health-card/health-card';
 export type { FillRowVariant } from './components/molecules/fill-row/fill-row';
 
+// Molecules — process monitoring
+export type { TagCardState, TagCardAlarm, TagCardTrend } from './components/molecules/tag-card/tag-card';
+export type { EquipmentCardState } from './components/molecules/equipment-status-card/equipment-status-card';
+export type { TankAlarm } from './components/molecules/tank-level-card/tank-level-card';
+export type { KpiTrend, KpiVariant } from './components/molecules/kpi-card/kpi-card';
+export type { EnergyTrend } from './components/molecules/energy-card/energy-card';
+
+// Molecules — inputs & controls
+export type { RunState } from './components/molecules/start-stop-control/start-stop-control';
+export type { SpeedControlVariant } from './components/molecules/speed-control/speed-control';
+export type { ThermalMode } from './components/molecules/temperature-control/temperature-control';
+
+// Molecules — navigation
+export type { CommandGroupOrientation } from './components/molecules/command-group/command-group';
+
+// Molecules — data
+export type { TrendVariant } from './components/molecules/trend-widget/trend-widget';
+export type { AlarmRowPriority } from './components/molecules/alarm-row/alarm-row';
+export type { EventSeverity } from './components/molecules/event-row/event-row';
+export type { DataQuality } from './components/molecules/historical-value-row/historical-value-row';
+
 // Organisms
 export type { AppHeaderConnectionState } from './components/organisms/app-header/app-header';
 export type { StatusBarState } from './components/organisms/status-bar/status-bar';

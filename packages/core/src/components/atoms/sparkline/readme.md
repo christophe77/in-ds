@@ -28,6 +28,21 @@
 | `"line"`  |             |
 
 
+## Dependencies
+
+### Used by
+
+ - [ind-energy-card](../../molecules/energy-card)
+ - [ind-trend-widget](../../molecules/trend-widget)
+
+### Graph
+```mermaid
+graph TD;
+  ind-energy-card --> ind-sparkline
+  ind-trend-widget --> ind-sparkline
+  style ind-sparkline fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

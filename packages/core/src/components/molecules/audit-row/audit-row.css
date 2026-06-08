@@ -1,0 +1,19 @@
+:host {
+  grid-template-columns: auto auto auto 1fr;
+}
+
+.user {
+  font-weight: var(--ind-font-weight-semibold, 600);
+  white-space: nowrap;
+}
+
+.action {
+  color: var(--ind-surface-text-secondary);
+  white-space: nowrap;
+}
+
+.detail {
+  font-family: var(--ind-font-family-mono);
+  font-size: var(--ind-font-size-sm, 11px);
+  color: var(--ind-surface-text-muted);
+}

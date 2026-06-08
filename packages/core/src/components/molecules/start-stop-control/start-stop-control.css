@@ -1,0 +1,24 @@
+:host {
+  min-width: 180px;
+  gap: var(--ind-spacing-4, 8px);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--ind-spacing-3, 6px);
+}
+
+.label {
+  font-size: var(--ind-font-size-md, 13px);
+  font-weight: var(--ind-font-weight-medium, 500);
+}
+
+.buttons {
+  display: flex;
+  gap: var(--ind-spacing-4, 8px);
+}
+
+.buttons ind-button {
+  flex: 1 1 0;
+}

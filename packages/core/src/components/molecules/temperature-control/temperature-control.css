@@ -1,0 +1,15 @@
+:host {
+  min-width: 210px;
+}
+
+.mode {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ind-spacing-2, 4px);
+  font-size: var(--ind-font-size-sm, 11px);
+  font-weight: var(--ind-font-weight-medium, 500);
+  color: var(--ind-surface-text-muted);
+}
+
+.mode-heating { color: var(--ind-state-fault-bg, #dc2626); }
+.mode-cooling { color: var(--ind-color-palette-cyan-300, #22d3ee); }
