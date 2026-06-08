@@ -29,6 +29,7 @@
     "**/*.css",
     "dist/ind-ds/*",
     "dist/esm/loader.js",
+    "dist/components/**",
     "loader/**"
   ],
   "main": "dist/index.cjs.js",
