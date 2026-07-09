@@ -48,7 +48,7 @@ Published packages live under the [`@ind-ds`](https://www.npmjs.com/org/ind-ds) 
 | Package | What it ships |
 |---|---|
 | [`@ind-ds/tokens`](https://www.npmjs.com/package/@ind-ds/tokens) | CSS variables, ESM/TS tokens, JSON, Dart |
-| [`@ind-ds/core`](https://www.npmjs.com/package/@ind-ds/core) | [61 web components](#components) (`<ind-led>`, `<ind-valve>`, …) + loader |
+| [`@ind-ds/core`](https://www.npmjs.com/package/@ind-ds/core) | [114 web components](#components) (`<ind-led>`, `<ind-valve>`, …) + loader |
 | [`@ind-ds/react`](https://www.npmjs.com/package/@ind-ds/react) | Typed React 18+ wrappers (auto-registers elements) |
 | [`@ind-ds/vue`](https://www.npmjs.com/package/@ind-ds/vue) | Typed Vue 3 wrappers with `v-model` support |
 | [`@ind-ds/mqtt`](https://www.npmjs.com/package/@ind-ds/mqtt) | MQTT → DOM attribute binding helpers |
@@ -380,7 +380,7 @@ Requires Node 20+ and pnpm 9+.
 
 ## Components
 
-**113 web components** ship in `@ind-ds/core` (53 atoms, 31 molecules, 29 organisms). Each tag has a matching React wrapper (`IndLed`, `IndValue`, …) and Vue wrapper regenerated on every Stencil build.
+**114 web components** ship in `@ind-ds/core` (53 atoms, 32 molecules, 29 organisms). Each tag has a matching React wrapper (`IndLed`, `IndValue`, …) and Vue wrapper regenerated on every Stencil build.
 
 ### Atoms — indicators
 
