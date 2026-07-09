@@ -1,5 +1,6 @@
 import type { Config } from '@stencil/core';
 import { reactOutputTarget } from '@stencil/react-output-target';
+import { vueOutputTarget } from '@stencil/vue-output-target';
 
 export const config: Config = {
   namespace: 'ind-ds',
@@ -19,6 +20,17 @@ export const config: Config = {
     reactOutputTarget({
       stencilPackageName: '@ind-ds/core',
       outDir: '../react/src/generated/',
+    }),
+    vueOutputTarget({
+      componentCorePackage: '@ind-ds/core',
+      proxiesFile: '../vue/src/generated/components.ts',
+      includeImportCustomElements: true,
+      customElementsDir: 'dist/components',
+      componentModels: [
+        { elements: ['ind-input', 'ind-textarea', 'ind-slider', 'ind-knob'], event: 'indInput', targetAttr: 'value' },
+        { elements: ['ind-select', 'ind-setpoint'], event: 'indChange', targetAttr: 'value' },
+        { elements: ['ind-checkbox', 'ind-toggle'], event: 'indChange', targetAttr: 'checked' },
+      ],
     }),
     {
       type: 'docs-readme',

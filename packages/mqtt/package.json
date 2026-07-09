@@ -43,6 +43,7 @@
     "build": "tsc",
     "prepack": "pnpm run build",
     "dev": "tsc --watch",
+    "test": "vitest run",
     "clean": "rimraf dist"
   },
   "publishConfig": {
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "rimraf": "^5.0.5",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.0"
   }
 }

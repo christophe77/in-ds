@@ -76,6 +76,9 @@ export class IndButton {
   };
 
   private onKeyDown = (e: KeyboardEvent) => {
+    // Ignore OS auto-repeat: without this, every repeat keydown resets `holdStart`
+    // (so the hold never completes) and stacks a new requestAnimationFrame loop.
+    if (e.repeat) return;
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
       this.startHold(e);
