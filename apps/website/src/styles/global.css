@@ -149,6 +149,10 @@ code, kbd, samp, pre {
 .card--link:hover { border-color: var(--ind-surface-border-strong); }
 
 .grid { display: grid; gap: var(--ind-spacing-5); }
+/* Grid items default to min-width:auto, which lets wide content (e.g. a <pre>
+   code block) stretch the track past the viewport. Allow them to shrink so
+   scrollable content scrolls internally instead. */
+.grid > * { min-width: 0; }
 .grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
 .grid-4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }

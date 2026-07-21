@@ -58,6 +58,7 @@ const { tabs, group, label = 'Code examples' } = Astro.props;
     border-radius: var(--ind-radius-md);
     overflow: hidden;
     background: var(--ind-surface-sunken);
+    min-width: 0; /* shrink in flex/grid so code scrolls internally, not the page */
   }
   .code-tabs__list {
     display: flex;
