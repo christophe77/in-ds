@@ -1,5 +1,25 @@
 # @ind-ds/react
 
+## 0.3.0
+
+### Minor Changes
+
+- 032cab4: Add `ind-virtual-keyboard` organism — a touchscreen on-screen keyboard docked at the
+  bottom of the viewport for kiosks with no physical keyboard.
+
+  Mount one instance at the app root. A global focus listener detects the focused editable
+  field (including the inner `<input>` inside another component's shadow DOM) and drives it
+  via native `input`/`change` events, so any framework's controlled input updates through its
+  usual handler — no per-field wiring. Activation is a controlled `enabled` prop (the app owns
+  the on/off state and any persistence). Props: `enabled`, `locale` ('azerty' | 'qwerty').
+  Emits `indKeyboardShow` / `indKeyboardHide`; exposes a `hide()` method. Picks an alpha or
+  numeric layout from each field's `type` / `inputmode`.
+
+### Patch Changes
+
+- Updated dependencies [032cab4]
+  - @ind-ds/core@0.3.0
+
 ## 0.2.2
 
 ### Patch Changes
@@ -22,7 +42,6 @@
 - b808c6f: Initial public release of the **ind-ds** industrial design system.
 
   **Packages**
-
   - `@ind-ds/tokens` — Style Dictionary-driven design tokens. CSS variables (`:root` + `[data-theme="light"]` + `[data-theme="high-contrast"]`), ESM exports, JSON dump, and Flutter `IndTokens` class. Industrial-specific layers: process states (running / stopped / fault / warning / maintenance), ISA-18.2 alarm priorities (HH / H / L / LL), feedback (success / warning / error / info), button / trend / surface semantic groups, dense 2px-stepped spacing, tabular figures.
   - `@ind-ds/core` — Stencil 4 web components, framework-agnostic. Atoms (LED, Value, Alarm, Valve, Button, Input, Checkbox, Divider, StatusDot, Progress, Select, Textarea, Dialog, SCARA canvas, Shelf canvas), molecules (NavItem, HealthCard, FillRow, ToolbarAction), organisms (AppHeader, SidebarNav, MqttMonitor, StatusBar). Plus a `/css/utilities` import shipping layout primitives (`.ind-stack`, `.ind-row`, `.ind-group`, `.ind-section-header`, `.ind-table`, `.ind-warn-note`, etc.).
   - `@ind-ds/react` — typed `forwardRef` wrappers around every custom element, with `useCustomEvent` wiring for Stencil events and array-property propagation for `IndSelect` / `IndScaraCanvas` / `IndShelfCanvas`.

@@ -1,6 +1,6 @@
 {
   "name": "@ind-ds/react",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "React 18+ wrappers for @ind-ds/core web components — typed forwardRef components for an industrial HMI/SCADA design system.",
   "keywords": [
     "react",
