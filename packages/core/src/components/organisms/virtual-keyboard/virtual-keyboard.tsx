@@ -29,6 +29,7 @@ export class IndVirtualKeyboard {
   @State() private target: Editable | null = null;
   @State() private layout: Layout = 'text';
   @State() private caps = false;
+  @State() private pressedKey: string | null = null;
 
   /** Fires when the keyboard opens (a field gained focus). */
   @Event() indKeyboardShow!: EventEmitter<void>;
@@ -37,7 +38,15 @@ export class IndVirtualKeyboard {
 
   @Watch('enabled')
   onEnabledChange(v: boolean) {
-    if (!v) this.setTarget(null);
+    if (!v) {
+      this.setTarget(null);
+    } else {
+      const active = deepActive();
+      if (isEditable(active)) {
+        this.setTarget(active);
+        this.layout = pickLayout(active);
+      }
+    }
   }
 
   connectedCallback() {
@@ -128,6 +137,14 @@ export class IndVirtualKeyboard {
     }
   };
 
+  private markPressed = (keyId: string) => {
+    this.pressedKey = keyId;
+  };
+
+  private clearPressed = () => {
+    this.pressedKey = null;
+  };
+
   render() {
     const open = this.target != null;
     const rows = this.layout === 'numeric' ? NUM_ROWS : textRows(this.locale);
@@ -163,6 +180,8 @@ export class IndVirtualKeyboard {
                   const label = key.t === 'char' ? (this.caps ? key.v.toUpperCase() : key.v) : key.label;
                   const isAct = key.t === 'act';
                   const held = key.t === 'act' && key.a === 'shift' && this.caps;
+                  const keyId = `${ri}-${ki}`;
+                  const isPressed = this.pressedKey === keyId;
                   return (
                     <button
                       key={ki}
@@ -173,13 +192,18 @@ export class IndVirtualKeyboard {
                         'key--act': isAct,
                         'key--enter': key.t === 'act' && key.a === 'enter',
                         'key--held': held,
+                        'key--pressed': isPressed,
                       }}
                       style={key.w ? { flexGrow: String(key.w) } : undefined}
                       aria-label={key.t === 'act' ? key.a : label}
                       onPointerDown={(e) => {
                         e.preventDefault();
+                        this.markPressed(keyId);
                         this.press(key);
                       }}
+                      onPointerUp={this.clearPressed}
+                      onPointerLeave={this.clearPressed}
+                      onPointerCancel={this.clearPressed}
                     >
                       {label}
                     </button>
@@ -291,14 +315,19 @@ function insertText(el: Editable, text: string): void {
     fireInput(el);
     return;
   }
-  const start = el.selectionStart;
-  const end = el.selectionEnd;
-  if (start == null || end == null) {
+  try {
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    if (start == null || end == null) {
+      setNativeValue(el, el.value + text);
+    } else {
+      setNativeValue(el, el.value.slice(0, start) + text + el.value.slice(end));
+      const pos = start + text.length;
+      el.setSelectionRange(pos, pos);
+    }
+  } catch {
+    // selectionStart/selectionEnd can throw on certain input types (e.g., email, number)
     setNativeValue(el, el.value + text);
-  } else {
-    setNativeValue(el, el.value.slice(0, start) + text + el.value.slice(end));
-    const pos = start + text.length;
-    el.setSelectionRange(pos, pos);
   }
   fireInput(el);
 }
@@ -309,18 +338,23 @@ function backspace(el: Editable): void {
     fireInput(el);
     return;
   }
-  const start = el.selectionStart;
-  const end = el.selectionEnd;
-  if (start == null || end == null) {
+  try {
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    if (start == null || end == null) {
+      setNativeValue(el, el.value.slice(0, -1));
+    } else if (start !== end) {
+      setNativeValue(el, el.value.slice(0, start) + el.value.slice(end));
+      el.setSelectionRange(start, start);
+    } else if (start > 0) {
+      setNativeValue(el, el.value.slice(0, start - 1) + el.value.slice(end));
+      el.setSelectionRange(start - 1, start - 1);
+    } else {
+      return;
+    }
+  } catch {
+    // selectionStart/selectionEnd can throw on certain input types (e.g., email, number)
     setNativeValue(el, el.value.slice(0, -1));
-  } else if (start !== end) {
-    setNativeValue(el, el.value.slice(0, start) + el.value.slice(end));
-    el.setSelectionRange(start, start);
-  } else if (start > 0) {
-    setNativeValue(el, el.value.slice(0, start - 1) + el.value.slice(end));
-    el.setSelectionRange(start - 1, start - 1);
-  } else {
-    return;
   }
   fireInput(el);
 }
