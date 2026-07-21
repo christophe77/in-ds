@@ -1,0 +1,178 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CodeTabs from '@/components/marketing/CodeTabs.astro';
+import { SITE } from '@/data/site';
+import { INSTALL_TABS } from '@/data/integrations';
+import { url } from '@/lib/url';
+
+const tokens = INSTALL_TABS.find((t) => t.id === 'tokens')!;
+
+const natives = [
+  { name: 'Flutter', detail: 'Consume the Dart export via the IndTokens class from @ind-ds/tokens/dart.' },
+  { name: 'Qt', detail: 'Read the JSON export and map values into your own QML or widget theme.' },
+  { name: '.NET', detail: 'Load the JSON export into resource dictionaries or a theme service.' },
+  { name: 'Swift', detail: 'Generate colour and spacing constants from the JSON export.' },
+  { name: 'Kotlin', detail: 'Feed the JSON export into your theme definitions.' },
+];
+---
+
+<BaseLayout
+  title="Design Tokens — ind-ds"
+  description="Share ind-ds design tokens across web and native stacks — CSS variables, a JS/TS module, JSON and Dart — and understand where shared tokens end and native components would begin."
+>
+  <PageHeader
+    eyebrow="Integrations"
+    title="Tokens and native stacks"
+    lead="@ind-ds/tokens is the foundation the whole system builds on: semantic values for process states, alarm priorities, dense spacing and typography, exported in formats that web and native applications can share."
+    crumbs={[
+      { label: 'Home', href: url('/') },
+      { label: 'Integrations', href: url('/integrations') },
+      { label: 'Tokens' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Formats</p>
+      <h2>One source, four exports</h2>
+      <p class="lead">
+        The tokens package (0.2.1) publishes the same values as CSS custom properties, a
+        JavaScript/TypeScript module, JSON and Dart. Use whichever format matches your stack — the
+        naming and semantics stay consistent across all of them.
+      </p>
+      <CodeTabs
+        group="tokens-formats"
+        label="Token formats"
+        tabs={[
+          { id: 'css', label: 'CSS', lang: tokens.usageLang, code: tokens.usage },
+          {
+            id: 'js',
+            label: 'JS / TS',
+            lang: 'ts',
+            code: `// The JS/TS module exposes the same values as an object.
+import tokens from '@ind-ds/tokens';
+
+const panelBg = tokens.surface.panel;
+const faultFg = tokens.state.fault.fg;`,
+          },
+          {
+            id: 'json',
+            label: 'JSON',
+            lang: 'ts',
+            code: `// The JSON export is for tooling and non-JS stacks.
+import data from '@ind-ds/tokens/json';
+
+// Feed 'data' into a theme service, a build step,
+// or a native resource generator.`,
+          },
+          {
+            id: 'dart',
+            label: 'Dart',
+            lang: 'ts',
+            code: `// Flutter reads tokens through the Dart export.
+// import 'package:ind_ds_tokens/ind_ds_tokens.dart';
+//
+// final panel = IndTokens.surface.panel;
+// final fault = IndTokens.state.fault.fg;`,
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Theming</p>
+      <h2>Dark, light and high-contrast</h2>
+      <p class="lead">
+        Import the base stylesheet plus the light and high-contrast overrides. Dark is the base;
+        switching theme is a single <code>data-theme</code> attribute change on any ancestor
+        element. For layout helpers, also import <code>@ind-ds/core/css/utilities</code>, which
+        provides classes such as <code>.ind-stack</code>.
+      </p>
+      <CodeTabs
+        group="tokens-theming"
+        label="Theme imports and switching"
+        tabs={[
+          {
+            id: 'imports',
+            label: 'CSS',
+            lang: 'css',
+            code: `@import '@ind-ds/tokens/css';            /* base = dark */
+@import '@ind-ds/tokens/css/light';
+@import '@ind-ds/tokens/css/high-contrast';
+@import '@ind-ds/core/css/utilities';    /* layout helpers */`,
+          },
+          {
+            id: 'switch',
+            label: 'HTML',
+            lang: 'html',
+            code: `<!-- Theme applies to everything inside the element -->
+<body data-theme="dark">
+  <section data-theme="light">
+    <div class="panel">Light panel inside a dark page</div>
+  </section>
+</body>`,
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Native stacks</p>
+      <h2>Share tokens, render your own widgets</h2>
+      <p class="lead">
+        Native applications can share the same tokens to keep colour, spacing, alarm priorities and
+        process-state semantics consistent with the web. Read the Dart or JSON export and map the
+        values into your platform's theming system.
+      </p>
+      <div class="grid grid-3 int-native">
+        {
+          natives.map((n) => (
+            <div class="card stack">
+              <h3 class="int-native__name">{n.name}</h3>
+              <p class="int-native__detail">{n.detail}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Scope</p>
+      <h2>Shared tokens are not native components</h2>
+      <div class="panel int-limit">
+        <p>
+          There is no official native component binding today. Native stacks such as Flutter, Qt,
+          .NET, Swift and Kotlin can share the tokens, but they render their own native widgets —
+          the Web Components themselves need a DOM and run in the browser or a browser-based shell.
+        </p>
+        <p class="num">
+          To render the actual ind-ds components in a desktop or mobile app, host them in a browser
+          engine — Electron, Tauri or a platform WebView — rather than expecting a native binding.
+        </p>
+      </div>
+      <p class="section__cta">
+        <a href={url('/integrations/web-components')} class="btn btn--default">Web Components</a>
+        <a href={SITE.repo} target="_blank" rel="noopener" class="btn btn--ghost">View on GitHub →</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .int-native { margin-top: var(--ind-spacing-5); align-items: start; }
+  .int-native__name { font-size: var(--ind-font-size-md); margin: 0; }
+  .int-native__detail { margin: 0; font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+
+  .int-limit { margin-top: var(--ind-spacing-5); padding: var(--ind-spacing-6); }
+  .int-limit p { max-width: 64ch; }
+  .int-limit p + p { margin-top: var(--ind-spacing-4); }
+
+  .section__cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-6); }
+</style>

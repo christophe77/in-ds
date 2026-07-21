@@ -1,0 +1,374 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HeroComposition from '@/components/demos/HeroComposition.astro';
+import ComponentShowcase from '@/components/demos/ComponentShowcase.astro';
+import ThemeComparison from '@/components/demos/ThemeComparison.astro';
+import CodeTabs from '@/components/marketing/CodeTabs.astro';
+import { SITE, PROOF_POINTS } from '@/data/site';
+import { INSTALL_TABS } from '@/data/integrations';
+import { USE_CASES } from '@/data/use-cases';
+import { url } from '@/lib/url';
+
+const softwareJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: SITE.name,
+  applicationCategory: 'DeveloperApplication',
+  operatingSystem: 'Web',
+  description: SITE.description,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  license: 'https://opensource.org/licenses/MIT',
+  url: SITE.repo,
+};
+
+const generic = [
+  'Success / warning / error',
+  'Cards, forms, dialogs',
+  'Consumer-scale spacing',
+  'Decorative status colors',
+  'User-driven refresh',
+  'Framework-specific components',
+];
+const industrial = [
+  'Running / stopped / fault / maintenance',
+  'Alarm priority & acknowledgement',
+  'Process values & engineering units',
+  'Equipment symbols & controls',
+  'Dense 24/7 operational displays',
+  'Framework-independent contracts',
+];
+
+const hmiFeatures = [
+  { title: 'Semantic process states', body: 'Explicit operational states instead of generic decorative colors — running, stopped, fault, warning, maintenance.' },
+  { title: 'Alarm-aware foundations', body: 'Consistent ISA-18.2 priorities (HH/H/L/LL), acknowledgement states and abnormal-condition styling.' },
+  { title: 'Dense information layouts', body: 'Built for screens where operators compare many values at once, with tabular numerals throughout.' },
+  { title: 'Accessible operation', body: 'Visible focus, reduced-motion support, semantic markup and a high-contrast theme.' },
+  { title: 'Cross-platform tokens', body: 'Keep terminology and visual meaning consistent across web and native, via CSS, JS, JSON and Dart exports.' },
+  { title: 'Incremental adoption', body: 'Install tokens only, individual Web Components, framework wrappers, or the MQTT helpers.' },
+];
+
+const installTabs = INSTALL_TABS.map((t) => ({
+  id: t.id,
+  label: t.label,
+  code: `${t.install}`,
+  lang: 'bash',
+}));
+---
+
+<BaseLayout
+  title="ind-ds — Open-Source Design System for Industrial HMI and SCADA"
+  description={SITE.description}
+  jsonLd={[softwareJsonLd]}
+>
+  {/* ── Hero ─────────────────────────────────────────────── */}
+  <section class="hero section">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <p class="eyebrow">Open-source industrial design system</p>
+        <h1>The open-source design system for industrial software.</h1>
+        <p class="lead">
+          Build consistent HMI, SCADA, monitoring, and control interfaces with industrial Web
+          Components, typed React and Vue wrappers, semantic design tokens, and MQTT bindings.
+        </p>
+        <div class="hero__actions">
+          <a href={url('/components')} class="btn btn--primary">Explore components</a>
+          <a href={url('/getting-started')} class="btn btn--ghost">Get started</a>
+          <a href={SITE.repo} class="hero__github" target="_blank" rel="noopener">View on GitHub →</a>
+        </div>
+        <ul class="hero__proof" aria-label="Key capabilities">
+          {PROOF_POINTS.map((p) => <li>{p}</li>)}
+        </ul>
+      </div>
+      <div class="hero__demo">
+        <HeroComposition />
+      </div>
+    </div>
+  </section>
+
+  {/* ── Why generic UI isn't enough ──────────────────────── */}
+  <section class="section" aria-labelledby="why-heading">
+    <div class="container">
+      <p class="eyebrow">The gap</p>
+      <h2 id="why-heading">Generic UI libraries stop where industrial semantics begin.</h2>
+      <p class="lead">
+        Forms, dialogs and tables are only part of an industrial application. Operators also need
+        clear equipment states, alarm priorities, process values, setpoints, operating modes,
+        connection status and dense real-time views.
+      </p>
+      <div class="compare grid grid-2">
+        <div class="card">
+          <h3 class="compare__title">Generic application concepts</h3>
+          <ul class="compare__list compare__list--muted">
+            {generic.map((g) => <li>{g}</li>)}
+          </ul>
+        </div>
+        <div class="card compare__ind">
+          <h3 class="compare__title">Industrial application concepts</h3>
+          <ul class="compare__list">
+            {industrial.map((i) => <li>{i}</li>)}
+          </ul>
+        </div>
+      </div>
+      <p class="compare__note">
+        ind-ds provides the industrial layer so teams don’t rebuild it for every machine, line or
+        monitoring application. It complements the generic libraries you already use for application
+        infrastructure.
+      </p>
+    </div>
+  </section>
+
+  {/* ── Real components ──────────────────────────────────── */}
+  <section class="section" aria-labelledby="components-heading">
+    <div class="container">
+      <p class="eyebrow">Components</p>
+      <h2 id="components-heading">Components that speak the language of operations.</h2>
+      <p class="lead">
+        {SITE.componentCount} framework-agnostic Web Components — from pumps and valves to alarm
+        panels and full control faceplates. Every element below is real and rendered live.
+      </p>
+      <ComponentShowcase />
+      <p class="section__cta">
+        <a href={url('/components')} class="btn btn--default">Explore all components</a>
+        <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook</a>
+      </p>
+    </div>
+  </section>
+
+  {/* ── Architecture ─────────────────────────────────────── */}
+  <section class="section" aria-labelledby="arch-heading">
+    <div class="container">
+      <p class="eyebrow">Architecture</p>
+      <h2 id="arch-heading">One industrial vocabulary across frameworks and platforms.</h2>
+      <p class="lead">
+        Use the Web Components directly, install typed React or Vue wrappers, or share the token
+        system with native applications. The visual language and process semantics stay consistent.
+      </p>
+      <div class="arch grid grid-2">
+        <div class="card arch__flow" aria-label="Component architecture">
+          <span class="arch__node arch__node--accent">Industrial design tokens</span>
+          <span class="arch__arrow" aria-hidden="true">↓</span>
+          <span class="arch__node">Stencil Web Components</span>
+          <span class="arch__arrow" aria-hidden="true">↓</span>
+          <div class="arch__fan">
+            <span class="arch__leaf">React</span>
+            <span class="arch__leaf">Vue</span>
+            <span class="arch__leaf">Vanilla</span>
+            <span class="arch__leaf">Lit</span>
+            <span class="arch__leaf arch__leaf--muted">Angular*</span>
+            <span class="arch__leaf arch__leaf--muted">Svelte*</span>
+          </div>
+          <span class="arch__arrow" aria-hidden="true">↓</span>
+          <div class="arch__fan">
+            <span class="arch__leaf">Browser</span>
+            <span class="arch__leaf">Electron</span>
+            <span class="arch__leaf">Tauri</span>
+            <span class="arch__leaf">WebView</span>
+            <span class="arch__leaf">Embedded Chromium</span>
+          </div>
+          <p class="arch__foot">* via standard Custom Elements — no dedicated wrapper package.</p>
+        </div>
+        <div class="card arch__flow" aria-label="Token architecture">
+          <span class="arch__node arch__node--accent">Tokens</span>
+          <span class="arch__arrow" aria-hidden="true">↓</span>
+          <div class="arch__fan arch__fan--col">
+            <span class="arch__leaf">CSS variables</span>
+            <span class="arch__leaf">JavaScript / TypeScript</span>
+            <span class="arch__leaf">JSON</span>
+            <span class="arch__leaf">Dart</span>
+          </div>
+          <p class="arch__foot">
+            Native implementations (Flutter, Qt, .NET, Swift, Kotlin) can share the same tokens and
+            semantic contracts — even when they render their own native widgets rather than the Web
+            Components.
+          </p>
+        </div>
+      </div>
+      <p class="section__cta">
+        <a href={url('/integrations')} class="btn btn--default">See all integrations</a>
+      </p>
+    </div>
+  </section>
+
+  {/* ── MQTT ─────────────────────────────────────────────── */}
+  <section class="section" aria-labelledby="mqtt-heading">
+    <div class="container">
+      <p class="eyebrow">Live data</p>
+      <h2 id="mqtt-heading">Connect interface state to live process data.</h2>
+      <p class="lead">
+        Use the lightweight <code>@ind-ds/mqtt</code> helpers to map broker topics and payloads to
+        component attributes — without coupling the component system to a specific framework.
+      </p>
+      <div class="mqtt grid grid-2">
+        <CodeTabs
+          group="mqtt-home"
+          label="MQTT binding example"
+          tabs={[
+            {
+              id: 'bind',
+              label: 'bind.ts',
+              lang: 'ts',
+              code: INSTALL_TABS.find((t) => t.id === 'mqtt')!.usage,
+            },
+          ]}
+        />
+        <div class="card mqtt__notes stack">
+          <p><strong>What it does</strong> — subscribes to topics, transforms payloads, and sets component attributes so UI semantics stay consistent.</p>
+          <p><strong>What it doesn’t</strong> — it is a binding helper, not a SCADA server, historian, broker or protocol stack. Your application owns data acquisition and security.</p>
+          <p class="mqtt__sec">Use <code>wss://</code> and broker authorization in production. Never embed credentials in public frontend code, and don’t expose control networks directly to browsers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── HMI realities ────────────────────────────────────── */}
+  <section class="section" aria-labelledby="hmi-heading">
+    <div class="container">
+      <p class="eyebrow">Designed for HMI realities</p>
+      <h2 id="hmi-heading">Built for interfaces that operate continuously.</h2>
+      <div class="grid grid-3 features">
+        {
+          hmiFeatures.map((f) => (
+            <div class="card">
+              <h3 class="features__title">{f.title}</h3>
+              <p>{f.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* ── Themes ───────────────────────────────────────────── */}
+  <section class="section" aria-labelledby="themes-heading">
+    <div class="container">
+      <p class="eyebrow">Themes</p>
+      <h2 id="themes-heading">Dark, light and high-contrast — from the same tokens.</h2>
+      <p class="lead">
+        Switching theme is a single <code>data-theme</code> attribute change. Choosing a theme does
+        not by itself guarantee accessibility compliance — it is one input to an accessible design.
+      </p>
+      <ThemeComparison />
+    </div>
+  </section>
+
+  {/* ── Use cases ────────────────────────────────────────── */}
+  <section class="section" aria-labelledby="uc-heading">
+    <div class="container">
+      <p class="eyebrow">Use cases</p>
+      <h2 id="uc-heading">Where teams use ind-ds.</h2>
+      <div class="grid grid-4 usecases">
+        {
+          USE_CASES.map((uc) => (
+            <a
+              href={uc.hasPage ? url(`/use-cases/${uc.slug}`) : url('/use-cases')}
+              class="card card--link usecases__card"
+            >
+              <h3 class="usecases__title">{uc.title}</h3>
+              <p class="usecases__tagline">{uc.tagline}</p>
+            </a>
+          ))
+        }
+      </div>
+      <p class="section__cta">
+        <a href={url('/use-cases')} class="btn btn--default">Explore use cases</a>
+      </p>
+    </div>
+  </section>
+
+  {/* ── Install ──────────────────────────────────────────── */}
+  <section class="section" aria-labelledby="install-heading">
+    <div class="container">
+      <p class="eyebrow">Install</p>
+      <h2 id="install-heading">Start with the layer you need.</h2>
+      <p class="lead">Every package is published to npm under the <code>@ind-ds</code> scope, MIT licensed.</p>
+      <div class="install grid grid-2">
+        <CodeTabs group="install-home" label="Install commands" tabs={installTabs} />
+        <div class="card install__note stack">
+          <p>Adopt incrementally: tokens for a native app, a single Web Component in an existing page, typed wrappers for a React or Vue app, or the MQTT helpers for live data.</p>
+          <p class="num">Requires Node 20+ for local development. React wrappers need React 18+; Vue wrappers need Vue 3.3+.</p>
+          <a href={url('/getting-started')} class="btn btn--primary">Build your first industrial screen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Open source CTA ──────────────────────────────────── */}
+  <section class="section" aria-labelledby="oss-heading">
+    <div class="container">
+      <div class="oss panel">
+        <p class="eyebrow">Open source</p>
+        <h2 id="oss-heading">Help build a shared foundation for industrial software.</h2>
+        <p class="lead">
+          Explore the components, test the Storybook, use the packages in a prototype, and help
+          shape the project through real industrial feedback — components, accessibility, docs,
+          framework examples, bug reports and use-case validation are all welcome.
+        </p>
+        <div class="oss__actions">
+          <a href={SITE.repo} target="_blank" rel="noopener" class="btn btn--primary">Star on GitHub</a>
+          <a href={url('/contributing')} class="btn btn--default">Read contributing guide</a>
+          <a href={SITE.issues} target="_blank" rel="noopener" class="btn btn--ghost">Open an issue</a>
+          <a href={url('/roadmap')} class="btn btn--ghost">Explore roadmap</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero__inner { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: var(--ind-spacing-8); align-items: center; }
+  .hero__copy { max-width: 34rem; }
+  .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-6); }
+  .hero__github { color: var(--ind-surface-text-secondary); text-decoration: none; font-size: var(--ind-font-size-sm); }
+  .hero__github:hover { color: var(--ind-surface-text-primary); }
+  .hero__proof { list-style: none; margin: var(--ind-spacing-6) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--ind-spacing-2) var(--ind-spacing-4); }
+  .hero__proof li { position: relative; padding-left: 1.1rem; font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); }
+  .hero__proof li::before { content: ''; position: absolute; left: 0; top: 0.45em; width: 0.5rem; height: 0.5rem; border-radius: var(--ind-radius-full); background: var(--ind-state-running-bg); }
+
+  h2 { margin-top: 0; }
+  .section .lead { margin-bottom: var(--ind-spacing-6); }
+  .section__cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-6); }
+
+  .compare { margin-top: var(--ind-spacing-5); }
+  .compare__title { font-size: var(--ind-font-size-md); margin-bottom: var(--ind-spacing-4); }
+  .compare__list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--ind-spacing-2); }
+  .compare__list li { position: relative; padding-left: 1.3rem; font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+  .compare__list li::before { content: ''; position: absolute; left: 0; top: 0.5em; width: 0.55rem; height: 0.55rem; border-radius: 2px; background: var(--ind-state-running-bg); }
+  .compare__list--muted li::before { background: var(--ind-surface-border-strong); border-radius: var(--ind-radius-full); }
+  .compare__ind { border-color: var(--ind-surface-border-strong); }
+  .compare__note { margin-top: var(--ind-spacing-5); max-width: 60ch; }
+
+  .arch { margin-top: var(--ind-spacing-5); }
+  .arch__flow { display: grid; gap: var(--ind-spacing-3); justify-items: center; text-align: center; }
+  .arch__node { font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-sm); padding: 0.5rem 0.9rem; border: 1px solid var(--ind-surface-border-strong); border-radius: var(--ind-radius-sm); background: var(--ind-surface-sunken); }
+  .arch__node--accent { border-color: var(--ind-state-running-border); color: var(--ind-state-running-fg); }
+  .arch__arrow { color: var(--ind-surface-text-muted); }
+  .arch__fan { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--ind-spacing-2); }
+  .arch__fan--col { flex-direction: column; align-items: center; }
+  .arch__leaf { font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-xs); padding: 0.3rem 0.6rem; border: 1px solid var(--ind-surface-border-subtle); border-radius: var(--ind-radius-sm); color: var(--ind-surface-text-secondary); }
+  .arch__leaf--muted { color: var(--ind-surface-text-muted); border-style: dashed; }
+  .arch__foot { font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); margin: var(--ind-spacing-2) 0 0; }
+
+  .mqtt { margin-top: var(--ind-spacing-5); align-items: start; }
+  .mqtt__notes p { font-size: var(--ind-font-size-sm); }
+  .mqtt__sec { color: var(--ind-surface-text-muted); }
+
+  .features { margin-top: var(--ind-spacing-5); }
+  .features__title { font-size: var(--ind-font-size-md); margin-bottom: var(--ind-spacing-2); }
+  .features .card p { margin: 0; font-size: var(--ind-font-size-sm); }
+
+  .usecases { margin-top: var(--ind-spacing-5); }
+  .usecases__card { text-decoration: none; }
+  .usecases__title { font-size: var(--ind-font-size-md); margin-bottom: var(--ind-spacing-1); color: var(--ind-surface-text-primary); }
+  .usecases__tagline { margin: 0; font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); }
+
+  .install { margin-top: var(--ind-spacing-5); align-items: start; }
+  .install__note p { font-size: var(--ind-font-size-sm); }
+
+  .oss { padding: var(--ind-spacing-8); text-align: center; }
+  .oss .lead { margin-inline: auto; max-width: 60ch; }
+  .oss__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-6); }
+
+  @media (max-width: 960px) {
+    .hero__inner { grid-template-columns: 1fr; gap: var(--ind-spacing-6); }
+  }
+</style>

@@ -1,0 +1,120 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { SITE } from '@/data/site';
+import { url } from '@/lib/url';
+---
+
+<BaseLayout
+  title="Machine HMI — ind-ds"
+  description="Build compact, touch-friendly machine HMIs with ind-ds: machine modes, start/stop, setpoints, alarms, equipment state and connection status — often on an offline embedded panel."
+>
+  <PageHeader
+    eyebrow="Use case"
+    title="Machine HMI"
+    lead="A single machine or skid usually has one operator, one screen and little room for error. ind-ds gives that screen explicit operating modes, controls, setpoints and equipment state instead of generic UI widgets."
+    crumbs={[
+      { label: 'Home', href: url('/') },
+      { label: 'Use cases', href: url('/use-cases') },
+      { label: 'Machine HMI' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container stack uc-detail">
+      <h2>Typical environment</h2>
+      <p>
+        A fixed panel mounted on or near the machine — frequently an embedded Chromium display on an
+        industrial PC or a WebView on a panel PC. Screens are small (7–15 inch is common), operated by
+        gloved hands or a resistive touch layer, and are often expected to keep working when the wider
+        network is unavailable. Lighting varies from dim enclosures to bright factory floors, so the
+        dark and high-contrast themes both matter.
+      </p>
+
+      <h2>User roles</h2>
+      <p>
+        The primary role is a machine operator who starts, stops and adjusts the machine and responds
+        to alarms. Secondary roles include a line supervisor checking mode and throughput, and a
+        maintenance technician reading equipment state and recent faults. The interface should be
+        readable and safe for all three without a manual.
+      </p>
+
+      <h2>Interface challenges</h2>
+      <p>
+        Touch targets must be large and unambiguous. Machine mode (for example manual, automatic,
+        maintenance) has to be visible at a glance and hard to change by accident. Start, stop and
+        emergency-stop affordances must be distinct. Setpoints need clear engineering units and safe
+        entry. Alarms must stand out without turning the whole screen into noise, and connection loss
+        must be obvious rather than silently showing stale values.
+      </p>
+
+      <h2>How ind-ds helps</h2>
+      <p>
+        The control components map directly to these needs. <code>ind-mode-selector</code> renders the
+        current operating mode and lets the operator switch it deliberately.
+        <code>ind-start-stop-control</code> and <code>ind-estop</code> provide the primary machine
+        actions with consistent, high-visibility styling. <code>ind-setpoint-control</code> handles
+        target entry with units, and <code>ind-virtual-keyboard</code> supports numeric input on a
+        touch-only panel. Equipment symbols such as <code>ind-pump</code>, <code>ind-valve</code> and
+        <code>ind-motor</code> carry the semantic states running, stopped, fault, warning and
+        maintenance, while <code>ind-value</code>, <code>ind-gauge</code> and
+        <code>ind-linear-gauge</code> show live process readings. <code>ind-alarm-panel</code> and
+        <code>ind-alarm-summary</code> surface ISA-18.2-aware priorities (HH/H/L/LL) with acknowledge
+        and timestamps, and <code>ind-connection-indicator</code> makes link status explicit.
+      </p>
+
+      <h2>Example composition</h2>
+      <p>A compact single-machine panel might be described as:</p>
+      <ul>
+        <li>Top bar: <code>ind-app-header</code> with machine name, plus <code>ind-status-bar</code> and <code>ind-connection-indicator</code>.</li>
+        <li>Left: an equipment mimic using <code>ind-pump</code>, <code>ind-valve</code> and <code>ind-tank</code> with live states.</li>
+        <li>Centre: <code>ind-mode-selector</code>, <code>ind-start-stop-control</code>, <code>ind-setpoint-control</code> and a prominent <code>ind-estop</code>.</li>
+        <li>Right: <code>ind-value</code> and <code>ind-linear-gauge</code> readouts, with <code>ind-sparkline</code> for recent trend.</li>
+        <li>Bottom: <code>ind-alarm-summary</code>, expanding to <code>ind-alarm-panel</code>.</li>
+      </ul>
+      <p>These are named for illustration; the components are not rendered live on this page.</p>
+
+      <h2>Integration approach</h2>
+      <p>
+        Use the Web Components directly, or the typed React (18+) or Vue (3.3+) wrappers if the panel
+        app already uses one of those frameworks. Live values can be bound with the
+        <code>@ind-ds/mqtt</code> helpers, which map broker topics to component attributes. The helpers
+        bind data to the DOM; they are not a broker, PLC driver or historian, so the application still
+        owns data acquisition, security and network segmentation between the control network and the
+        panel.
+      </p>
+
+      <h2>Adoption strategy</h2>
+      <p>
+        Start by adopting the tokens so the panel matches your visual language, then replace the most
+        semantic elements first — equipment states, alarms and the mode selector — before migrating
+        the rest of the screen. A single machine is a good pilot because its scope is bounded and the
+        feedback loop with operators is short.
+      </p>
+
+      <h2>Limitations</h2>
+      <p>
+        ind-ds does not replace PLC programming, safety engineering or alarm rationalisation. An
+        <code>ind-estop</code> in the browser is an interface element, not a certified safety function;
+        real emergency stop must be hardwired and engineered to the applicable standards. Offline
+        operation depends on how you bundle and cache the app and on your local data source — the
+        components render offline, but they cannot invent data the panel can no longer reach. Choosing
+        the high-contrast theme is one input to accessibility, not a compliance guarantee.
+      </p>
+
+      <div class="panel uc-cta">
+        <a href={url('/components')} class="btn btn--default">Explore components</a>
+        <a href={url('/getting-started')} class="btn btn--ghost">Get started</a>
+        <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .uc-detail h2 { margin-top: var(--ind-spacing-6); }
+  .uc-detail p { max-width: 68ch; }
+  .uc-detail ul { max-width: 68ch; padding-left: 1.2rem; display: grid; gap: var(--ind-spacing-2); }
+  .uc-detail code { font-family: var(--ind-font-family-mono); font-size: 0.9em; }
+  .uc-cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-8); padding: var(--ind-spacing-6); }
+</style>

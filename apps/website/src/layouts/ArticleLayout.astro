@@ -1,0 +1,105 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { SITE } from '@/data/site';
+import { url } from '@/lib/url';
+
+export interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  updatedDate?: Date;
+  author: string;
+  tags: string[];
+  ogImage?: string;
+}
+
+const { title, description, publishDate, updatedDate, author, tags, ogImage } = Astro.props;
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+const iso = (d: Date) => d.toISOString();
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: iso(publishDate),
+  dateModified: iso(updatedDate ?? publishDate),
+  author: { '@type': 'Person', name: author },
+  publisher: { '@type': 'Organization', name: SITE.name },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+  keywords: tags.join(', '),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  type="article"
+  ogImage={ogImage}
+  wide={false}
+  article={{ publishedTime: iso(publishDate), modifiedTime: iso(updatedDate ?? publishDate), author, tags }}
+  jsonLd={[articleLd]}
+>
+  <article class="article">
+    <nav class="article__crumbs" aria-label="Breadcrumb">
+      <a href={url('/blog')}>← Blog</a>
+    </nav>
+    <header class="article__head">
+      <div class="article__meta">
+        <time datetime={iso(publishDate)}>{fmt(publishDate)}</time>
+        <span aria-hidden="true">·</span>
+        <span>{author}</span>
+      </div>
+      <h1>{title}</h1>
+      <p class="lead">{description}</p>
+      {tags.length > 0 && (
+        <ul class="article__tags" aria-label="Tags">
+          {tags.map((t) => <li class="tag-chip">{t}</li>)}
+        </ul>
+      )}
+      {updatedDate && <p class="article__updated">Updated {fmt(updatedDate)}</p>}
+    </header>
+
+    <div class="prose">
+      <slot />
+    </div>
+
+    <footer class="article__foot panel">
+      <p>Built the pattern in this article? See it implemented in ind-ds.</p>
+      <div class="article__foot-actions">
+        <a href={url('/getting-started')} class="btn btn--primary">Get started</a>
+        <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook →</a>
+      </div>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .article { padding-block: var(--site-section-y); }
+  .article__crumbs { margin-bottom: var(--ind-spacing-5); }
+  .article__crumbs a { font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-muted); text-decoration: none; }
+  .article__crumbs a:hover { color: var(--ind-surface-text-primary); }
+  .article__meta { display: flex; gap: var(--ind-spacing-2); font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); margin-bottom: var(--ind-spacing-3); }
+  .article__head h1 { margin-bottom: var(--ind-spacing-3); }
+  .article__tags { list-style: none; display: flex; flex-wrap: wrap; gap: var(--ind-spacing-2); margin: var(--ind-spacing-4) 0 0; padding: 0; }
+  .article__updated { font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); margin-top: var(--ind-spacing-2); }
+
+  .prose { margin-top: var(--ind-spacing-7); }
+  .prose :global(h2) { font-size: var(--ind-font-size-xl); margin-top: var(--ind-spacing-8); margin-bottom: var(--ind-spacing-3); }
+  .prose :global(h3) { font-size: var(--ind-font-size-lg); margin-top: var(--ind-spacing-6); margin-bottom: var(--ind-spacing-2); }
+  .prose :global(p) { margin-bottom: var(--ind-spacing-4); line-height: var(--ind-font-line-height-loose); }
+  .prose :global(ul), .prose :global(ol) { margin: 0 0 var(--ind-spacing-4); padding-left: 1.4rem; display: grid; gap: var(--ind-spacing-2); }
+  .prose :global(li) { line-height: var(--ind-font-line-height-normal); }
+  .prose :global(a) { color: var(--ind-state-running-fg); }
+  .prose :global(strong) { color: var(--ind-surface-text-primary); }
+  .prose :global(blockquote) { margin: 0 0 var(--ind-spacing-4); padding-left: var(--ind-spacing-4); border-left: 3px solid var(--ind-surface-border-strong); color: var(--ind-surface-text-secondary); }
+  .prose :global(pre) { margin-bottom: var(--ind-spacing-5); }
+  .prose :global(hr) { border: 0; border-top: 1px solid var(--ind-surface-border-subtle); margin: var(--ind-spacing-6) 0; }
+  .prose :global(table) { width: 100%; border-collapse: collapse; margin-bottom: var(--ind-spacing-5); font-size: var(--ind-font-size-sm); display: block; overflow-x: auto; }
+  .prose :global(th), .prose :global(td) { border: 1px solid var(--ind-surface-border-subtle); padding: var(--ind-spacing-2) var(--ind-spacing-3); text-align: left; }
+
+  .article__foot { margin-top: var(--ind-spacing-8); padding: var(--ind-spacing-6); }
+  .article__foot p { margin: 0 0 var(--ind-spacing-4); }
+  .article__foot-actions { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); }
+</style>

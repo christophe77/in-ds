@@ -1,0 +1,114 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { SITE } from '@/data/site';
+import { url } from '@/lib/url';
+---
+
+<BaseLayout
+  title="Industrial IoT — ind-ds"
+  description="Build web dashboards for remote industrial equipment with ind-ds: device state, connection quality, fleet status and live MQTT data, adopted progressively."
+>
+  <PageHeader
+    eyebrow="Use case"
+    title="Industrial IoT"
+    lead="Remote and distributed equipment is monitored through web dashboards where connection quality is as important as the process value itself. ind-ds provides the device, fleet and connection components — and MQTT binding helpers for live data."
+    crumbs={[
+      { label: 'Home', href: url('/') },
+      { label: 'Use cases', href: url('/use-cases') },
+      { label: 'Industrial IoT' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container stack uc-detail">
+      <h2>Typical environment</h2>
+      <p>
+        Equipment spread across many sites — pumping stations, remote tanks, distributed machines —
+        reporting over networks that are not always reliable. Dashboards are usually browser-based and
+        viewed on a mix of desktop and mobile. Because links drop and reconnect, the interface must be
+        honest about whether a value is live, stale or unreachable.
+      </p>
+
+      <h2>User roles</h2>
+      <p>
+        A remote operations team watches the fleet and responds to abnormal devices; a field technician
+        checks a specific unit before or during a visit; a manager reviews overall availability. Each
+        needs to trust that a green tile really means the device is connected and current.
+      </p>
+
+      <h2>Interface challenges</h2>
+      <p>
+        Connection quality has to be a first-class signal, not an afterthought, so operators can tell a
+        genuine fault from a lost link. Device state must be legible across a large fleet without
+        overwhelming the view. Live data arriving over MQTT needs to map cleanly onto the interface,
+        and dashboards must remain usable on smaller screens for field work.
+      </p>
+
+      <h2>How ind-ds helps</h2>
+      <p>
+        Connection is served by <code>ind-connection-indicator</code>, <code>ind-signal-quality</code>
+        and <code>ind-network-status-card</code>, which make link and quality explicit, with
+        <code>ind-device-diagnostics-panel</code> for a closer look at a single unit and
+        <code>ind-mqtt-monitor</code> for inspecting the data feed itself. Fleet-level state uses
+        <code>ind-asset-overview</code> and <code>ind-equipment-dashboard</code>, with
+        <code>ind-kpi-card</code>, <code>ind-value</code>, <code>ind-gauge</code> and
+        <code>ind-sparkline</code> for per-device readouts. Semantic states — running, stopped, fault,
+        warning, maintenance for equipment and connected, connecting, disconnected, error for links —
+        keep the whole fleet legible. The <code>@ind-ds/mqtt</code> helpers map broker topics and
+        payloads to component attributes so live data updates the DOM directly.
+      </p>
+
+      <h2>Example composition</h2>
+      <p>A remote-fleet dashboard might be described as:</p>
+      <ul>
+        <li>Header: <code>ind-app-header</code> and <code>ind-status-bar</code> with overall fleet health.</li>
+        <li>Fleet grid: <code>ind-asset-overview</code> tiles, each pairing device state with <code>ind-connection-indicator</code> and <code>ind-signal-quality</code>.</li>
+        <li>Device detail: <code>ind-network-status-card</code>, <code>ind-device-diagnostics-panel</code> and <code>ind-value</code> plus <code>ind-sparkline</code> readouts.</li>
+        <li>Diagnostics: <code>ind-mqtt-monitor</code> for the live topic feed.</li>
+        <li>Alarms across the fleet via <code>ind-alarm-summary</code> and <code>ind-alarm-panel</code>.</li>
+      </ul>
+      <p>Components are named for illustration only; nothing is rendered live here.</p>
+
+      <h2>Integration approach</h2>
+      <p>
+        Use the Web Components or typed React or Vue wrappers, and bind live data with the
+        <code>@ind-ds/mqtt</code> helpers where MQTT is your transport. In production, use
+        <code>wss://</code> with broker authorization, never embed credentials in frontend code, and do
+        not expose control networks directly to browsers. The helpers bind data to the DOM; they are
+        not a broker, historian or device management platform, so provisioning, security and data
+        retention stay in your stack.
+      </p>
+
+      <h2>Adoption strategy</h2>
+      <p>
+        Progressive adoption suits IoT well: add a single connection indicator or KPI card to an
+        existing dashboard, confirm the live binding against your broker, then expand to fleet overview
+        and per-device detail. Tokens can be shared first so new panels match your existing product.
+      </p>
+
+      <h2>Limitations</h2>
+      <p>
+        ind-ds is the interface layer, not an IoT platform. It does not provide the broker, device
+        provisioning, over-the-air updates, storage or security — those remain your responsibility. The
+        MQTT helpers bind live data but cannot guarantee delivery or freshness; the dashboard can only
+        reflect what the transport actually delivers. Alarm views are ISA-18.2-aware, not certified,
+        and long-term history depends on a store you supply.
+      </p>
+
+      <div class="panel uc-cta">
+        <a href={url('/components')} class="btn btn--default">Explore components</a>
+        <a href={url('/getting-started')} class="btn btn--ghost">Get started</a>
+        <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .uc-detail h2 { margin-top: var(--ind-spacing-6); }
+  .uc-detail p { max-width: 68ch; }
+  .uc-detail ul { max-width: 68ch; padding-left: 1.2rem; display: grid; gap: var(--ind-spacing-2); }
+  .uc-detail code { font-family: var(--ind-font-family-mono); font-size: 0.9em; }
+  .uc-cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-8); padding: var(--ind-spacing-6); }
+</style>

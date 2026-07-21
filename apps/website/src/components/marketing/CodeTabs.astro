@@ -1,0 +1,114 @@
+---
+// Accessible tabbed code blocks with copy-to-clipboard.
+// Behavior lives in code-tabs.client.ts (imported once per page where used).
+export interface CodeTab {
+  id: string;
+  label: string;
+  code: string;
+  lang?: string;
+}
+export interface Props {
+  tabs: CodeTab[];
+  group: string;
+  label?: string;
+}
+const { tabs, group, label = 'Code examples' } = Astro.props;
+---
+
+<div class="code-tabs" data-code-tabs>
+  <div class="code-tabs__list" role="tablist" aria-label={label}>
+    {
+      tabs.map((t, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`${group}-tab-${t.id}`}
+          class="code-tabs__tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-controls={`${group}-panel-${t.id}`}
+          tabindex={i === 0 ? '0' : '-1'}
+        >
+          {t.label}
+        </button>
+      ))
+    }
+  </div>
+  {
+    tabs.map((t, i) => (
+      <div
+        role="tabpanel"
+        id={`${group}-panel-${t.id}`}
+        class="code-tabs__panel"
+        aria-labelledby={`${group}-tab-${t.id}`}
+        hidden={i !== 0}
+      >
+        <button type="button" class="code-tabs__copy" data-copy aria-label="Copy code to clipboard">
+          Copy
+        </button>
+        <pre><code class={t.lang ? `language-${t.lang}` : undefined}>{t.code}</code></pre>
+      </div>
+    ))
+  }
+  <span class="visually-hidden" role="status" aria-live="polite" data-copy-status></span>
+</div>
+
+<style>
+  .code-tabs {
+    border: 1px solid var(--ind-surface-border-subtle);
+    border-radius: var(--ind-radius-md);
+    overflow: hidden;
+    background: var(--ind-surface-sunken);
+  }
+  .code-tabs__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: var(--ind-spacing-2);
+    border-bottom: 1px solid var(--ind-surface-border-subtle);
+    background: var(--ind-surface-panel);
+  }
+  .code-tabs__tab {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid transparent;
+    border-radius: var(--ind-radius-sm);
+    background: transparent;
+    color: var(--ind-surface-text-secondary);
+    font: inherit;
+    font-size: var(--ind-font-size-sm);
+    cursor: pointer;
+  }
+  .code-tabs__tab[aria-selected='true'] {
+    background: var(--ind-surface-raised);
+    border-color: var(--ind-surface-border-strong);
+    color: var(--ind-surface-text-primary);
+  }
+  .code-tabs__panel { position: relative; }
+  .code-tabs__panel pre {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: var(--ind-surface-sunken);
+  }
+  .code-tabs__copy {
+    position: absolute;
+    top: var(--ind-spacing-3);
+    right: var(--ind-spacing-3);
+    padding: 0.3rem 0.6rem;
+    font: inherit;
+    font-size: var(--ind-font-size-xs);
+    color: var(--ind-surface-text-secondary);
+    background: var(--ind-surface-raised);
+    border: 1px solid var(--ind-surface-border-default);
+    border-radius: var(--ind-radius-sm);
+    cursor: pointer;
+  }
+  .code-tabs__copy:hover { color: var(--ind-surface-text-primary); }
+  .code-tabs__copy[data-copied='true'] {
+    color: var(--ind-state-running-fg);
+    border-color: var(--ind-state-running-border);
+  }
+</style>
+
+<script>
+  import './code-tabs.client.ts';
+</script>

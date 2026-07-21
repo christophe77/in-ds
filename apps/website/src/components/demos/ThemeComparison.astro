@@ -1,0 +1,63 @@
+---
+// The same small composition rendered in each theme via data-theme scoping —
+// proof the token system drives every surface. Static/simulated data.
+const themes = [
+  { id: 'dark', label: 'Dark', hint: 'Control-room / low-light' },
+  { id: 'light', label: 'Light', hint: 'Daylight / office' },
+  { id: 'high-contrast', label: 'High contrast', hint: 'Enhanced differentiation' },
+];
+---
+
+<div class="theme-compare grid grid-3">
+  {
+    themes.map((t) => (
+      <figure class="theme-compare__item">
+        <div class="theme-compare__screen" data-theme={t.id}>
+          <div class="theme-compare__row">
+            <ind-led state="running" label="P-101" />
+            <ind-led state="warning" label="M-102" />
+            <ind-led state="fault" label="V-204" />
+          </div>
+          <ind-value label="Discharge" value={4.2} unit="bar" precision={1} trend="up" />
+          <ind-alarm priority="high" label="Level high" timestamp="10:24" />
+          <ind-status-bar state="warning" message="1 active alarm" />
+        </div>
+        <figcaption class="theme-compare__cap">
+          <strong>{t.label}</strong>
+          <span>{t.hint}</span>
+        </figcaption>
+      </figure>
+    ))
+  }
+</div>
+
+<style>
+  .theme-compare__item { margin: 0; }
+  .theme-compare__screen {
+    background: var(--ind-surface-background);
+    border: 1px solid var(--ind-surface-border-strong);
+    border-radius: var(--ind-radius-md) var(--ind-radius-md) 0 0;
+    padding: var(--ind-spacing-4);
+    display: grid;
+    gap: var(--ind-spacing-3);
+    min-height: 12rem;
+    align-content: start;
+  }
+  .theme-compare__row { display: flex; gap: var(--ind-spacing-4); flex-wrap: wrap; }
+  .theme-compare__cap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--ind-spacing-3) var(--ind-spacing-4);
+    border: 1px solid var(--ind-surface-border-subtle);
+    border-top: 0;
+    border-radius: 0 0 var(--ind-radius-md) var(--ind-radius-md);
+    background: var(--ind-surface-panel);
+  }
+  .theme-compare__cap strong { font-size: var(--ind-font-size-sm); }
+  .theme-compare__cap span { font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); }
+</style>
+
+<script>
+  import '@/lib/ind-runtime';
+</script>

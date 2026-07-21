@@ -1,0 +1,108 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { SITE } from '@/data/site';
+import { url } from '@/lib/url';
+
+// Statuses reflect the current repository. "Available" = shipped on npm today.
+// Planned / exploring items are genuinely not shipped and are labeled as such.
+const STATUS = {
+  available: { label: 'Available', hint: 'Shipped and published to npm', tone: 'running' },
+  progress: { label: 'In progress', hint: 'Actively being worked on', tone: 'warning' },
+  planned: { label: 'Planned', hint: 'Intended, not yet shipped', tone: 'maintenance' },
+  exploring: { label: 'Exploring', hint: 'Under consideration', tone: 'stopped' },
+} as const;
+
+const items = [
+  { group: 'Components', text: `${SITE.componentCount} web components across atoms, molecules and organisms`, status: 'available' },
+  { group: 'Components', text: 'ind-trend — full time-series trend (uPlot). Use ind-sparkline / ind-trend-widget for inline trends today', status: 'planned' },
+  { group: 'Framework integrations', text: 'Typed React 18+ wrappers (@ind-ds/react)', status: 'available' },
+  { group: 'Framework integrations', text: 'Typed Vue 3 wrappers with v-model (@ind-ds/vue)', status: 'available' },
+  { group: 'Framework integrations', text: 'Worked examples for Angular, Svelte and Lit via standard Custom Elements', status: 'planned' },
+  { group: 'Design tokens', text: 'CSS, JS/TS, JSON and Dart token exports (@ind-ds/tokens)', status: 'available' },
+  { group: 'Design tokens', text: 'Dark, light and high-contrast themes via data-theme', status: 'available' },
+  { group: 'Design tokens', text: 'Codegen recipes for native stacks (Qt, .NET, Swift, Kotlin) from the JSON export', status: 'exploring' },
+  { group: 'Live data', text: 'MQTT-to-DOM binding helpers (@ind-ds/mqtt)', status: 'available' },
+  { group: 'Live data', text: 'OPC UA binding element (ind-opcua-tag-binding) display component', status: 'available' },
+  { group: 'Documentation', text: 'Storybook reference for every component', status: 'available' },
+  { group: 'Documentation', text: 'This website — product, principles, use cases and guides', status: 'progress' },
+  { group: 'Design tooling', text: 'A Figma library mirroring the tokens and components', status: 'exploring' },
+  { group: 'Accessibility', text: 'Automated and manual accessibility audits across components', status: 'progress' },
+  { group: 'Testing', text: 'Broader unit and end-to-end coverage', status: 'progress' },
+];
+
+const groups = [...new Set(items.map((i) => i.group))];
+---
+
+<BaseLayout
+  title="Roadmap — ind-ds"
+  description="What ships today in ind-ds and what is planned or being explored — components, framework integrations, tokens, live data, documentation, tooling and accessibility."
+>
+  <PageHeader
+    eyebrow="Roadmap"
+    title="Roadmap"
+    lead="An honest view of what is available now versus planned. Shipped items are on npm today; planned and exploring items are not — they are also where contributions are most welcome."
+    crumbs={[{ label: 'Home', href: url('/') }, { label: 'Roadmap' }]}
+  >
+    <div class="rm-legend">
+      {
+        Object.values(STATUS).map((s) => (
+          <span class="rm-legend__item">
+            <span class={`rm-dot rm-dot--${s.tone}`} aria-hidden="true" />
+            <strong>{s.label}</strong> — {s.hint}
+          </span>
+        ))
+      }
+    </div>
+  </PageHeader>
+
+  <section class="section"><div class="container">
+    {
+      groups.map((g) => (
+        <div class="rm-group">
+          <h2>{g}</h2>
+          <ul class="rm-list">
+            {items.filter((i) => i.group === g).map((i) => {
+              const s = STATUS[i.status as keyof typeof STATUS];
+              return (
+                <li class="rm-item card">
+                  <span class={`rm-dot rm-dot--${s.tone}`} aria-hidden="true" />
+                  <span class="rm-item__text">{i.text}</span>
+                  <span class={`rm-badge rm-badge--${s.tone}`}>{s.label}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))
+    }
+
+    <div class="panel rm-cta">
+      <p>Roadmap items are not commitments or dated promises — priorities shift with real-world feedback. See the live issues and releases for current status.</p>
+      <div class="rm-cta__actions">
+        <a href={SITE.issues} target="_blank" rel="noopener" class="btn btn--default">Open issues</a>
+        <a href={SITE.releases} target="_blank" rel="noopener" class="btn btn--ghost">Releases</a>
+        <a href={url('/contributing')} class="btn btn--ghost">Contribute</a>
+      </div>
+    </div>
+  </div></section>
+</BaseLayout>
+
+<style>
+  .rm-legend { display: grid; gap: var(--ind-spacing-2); margin-top: var(--ind-spacing-5); }
+  .rm-legend__item { font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); display: flex; align-items: center; gap: var(--ind-spacing-2); }
+  .rm-group { margin-top: var(--ind-spacing-7); }
+  .rm-group h2 { margin-bottom: var(--ind-spacing-4); }
+  .rm-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--ind-spacing-3); }
+  .rm-item { display: flex; align-items: center; gap: var(--ind-spacing-3); padding: var(--ind-spacing-4); }
+  .rm-item__text { flex: 1; font-size: var(--ind-font-size-sm); }
+  .rm-dot { width: 0.7rem; height: 0.7rem; border-radius: var(--ind-radius-full); flex: none; }
+  .rm-dot--running { background: var(--ind-state-running-bg); }
+  .rm-dot--warning { background: var(--ind-state-warning-bg); }
+  .rm-dot--maintenance { background: var(--ind-state-maintenance-bg); }
+  .rm-dot--stopped { background: var(--ind-state-stopped-bg); }
+  .rm-badge { font-family: var(--ind-font-family-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.15rem 0.45rem; border-radius: var(--ind-radius-sm); border: 1px solid var(--ind-surface-border-subtle); color: var(--ind-surface-text-muted); }
+  .rm-cta { margin-top: var(--ind-spacing-8); padding: var(--ind-spacing-6); }
+  .rm-cta p { max-width: 66ch; }
+  .rm-cta__actions { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-4); }
+</style>

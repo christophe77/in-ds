@@ -1,0 +1,6 @@
+# Astro build output & generated cache
+dist/
+.astro/
+
+# Dependencies (also covered by root .gitignore)
+node_modules/

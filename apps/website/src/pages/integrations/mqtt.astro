@@ -1,0 +1,193 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CodeTabs from '@/components/marketing/CodeTabs.astro';
+import { SITE } from '@/data/site';
+import { INSTALL_TABS } from '@/data/integrations';
+import { url } from '@/lib/url';
+
+const mqtt = INSTALL_TABS.find((t) => t.id === 'mqtt')!;
+---
+
+<BaseLayout
+  title="MQTT Bindings — ind-ds"
+  description="Map MQTT broker topics to ind-ds component attributes with @ind-ds/mqtt — connection lifecycle, payload transforms, bindLed and bindBlink helpers, and the security responsibilities that stay with your app."
+>
+  <PageHeader
+    eyebrow="Integrations"
+    title="MQTT"
+    lead="@ind-ds/mqtt is a small binding layer that maps broker topics and payloads onto component attributes and properties. It keeps interface state in step with live process data without coupling the components to a specific framework."
+    crumbs={[
+      { label: 'Home', href: url('/') },
+      { label: 'Integrations', href: url('/integrations') },
+      { label: 'MQTT' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Scope</p>
+      <h2>What it does — and what it does not</h2>
+      <div class="grid grid-2 int-scope">
+        <div class="card stack">
+          <h3 class="int-scope__title">It does</h3>
+          <p>
+            Connect to an MQTT broker over WebSocket, subscribe to topics, transform incoming
+            payloads, and set the resulting values as attributes or properties on ind-ds elements so
+            the UI reflects live data.
+          </p>
+        </div>
+        <div class="card stack">
+          <h3 class="int-scope__title">It does not</h3>
+          <p>
+            It is a client-side binding helper — not a SCADA server, historian, broker or PLC
+            gateway. It does not acquire data on its own, and reconnection and security are the
+            application's responsibility.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Lifecycle</p>
+      <h2>Connect, bind, unbind, disconnect</h2>
+      <p class="lead">
+        Create a client with a broker URL, <code>connect()</code>, then <code>bind()</code> topics
+        to elements. Each <code>bind()</code> returns an unbind function; call it to stop updating a
+        given element. Close the connection with <code>disconnect()</code>. A transform converts the
+        raw payload into the value the component expects, and <code>asProperty</code> sets a DOM
+        property instead of an attribute for non-string data.
+      </p>
+      <CodeTabs
+        group="mqtt-lifecycle"
+        label="MQTT lifecycle"
+        tabs={[
+          { id: 'quick', label: 'quickstart.ts', lang: mqtt.usageLang, code: mqtt.usage },
+          {
+            id: 'bind',
+            label: 'lifecycle.ts',
+            lang: 'ts',
+            code: `import { IndMqttClient } from '@ind-ds/mqtt';
+
+const client = new IndMqttClient({ url: 'wss://broker.example:8083' });
+await client.connect();
+
+const value = document.querySelector('ind-value')!;
+
+// bind() returns an unbind function.
+const unbind = client.bind({
+  topic: 'plant/line-1/tank-204/level',
+  element: value,
+  attribute: 'value',
+  transform: (raw) => Number(raw).toFixed(1),
+});
+
+// Complex payloads → set as a property.
+const panel = document.querySelector('ind-alarm-panel')!;
+client.bind({
+  topic: 'plant/line-1/alarms',
+  element: panel,
+  attribute: 'alarms',
+  asProperty: true,
+  transform: (raw) => JSON.parse(raw),
+});
+
+// Later:
+unbind();
+client.disconnect();`,
+          },
+          {
+            id: 'helpers',
+            label: 'helpers.ts',
+            lang: 'ts',
+            code: `import { IndMqttClient, bindLed, bindBlink } from '@ind-ds/mqtt';
+
+const client = new IndMqttClient({ url: 'wss://broker.example:8083' });
+await client.connect();
+
+const led = document.querySelector('ind-led')!;
+
+// Map a payload to an LED state.
+bindLed(client, 'plant/line-1/pump-101/state', led, (raw) =>
+  raw === 'RUN' ? 'running' : 'fault',
+);
+
+// Blink the element while a condition holds.
+bindBlink(client, 'plant/line-1/pump-101/alarm', led, (raw) => raw === '1');`,
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Architecture</p>
+      <h2>An example data path</h2>
+      <p class="lead">
+        A typical browser HMI subscribes to the broker over a secure WebSocket. The broker sits
+        between the control network and the browser; the binding layer only reads published values
+        and updates the display.
+      </p>
+      <div class="card int-flow">
+        <span class="int-flow__node">Field devices / PLC</span>
+        <span class="int-flow__arrow" aria-hidden="true">→</span>
+        <span class="int-flow__node">MQTT broker</span>
+        <span class="int-flow__arrow" aria-hidden="true">→ wss:// →</span>
+        <span class="int-flow__node int-flow__node--accent">Browser HMI (@ind-ds/mqtt)</span>
+        <span class="int-flow__arrow" aria-hidden="true">→</span>
+        <span class="int-flow__node">ind-ds components</span>
+      </div>
+      <p class="int-note">
+        Treat this path as monitoring by default. Publishing control commands from a browser is a
+        separate design decision with its own safety and authorization requirements — do not assume
+        a monitoring binding is safe for control.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Responsibilities</p>
+      <h2>Security is on the application</h2>
+      <div class="grid grid-3 int-sec">
+        <div class="card stack">
+          <p><strong>Use wss://.</strong> Connect over TLS-secured WebSockets in production. Plain <code>ws://</code> exposes payloads and topics on the wire.</p>
+        </div>
+        <div class="card stack">
+          <p><strong>Never embed credentials.</strong> Do not put broker usernames, passwords or tokens in frontend code. Authenticate and authorize through your own backend or broker policy.</p>
+        </div>
+        <div class="card stack">
+          <p><strong>Do not expose control networks.</strong> Keep browsers off control networks. Place the broker at a boundary, scope topic permissions, and separate monitoring from control.</p>
+        </div>
+      </div>
+      <p class="int-note">
+        Reconnection behaviour, back-off and message-loss handling are also the application's
+        responsibility — the helpers set DOM values, they do not manage broker resilience for you.
+      </p>
+      <p class="section__cta">
+        <a href={url('/integrations/web-components')} class="btn btn--default">Web Components</a>
+        <a href={SITE.repo} target="_blank" rel="noopener" class="btn btn--ghost">View on GitHub →</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .int-scope { margin-top: var(--ind-spacing-5); align-items: start; }
+  .int-scope__title { font-size: var(--ind-font-size-md); margin: 0; }
+  .int-scope .card p { margin: 0; font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+
+  .int-flow { margin-top: var(--ind-spacing-5); display: flex; flex-wrap: wrap; align-items: center; gap: var(--ind-spacing-3); }
+  .int-flow__node { font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-xs); padding: 0.4rem 0.7rem; border: 1px solid var(--ind-surface-border-subtle); border-radius: var(--ind-radius-sm); color: var(--ind-surface-text-secondary); }
+  .int-flow__node--accent { border-color: var(--ind-state-running-border); color: var(--ind-state-running-fg); }
+  .int-flow__arrow { font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); }
+
+  .int-sec { margin-top: var(--ind-spacing-5); align-items: start; }
+  .int-sec .card p { margin: 0; font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+
+  .int-note { margin-top: var(--ind-spacing-4); max-width: 62ch; font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+  .section__cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-6); }
+</style>

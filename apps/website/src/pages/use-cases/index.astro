@@ -1,0 +1,92 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { SITE } from '@/data/site';
+import { USE_CASES } from '@/data/use-cases';
+import { url } from '@/lib/url';
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL(url('/'), Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: 'Use cases', item: new URL(url('/use-cases'), Astro.site).href },
+  ],
+};
+---
+
+<BaseLayout
+  title="HMI, SCADA and Industrial UI Use Cases — ind-ds"
+  description="Where teams use ind-ds: machine HMI, SCADA interfaces, control-room dashboards, industrial IoT and embedded panels — the industrial UI layer over your own systems."
+  jsonLd={[breadcrumbLd]}
+>
+  <PageHeader
+    eyebrow="Use cases"
+    title="Where teams use ind-ds"
+    lead="ind-ds is the interface layer for industrial software. It supplies the components, semantic states and tokens; your application still owns data acquisition, security and control logic. These guides describe common contexts and how the components fit them."
+    crumbs={[{ label: 'Home', href: url('/') }, { label: 'Use cases' }]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <p class="lead">
+        The same {SITE.componentCount} Web Components, typed React and Vue wrappers and design tokens
+        serve very different screens — a touch panel on a single machine, a multi-asset SCADA view, a
+        wall of control-room displays, a remote IoT dashboard or an offline kiosk. Pick the context
+        closest to your work.
+      </p>
+      <div class="grid grid-3 uc-grid">
+        {
+          USE_CASES.map((uc) => (
+            <a
+              href={uc.hasPage ? url(`/use-cases/${uc.slug}`) : url('/use-cases')}
+              class="card card--link uc-card"
+            >
+              <h2 class="uc-card__title">{uc.title}</h2>
+              <p class="uc-card__tagline">{uc.tagline}</p>
+              <p class="uc-card__summary">{uc.summary}</p>
+              {uc.hasPage ? (
+                <span class="uc-card__cta">Read the guide →</span>
+              ) : (
+                <span class="uc-card__soon">Guide coming soon</span>
+              )}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="panel uc-foot">
+        <div>
+          <h2>Start from the components</h2>
+          <p>
+            Every use case is composed from the same catalogue. Browse the components, follow the
+            getting-started guide, or explore every state in the Storybook.
+          </p>
+        </div>
+        <div class="uc-foot__actions">
+          <a href={url('/components')} class="btn btn--default">Explore components</a>
+          <a href={url('/getting-started')} class="btn btn--ghost">Get started</a>
+          <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .uc-grid { margin-top: var(--ind-spacing-6); }
+  .uc-card { text-decoration: none; display: flex; flex-direction: column; gap: var(--ind-spacing-2); }
+  .uc-card__title { font-size: var(--ind-font-size-md); margin: 0; color: var(--ind-surface-text-primary); }
+  .uc-card__tagline { margin: 0; font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); }
+  .uc-card__summary { margin: 0; font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+  .uc-card__cta { margin-top: auto; font-size: var(--ind-font-size-sm); color: var(--ind-state-running-fg); }
+  .uc-card__soon { margin-top: auto; font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); }
+  .uc-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ind-spacing-4); padding: var(--ind-spacing-6); }
+  .uc-foot h2 { margin: 0 0 var(--ind-spacing-2); }
+  .uc-foot p { margin: 0; max-width: 52ch; }
+  .uc-foot__actions { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); }
+</style>

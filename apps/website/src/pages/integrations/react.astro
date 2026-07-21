@@ -1,0 +1,172 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CodeTabs from '@/components/marketing/CodeTabs.astro';
+import { SITE } from '@/data/site';
+import { INSTALL_TABS } from '@/data/integrations';
+import { url } from '@/lib/url';
+
+const react = INSTALL_TABS.find((t) => t.id === 'react')!;
+---
+
+<BaseLayout
+  title="React Integration — ind-ds"
+  description="Install the typed @ind-ds/react wrappers, load the tokens, wire onInd* event props, and render industrial components in a React 18 or Vite application."
+>
+  <PageHeader
+    eyebrow="Integrations"
+    title="React"
+    lead="@ind-ds/react provides typed, forwardRef wrappers around the industrial Web Components, so you write ordinary JSX with real prop types, event props and refs instead of touching custom elements directly."
+    crumbs={[
+      { label: 'Home', href: url('/') },
+      { label: 'Integrations', href: url('/integrations') },
+      { label: 'React' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Install</p>
+      <h2>Add the wrapper package</h2>
+      <p class="lead">
+        The React package (0.2.2) depends on the core components, so a single install brings the
+        components and their tokens with it. React 18 or newer is required.
+      </p>
+      <CodeTabs
+        group="react-install"
+        label="Install React wrappers"
+        tabs={[{ id: 'npm', label: 'npm', lang: 'bash', code: react.install }]}
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Setup</p>
+      <h2>Load tokens once, then render components</h2>
+      <p class="lead">
+        Import the token stylesheets a single time at your application entry point — dark is the
+        base, with light and high-contrast layered as overrides — then import components from
+        <code>@ind-ds/react</code> wherever you need them.
+      </p>
+      <CodeTabs
+        group="react-usage"
+        label="React usage example"
+        tabs={[
+          { id: 'app', label: 'App.tsx', lang: react.usageLang, code: react.usage },
+          {
+            id: 'main',
+            label: 'main.tsx',
+            lang: 'tsx',
+            code: `import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+// Load design tokens once, before your app styles.
+import '@ind-ds/tokens/css';
+import '@ind-ds/tokens/css/light';
+import '@ind-ds/tokens/css/high-contrast';
+import '@ind-ds/core/css/utilities';
+
+import { App } from './App';
+
+createRoot(document.getElementById('root')!).render(<App />);`,
+          },
+        ]}
+      />
+      <p class="int-note">
+        The wrappers register the underlying custom elements automatically on first mount, so there
+        is no manual <code>defineCustomElements()</code> step in a React or Vite app.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Events and refs</p>
+      <h2>Component events are onInd* props</h2>
+      <p class="lead">
+        Native custom-element events map to typed React props with an <code>onInd</code> prefix.
+        Attach handlers exactly as you would for any React event, and use a ref to reach the
+        element when you need imperative access.
+      </p>
+      <CodeTabs
+        group="react-events"
+        label="React event props"
+        tabs={[
+          {
+            id: 'events',
+            label: 'Controls.tsx',
+            lang: 'tsx',
+            code: `import { IndButton, IndModeSelector } from '@ind-ds/react';
+
+export function Controls() {
+  return (
+    <div className="ind-stack" data-theme="dark">
+      {/* ind-button emits indActivate → onIndActivate */}
+      <IndButton variant="primary" onIndActivate={() => start()}>
+        Start pump
+      </IndButton>
+
+      {/* ind-mode-selector emits indChange → onIndChange */}
+      <IndModeSelector
+        onIndChange={(e) => setMode(e.detail)}
+      />
+    </div>
+  );
+}`,
+          },
+        ]}
+      />
+      <p class="int-note">
+        PascalCase follows the tag name: <code>ind-led</code> becomes <code>IndLed</code>,
+        <code>ind-alarm-panel</code> becomes <code>IndAlarmPanel</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Theming</p>
+      <h2>Switch themes with a data attribute</h2>
+      <p class="lead">
+        All three themes come from the same tokens. Set <code>data-theme="dark"</code>,
+        <code>"light"</code> or <code>"high-contrast"</code> on any ancestor element — the document
+        root, a layout wrapper or a single panel — and the components inside inherit it.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Limitations</p>
+      <h2>Server rendering and the DOM</h2>
+      <div class="grid grid-2 int-limits">
+        <div class="card stack">
+          <p>
+            <strong>The wrappers need a DOM.</strong> The components are Custom Elements built with
+            Shadow DOM, so they require <code>document</code> and <code>HTMLElement</code> to render
+            and hydrate. They run in the browser, not on the server.
+          </p>
+        </div>
+        <div class="card stack">
+          <p>
+            <strong>SSR needs the elements defined.</strong> Under a server-rendering framework,
+            render the components on the client — for example behind a client-only boundary — or
+            ensure the custom elements are defined before hydration so markup and behaviour match.
+          </p>
+        </div>
+      </div>
+      <p class="section__cta">
+        <a href={url('/components')} class="btn btn--default">Browse components</a>
+        <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .int-note { margin-top: var(--ind-spacing-4); max-width: 62ch; font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+  .int-limits { margin-top: var(--ind-spacing-5); align-items: start; }
+  .int-limits .card p { margin: 0; font-size: var(--ind-font-size-sm); }
+  .section__cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-6); }
+</style>

@@ -1,0 +1,88 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CodeTabs from '@/components/marketing/CodeTabs.astro';
+import { SITE } from '@/data/site';
+import { url } from '@/lib/url';
+
+const welcome = [
+  ['Component contributions', 'New industrial components, or improvements to existing ones.'],
+  ['Industrial use-case feedback', 'Tell us where the vocabulary or components fall short of real HMI/SCADA work.'],
+  ['Accessibility improvements', 'Focus, contrast, keyboard support, screen-reader naming.'],
+  ['Documentation', 'Guides, examples, clearer prop docs, corrections.'],
+  ['Framework examples', 'Angular, Svelte, Lit, Electron, Tauri and embedded-panel samples.'],
+  ['Real-world validation', 'Prototype with the packages and report what breaks.'],
+  ['Bug reports', 'Clear reproductions against the current version.'],
+  ['Feature discussions', 'Propose and debate additions before building them.'],
+];
+---
+
+<BaseLayout
+  title="Contributing — ind-ds"
+  description="How to contribute to ind-ds: set up the monorepo, run Storybook, and where to file issues. Component, docs, accessibility and framework-example contributions welcome."
+>
+  <PageHeader
+    eyebrow="Community"
+    title="Contribute to ind-ds"
+    lead="ind-ds is open source and MIT licensed. Industrial software teams rebuild the same states, alarms and controls project after project — help build a shared foundation instead."
+    crumbs={[{ label: 'Home', href: url('/') }, { label: 'Contributing' }]}
+  />
+
+  <section class="section"><div class="container">
+    <h2>Ways to contribute</h2>
+    <div class="grid grid-2 contrib">
+      {
+        welcome.map(([title, body]) => (
+          <div class="card">
+            <h3 class="contrib__title">{title}</h3>
+            <p>{body}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <h2 class="contrib__h">Develop locally</h2>
+    <p>The project is a pnpm + Turborepo monorepo. Requires Node 20+ and pnpm 9+.</p>
+    <CodeTabs
+      group="contrib-dev"
+      label="Local setup"
+      tabs={[
+        { id: 'setup', label: 'Setup', lang: 'bash', code: `git clone https://github.com/christophe77/ind-ds.git\ncd ind-ds\npnpm install\npnpm build        # builds tokens → core → wrappers` },
+        { id: 'storybook', label: 'Storybook', lang: 'bash', code: `# component playground on http://localhost:6006\npnpm storybook` },
+      ]}
+    />
+
+    <h2 class="contrib__h">Before you open a pull request</h2>
+    <ul class="contrib__list">
+      <li>Open an issue or discussion first for anything non-trivial, so the approach can be agreed.</li>
+      <li>Keep the industrial vocabulary consistent — reuse existing state names, tokens and event conventions.</li>
+      <li>Run <code>pnpm build</code> and the package tests; add tests and a Storybook story for new components.</li>
+      <li>Follow the existing TypeScript, formatting and package structure.</li>
+    </ul>
+
+    <div class="panel contrib__cta">
+      <div>
+        <h2>Start here</h2>
+        <p>Browse open issues, read the repository’s contributing notes, and check the roadmap for where help is most useful.</p>
+      </div>
+      <div class="contrib__cta-actions">
+        <a href={SITE.repo} target="_blank" rel="noopener" class="btn btn--primary">View on GitHub</a>
+        <a href={SITE.issues} target="_blank" rel="noopener" class="btn btn--default">Open an issue</a>
+        <a href={url('/roadmap')} class="btn btn--ghost">Roadmap</a>
+      </div>
+    </div>
+  </div></section>
+</BaseLayout>
+
+<style>
+  .contrib { margin-top: var(--ind-spacing-5); }
+  .contrib__title { font-size: var(--ind-font-size-md); margin-bottom: var(--ind-spacing-2); }
+  .contrib .card p { margin: 0; font-size: var(--ind-font-size-sm); }
+  .contrib__h { margin-top: var(--ind-spacing-8); }
+  .contrib__list { max-width: 70ch; display: grid; gap: var(--ind-spacing-2); padding-left: 1.1rem; }
+  .contrib__list li { font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+  .contrib__cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ind-spacing-4); margin-top: var(--ind-spacing-8); padding: var(--ind-spacing-6); }
+  .contrib__cta h2 { margin: 0 0 var(--ind-spacing-2); }
+  .contrib__cta p { margin: 0; max-width: 48ch; }
+  .contrib__cta-actions { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); }
+</style>

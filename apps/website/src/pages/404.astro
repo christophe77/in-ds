@@ -1,0 +1,34 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { url } from '@/lib/url';
+---
+
+<BaseLayout
+  title="Page not found — ind-ds"
+  description="The page you were looking for could not be found."
+  noindex={true}
+>
+  <section class="section nf">
+    <div class="container nf__inner">
+      <div class="nf__status" aria-hidden="true">
+        <span class="nf__dot"></span>
+        <span class="nf__code">404 · signal lost</span>
+      </div>
+      <h1>This page isn’t on the network.</h1>
+      <p class="lead">The tag you followed doesn’t resolve. It may have moved, or never existed.</p>
+      <div class="nf__actions">
+        <a href={url('/')} class="btn btn--primary">Back to home</a>
+        <a href={url('/components')} class="btn btn--default">Browse components</a>
+        <a href={url('/getting-started')} class="btn btn--ghost">Getting started</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf { min-height: 50vh; display: grid; align-items: center; }
+  .nf__inner { max-width: 46rem; }
+  .nf__status { display: inline-flex; align-items: center; gap: var(--ind-spacing-2); font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-xs); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ind-surface-text-muted); margin-bottom: var(--ind-spacing-4); }
+  .nf__dot { width: 0.7rem; height: 0.7rem; border-radius: var(--ind-radius-full); background: var(--ind-state-fault-bg); }
+  .nf__actions { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-6); }
+</style>

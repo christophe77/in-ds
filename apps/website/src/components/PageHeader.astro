@@ -1,0 +1,45 @@
+---
+// Reusable page header with eyebrow, title, lead and optional breadcrumb.
+export interface Crumb { label: string; href?: string }
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  crumbs?: Crumb[];
+}
+const { eyebrow, title, lead, crumbs } = Astro.props;
+---
+
+<header class="page-header">
+  <div class="container">
+    {
+      crumbs && crumbs.length > 0 && (
+        <nav class="page-header__crumbs" aria-label="Breadcrumb">
+          <ol>
+            {crumbs.map((c, i) => (
+              <li>
+                {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+                {i < crumbs.length - 1 && <span class="page-header__sep" aria-hidden="true">/</span>}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</header>
+
+<style>
+  .page-header { padding-block: var(--site-section-y) var(--ind-spacing-6); }
+  .page-header__crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: var(--ind-spacing-2); margin: 0 0 var(--ind-spacing-4); padding: 0; font-size: var(--ind-font-size-xs); font-family: var(--ind-font-family-mono); }
+  .page-header__crumbs a { color: var(--ind-surface-text-muted); text-decoration: none; }
+  .page-header__crumbs a:hover { color: var(--ind-surface-text-primary); }
+  .page-header__crumbs [aria-current='page'] { color: var(--ind-surface-text-secondary); }
+  .page-header__sep { margin-inline-start: var(--ind-spacing-2); color: var(--ind-surface-border-strong); }
+  .page-header h1 { margin-bottom: var(--ind-spacing-3); }
+  .page-header .lead { max-width: 60ch; }
+</style>

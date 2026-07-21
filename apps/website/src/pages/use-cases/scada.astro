@@ -1,0 +1,121 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { SITE } from '@/data/site';
+import { url } from '@/lib/url';
+---
+
+<BaseLayout
+  title="SCADA interface — ind-ds"
+  description="Build the UI layer of a SCADA interface with ind-ds: asset hierarchies, alarm summaries, process values, equipment faceplates and trends — over your own data acquisition."
+>
+  <PageHeader
+    eyebrow="Use case"
+    title="SCADA interface"
+    lead="A SCADA screen supervises many assets at once and lets an operator move from an overview to the detail of a single pump or line. ind-ds supplies the navigation, faceplates, values and alarm views — as the interface layer, not the data system."
+    crumbs={[
+      { label: 'Home', href: url('/') },
+      { label: 'Use cases', href: url('/use-cases') },
+      { label: 'SCADA interface' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container stack uc-detail">
+      <h2>Typical environment</h2>
+      <p>
+        A supervisory workstation, often browser-based, watching a process area or a whole plant.
+        Screens are larger than a machine panel and updated continuously as values arrive from the
+        acquisition layer. Operators keep the view open for a full shift, so density, legibility and
+        stable layout under changing data all matter.
+      </p>
+
+      <h2>User roles</h2>
+      <p>
+        A control operator monitors the process and acknowledges alarms; a shift supervisor reviews
+        area status and trends; a process or automation engineer inspects individual assets when
+        diagnosing behaviour. Each moves between an overview and equipment-level detail.
+      </p>
+
+      <h2>Interface challenges</h2>
+      <p>
+        Many assets must be legible at once without visual chaos. Navigation has to reflect the plant
+        hierarchy so operators can drill from area to unit to equipment. Alarm summaries must
+        prioritise the abnormal and stay honest about acknowledgement state. Process values need
+        consistent units and formatting, and moving from overview to a detailed faceplate should feel
+        continuous rather than like a different application.
+      </p>
+
+      <h2>How ind-ds helps</h2>
+      <p>
+        For structure, <code>ind-sidebar-nav</code>, <code>ind-tree-node</code> and
+        <code>ind-breadcrumb-item</code> express the asset hierarchy and the overview-to-detail path.
+        <code>ind-asset-overview</code> and <code>ind-equipment-dashboard</code> aggregate many assets,
+        while equipment components such as <code>ind-pump-card</code> and
+        <code>ind-tank-level-card</code> act as faceplates for a single unit. Alarms are handled by
+        <code>ind-alarm-summary</code> and <code>ind-alarm-panel</code>, which are ISA-18.2-aware
+        (HH/H/L/LL), support acknowledge and timestamps, and sort unacknowledged items first. Process
+        values use <code>ind-value</code>, <code>ind-gauge</code> and <code>ind-kpi-card</code>, and
+        inline trends use <code>ind-sparkline</code> today.
+      </p>
+
+      <h2>Example composition</h2>
+      <p>An overview-to-detail SCADA screen might be described as:</p>
+      <ul>
+        <li>Header: <code>ind-app-header</code> and <code>ind-status-bar</code> for plant time and connection.</li>
+        <li>Left: <code>ind-sidebar-nav</code> with <code>ind-tree-node</code> for the area/unit/equipment tree.</li>
+        <li>Overview pane: <code>ind-asset-overview</code> and <code>ind-equipment-dashboard</code> summarising each unit's state.</li>
+        <li>Detail pane: a faceplate built from <code>ind-pump-card</code>, <code>ind-tank-level-card</code>, <code>ind-value</code> and <code>ind-sparkline</code>.</li>
+        <li>Persistent alarm rail: <code>ind-alarm-summary</code> expanding to <code>ind-alarm-panel</code>, with <code>ind-breadcrumb-item</code> showing location.</li>
+      </ul>
+      <p>Components are named for illustration only; nothing is rendered live here.</p>
+
+      <h2>Integration approach</h2>
+      <p>
+        Use the Web Components directly or through the typed React or Vue wrappers. Live data can be
+        mapped to component attributes with the <code>@ind-ds/mqtt</code> helpers where MQTT is
+        available, or by your own data layer for other protocols.
+      </p>
+      <p class="uc-note">
+        <strong>Important — what ind-ds is not.</strong> ind-ds does not provide data acquisition, a
+        historian, PLC or fieldbus drivers, or a SCADA server. It is the interface layer over a system
+        you already run. Tag polling, protocol handling, storage, redundancy, authentication and
+        control-network security remain your application's responsibility, and the full
+        <code>ind-trend</code> time-series component is planned rather than shipped — use
+        <code>ind-sparkline</code> or <code>ind-trend-widget</code> for inline trends today.
+      </p>
+
+      <h2>Adoption strategy</h2>
+      <p>
+        A practical path is to rebuild one process area first: wire its faceplates, values and alarm
+        summary, confirm the navigation model with operators, then extend the same patterns to the
+        remaining areas. Sharing tokens early keeps new and legacy screens visually coherent during the
+        transition.
+      </p>
+
+      <h2>Limitations</h2>
+      <p>
+        Because ind-ds is only the UI layer, it cannot compensate for a missing or unreliable data
+        source, and it does not perform alarm rationalisation — the priorities you display are the ones
+        your engineering process defines. It is ISA-18.2-aware, not certified. Long-horizon trending
+        and historical playback depend on a historian you supply; the current inline trend components
+        are intended for recent context, not deep history.
+      </p>
+
+      <div class="panel uc-cta">
+        <a href={url('/components')} class="btn btn--default">Explore components</a>
+        <a href={url('/getting-started')} class="btn btn--ghost">Get started</a>
+        <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .uc-detail h2 { margin-top: var(--ind-spacing-6); }
+  .uc-detail p { max-width: 68ch; }
+  .uc-detail ul { max-width: 68ch; padding-left: 1.2rem; display: grid; gap: var(--ind-spacing-2); }
+  .uc-detail code { font-family: var(--ind-font-family-mono); font-size: 0.9em; }
+  .uc-note { border-left: 3px solid var(--ind-surface-border-strong); padding-left: var(--ind-spacing-4); color: var(--ind-surface-text-secondary); }
+  .uc-cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-8); padding: var(--ind-spacing-6); }
+</style>
