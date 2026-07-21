@@ -84,6 +84,7 @@ export type { DataQuality } from './components/molecules/historical-value-row/hi
 // Organisms
 export type { AppHeaderConnectionState } from './components/organisms/app-header/app-header';
 export type { StatusBarState } from './components/organisms/status-bar/status-bar';
+export type { VirtualKeyboardLocale } from './components/organisms/virtual-keyboard/virtual-keyboard';
 
 // Organisms — monitoring
 export type { AlarmPanelItem } from './components/organisms/alarm-panel/alarm-panel';

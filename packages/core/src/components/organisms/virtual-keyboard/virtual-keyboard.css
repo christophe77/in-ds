@@ -1,0 +1,134 @@
+:host {
+  display: none;
+  font-family: var(--ind-font-family-sans, system-ui, sans-serif);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+}
+
+/* Visible only while a field is focused (host gets .is-open). */
+:host(.is-open) {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2147483000; /* above dialog overlays */
+  display: flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-3, 6px);
+  padding: var(--ind-spacing-3, 6px) var(--ind-spacing-4, 8px) var(--ind-spacing-5, 12px);
+  background: var(--ind-surface-panel, light-dark(#f4f6f9, #11161c));
+  border-top: 1px solid var(--ind-surface-border-strong, var(--ind-surface-border-default, #2a3340));
+  box-shadow: 0 -8px 24px rgb(0 0 0 / 0.28);
+  user-select: none;
+  touch-action: manipulation;
+  animation: osk-slide-up var(--ind-motion-duration-fast, 140ms) ease-out;
+}
+
+/* Numeric keypad is narrower and centered rather than full-bleed. */
+:host(.is-open.is-numeric) {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: min(420px, 100vw);
+  border-left: 1px solid var(--ind-surface-border-default, #2a3340);
+  border-right: 1px solid var(--ind-surface-border-default, #2a3340);
+  border-top-left-radius: var(--ind-radius-lg, 10px);
+  border-top-right-radius: var(--ind-radius-lg, 10px);
+  animation: osk-slide-up-center var(--ind-motion-duration-fast, 140ms) ease-out;
+}
+
+@keyframes osk-slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes osk-slide-up-center {
+  from { transform: translate(-50%, 100%); }
+  to { transform: translate(-50%, 0); }
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 20px;
+}
+.grip {
+  width: 44px;
+  height: 4px;
+  border-radius: var(--ind-radius-full, 999px);
+  background: var(--ind-surface-border-strong, var(--ind-surface-text-muted, #8390a0));
+  opacity: 0.6;
+}
+.hide {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--ind-font-size-lg, 16px);
+  line-height: 1;
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  background: transparent;
+  border: 1px solid var(--ind-surface-border-default, #2a3340);
+  border-radius: var(--ind-radius-sm, 4px);
+  cursor: pointer;
+}
+
+.keys {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ind-spacing-3, 6px);
+}
+.row {
+  display: flex;
+  gap: var(--ind-spacing-3, 6px);
+  justify-content: center;
+}
+
+.key {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 3.25rem;
+  padding: 0 var(--ind-spacing-3, 6px);
+  font-family: inherit;
+  font-size: var(--ind-font-size-lg, 18px);
+  font-weight: var(--ind-font-weight-medium, 500);
+  color: var(--ind-surface-text-primary, light-dark(#11161c, #eef1f5));
+  background: var(--ind-surface-raised, light-dark(#ffffff, #1a212a));
+  border: 1px solid var(--ind-surface-border-default, #2a3340);
+  border-radius: var(--ind-radius-md, 6px);
+  cursor: pointer;
+  transition:
+    background var(--ind-motion-duration-fast, 60ms) ease,
+    transform var(--ind-motion-duration-fast, 60ms) ease;
+}
+.key:active {
+  background: var(--ind-button-default-bg-active, var(--ind-surface-sunken, light-dark(#eef1f5, #000000)));
+  transform: translateY(1px);
+}
+.key--act {
+  flex-grow: 1.5;
+  color: var(--ind-surface-text-secondary, light-dark(#2a3340, #aab5c2));
+  background: var(--ind-surface-sunken, light-dark(#eef1f5, #000000));
+  font-size: var(--ind-font-size-md, 14px);
+}
+.key--enter {
+  color: var(--ind-button-primary-fg, #fff);
+  background: var(--ind-button-primary-bg, var(--ind-state-running-fg, #2563eb));
+  border-color: transparent;
+}
+.key--held {
+  color: var(--ind-button-primary-fg, #fff);
+  background: var(--ind-state-running-fg, #2563eb);
+  border-color: transparent;
+}
+
+:host(.is-numeric) .key {
+  min-height: 3.75rem;
+  font-size: var(--ind-font-size-xl, 22px);
+  font-variant-numeric: tabular-nums;
+}
