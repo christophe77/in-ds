@@ -110,14 +110,36 @@
   }
   .hero-demo__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      'pump tank'
+      'valves valves'
+      'side side';
     gap: var(--ind-spacing-3);
     align-items: start;
   }
-  .hero-demo__valves { display: grid; gap: var(--ind-spacing-3); }
-  .hero-demo__valverow { display: flex; align-items: center; justify-content: space-between; gap: var(--ind-spacing-3); }
-  .hero-demo__values { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--ind-spacing-2); }
-  .hero-demo__side { display: grid; gap: var(--ind-spacing-4); align-content: start; }
+  /* Grid items must be allowed to shrink or the shadow-DOM components overflow. */
+  .hero-demo__grid > * { min-width: 0; }
+  [data-role='pump'] { grid-area: pump; }
+  [data-role='tank'] { grid-area: tank; }
+  .hero-demo__valves { grid-area: valves; display: grid; gap: var(--ind-spacing-3); }
+  .hero-demo__side {
+    grid-area: side;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+    gap: var(--ind-spacing-4);
+    align-content: start;
+  }
+  .hero-demo__valverow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ind-spacing-3) var(--ind-spacing-5); }
+  .hero-demo__values { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3) var(--ind-spacing-5); }
+  .hero-demo__values > * { flex: 1 1 6rem; min-width: 0; }
+
+  @media (max-width: 560px) {
+    .hero-demo__grid {
+      grid-template-columns: 1fr;
+      grid-template-areas: 'pump' 'tank' 'valves' 'side';
+    }
+  }
 
   .hero-demo__controls {
     display: flex;

@@ -316,6 +316,7 @@ const installTabs = INSTALL_TABS.map((t) => ({
 
 <style>
   .hero__inner { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: var(--ind-spacing-8); align-items: center; }
+  .hero__inner > * { min-width: 0; } /* let columns shrink so the demo can't stretch the page */
   .hero__copy { max-width: 34rem; }
   .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-6); }
   .hero__github { color: var(--ind-surface-text-secondary); text-decoration: none; font-size: var(--ind-font-size-sm); }
