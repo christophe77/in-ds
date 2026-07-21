@@ -1,0 +1,173 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CodeTabs from '@/components/marketing/CodeTabs.astro';
+import { SITE, PACKAGES } from '@/data/site';
+import { INSTALL_TABS } from '@/data/integrations';
+import { url } from '@/lib/url';
+
+const detail = [
+  {
+    id: 'react',
+    title: 'React',
+    href: url('/integrations/react'),
+    summary: 'Typed React 18+ wrappers (forwardRef) with onInd* event props and auto-registration.',
+    install: 'npm install @ind-ds/react',
+  },
+  {
+    id: 'vue',
+    title: 'Vue',
+    href: url('/integrations/vue'),
+    summary: 'Typed Vue 3.3+ wrappers with v-model on input-like components and native events.',
+    install: 'npm install @ind-ds/vue',
+  },
+  {
+    id: 'web-components',
+    title: 'Web Components',
+    href: url('/integrations/web-components'),
+    summary: 'Framework-agnostic Custom Elements for vanilla, Lit, Angular and Svelte.',
+    install: 'npm install @ind-ds/core',
+  },
+  {
+    id: 'mqtt',
+    title: 'MQTT',
+    href: url('/integrations/mqtt'),
+    summary: 'Binding helpers that map broker topics and payloads to component attributes.',
+    install: 'npm install @ind-ds/mqtt',
+  },
+  {
+    id: 'tokens',
+    title: 'Tokens & native',
+    href: url('/integrations/tokens'),
+    summary: 'Shared design tokens as CSS, JS/TS, JSON and Dart for web and native stacks.',
+    install: 'npm install @ind-ds/tokens',
+  },
+];
+
+const installTabs = INSTALL_TABS.map((t) => ({
+  id: t.id,
+  label: t.label,
+  code: t.install,
+  lang: 'bash',
+}));
+---
+
+<BaseLayout
+  title="Framework and Platform Integrations — ind-ds"
+  description="How ind-ds layers tokens, Web Components and typed React and Vue wrappers so you can adopt the industrial UI incrementally, on the web and in native shells."
+>
+  <PageHeader
+    eyebrow="Integrations"
+    title="Framework and platform integrations"
+    lead="One industrial vocabulary, delivered as layers you can adopt one at a time — design tokens, framework-agnostic Web Components, and typed React and Vue wrappers, running anywhere a browser engine does."
+    crumbs={[{ label: 'Home', href: url('/') }, { label: 'Integrations' }]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Architecture</p>
+      <h2>Layered, not locked in</h2>
+      <p class="lead">
+        Everything builds on a single set of semantic design tokens. The tokens style a set of
+        Stencil-based Web Components, and typed wrappers expose those components idiomatically to
+        React and Vue. Because the components are standard Custom Elements, they run in the browser
+        and in browser-based shells such as Electron, Tauri and platform WebViews.
+      </p>
+      <div class="card arch__flow">
+        <span class="arch__node arch__node--accent">Design tokens</span>
+        <span class="arch__arrow" aria-hidden="true">↓</span>
+        <span class="arch__node">Web Components (Stencil)</span>
+        <span class="arch__arrow" aria-hidden="true">↓</span>
+        <div class="arch__fan">
+          <span class="arch__leaf">React</span>
+          <span class="arch__leaf">Vue</span>
+          <span class="arch__leaf">Vanilla</span>
+          <span class="arch__leaf">Lit</span>
+          <span class="arch__leaf arch__leaf--muted">Angular*</span>
+          <span class="arch__leaf arch__leaf--muted">Svelte*</span>
+        </div>
+        <span class="arch__arrow" aria-hidden="true">↓</span>
+        <div class="arch__fan">
+          <span class="arch__leaf">Browser</span>
+          <span class="arch__leaf">Electron</span>
+          <span class="arch__leaf">Tauri</span>
+          <span class="arch__leaf">WebView</span>
+        </div>
+        <p class="arch__foot">* via standard Custom Elements — there is no dedicated wrapper package.</p>
+      </div>
+      <p class="arch__note">
+        You do not have to take the whole stack. Adopt tokens alone in a native application, drop a
+        single Web Component into an existing page, or install a framework wrapper for a full
+        application. Each layer is published to npm under the <code>@ind-ds</code> scope and is MIT
+        licensed.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Choose a path</p>
+      <h2>Integration guides</h2>
+      <div class="grid grid-2 int-cards">
+        {
+          detail.map((d) => (
+            <a href={d.href} class="card card--link int-card">
+              <h3 class="int-card__title">{d.title}</h3>
+              <p class="int-card__summary">{d.summary}</p>
+              <code class="int-card__install">{d.install}</code>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Install</p>
+      <h2>Start with the layer you need</h2>
+      <p class="lead">
+        Every package requires Node 20+ for local development. React wrappers need React 18+; Vue
+        wrappers need Vue 3.3+.
+      </p>
+      <div class="grid grid-2 int-install">
+        <CodeTabs group="int-overview-install" label="Install commands" tabs={installTabs} />
+        <div class="card stack">
+          <p>
+            There are {PACKAGES.length} packages. The core package includes the tokens as a
+            dependency, and both framework wrappers depend on core, so you rarely install more than
+            one to get started.
+          </p>
+          <p class="num">
+            Explore the full component set in the Storybook, or read the source on GitHub.
+          </p>
+          <div class="int-install__actions">
+            <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--default">Open Storybook</a>
+            <a href={SITE.repo} target="_blank" rel="noopener" class="btn btn--ghost">View on GitHub →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .arch__flow { display: grid; gap: var(--ind-spacing-3); justify-items: center; text-align: center; margin-top: var(--ind-spacing-5); }
+  .arch__node { font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-sm); padding: 0.5rem 0.9rem; border: 1px solid var(--ind-surface-border-strong); border-radius: var(--ind-radius-sm); background: var(--ind-surface-sunken); }
+  .arch__node--accent { border-color: var(--ind-state-running-border); color: var(--ind-state-running-fg); }
+  .arch__arrow { color: var(--ind-surface-text-muted); }
+  .arch__fan { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--ind-spacing-2); }
+  .arch__leaf { font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-xs); padding: 0.3rem 0.6rem; border: 1px solid var(--ind-surface-border-subtle); border-radius: var(--ind-radius-sm); color: var(--ind-surface-text-secondary); }
+  .arch__leaf--muted { color: var(--ind-surface-text-muted); border-style: dashed; }
+  .arch__foot { font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); margin: var(--ind-spacing-2) 0 0; }
+  .arch__note { margin-top: var(--ind-spacing-5); max-width: 62ch; }
+
+  .int-cards { margin-top: var(--ind-spacing-5); }
+  .int-card { text-decoration: none; display: flex; flex-direction: column; gap: var(--ind-spacing-2); }
+  .int-card__title { font-size: var(--ind-font-size-md); margin: 0; color: var(--ind-surface-text-primary); }
+  .int-card__summary { margin: 0; font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+  .int-card__install { font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); }
+
+  .int-install { margin-top: var(--ind-spacing-5); align-items: start; }
+  .int-install__actions { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); }
+</style>

@@ -1,0 +1,68 @@
+---
+// Accessible theme switcher. The actual theme attribute is applied by the
+// no-flash inline script in BaseLayout; this control just updates it + persists.
+const themes = [
+  { id: 'dark', label: 'Dark', hint: 'Control-room / low-light' },
+  { id: 'light', label: 'Light', hint: 'Daylight / office' },
+  { id: 'high-contrast', label: 'High contrast', hint: 'Enhanced differentiation' },
+];
+---
+
+<div class="theme-toggle" role="group" aria-label="Color theme">
+  {
+    themes.map((t) => (
+      <button
+        type="button"
+        class="theme-toggle__btn"
+        data-theme-value={t.id}
+        title={`${t.label} — ${t.hint}`}
+        aria-pressed="false"
+      >
+        <span aria-hidden="true" class={`theme-toggle__swatch theme-toggle__swatch--${t.id}`} />
+        <span class="visually-hidden">{t.label} theme</span>
+      </button>
+    ))
+  }
+</div>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    gap: 2px;
+    padding: 2px;
+    border: 1px solid var(--ind-surface-border-subtle);
+    border-radius: var(--ind-radius-md);
+    background: var(--ind-surface-sunken);
+  }
+  .theme-toggle__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.7rem;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: var(--ind-radius-sm);
+    background: transparent;
+    cursor: pointer;
+  }
+  .theme-toggle__btn[aria-pressed='true'] {
+    background: var(--ind-surface-raised);
+    border-color: var(--ind-surface-border-strong);
+  }
+  .theme-toggle__swatch {
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: var(--ind-radius-full);
+    border: 1px solid var(--ind-surface-border-strong);
+  }
+  .theme-toggle__swatch--dark { background: #14181f; }
+  .theme-toggle__swatch--light { background: #eef1f5; }
+  .theme-toggle__swatch--high-contrast {
+    background: linear-gradient(135deg, #000 0 50%, #fff 50% 100%);
+  }
+</style>
+
+<script>
+  import "./theme-toggle.client.ts";
+</script>

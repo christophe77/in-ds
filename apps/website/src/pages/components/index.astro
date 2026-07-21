@@ -1,0 +1,168 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { CATEGORIES, COMPONENTS, COMPONENT_COUNT } from '@/data/components';
+import { SITE } from '@/data/site';
+import { tagToName } from '@/lib/format';
+import { url } from '@/lib/url';
+
+const byCategory = CATEGORIES.map((cat) => ({
+  ...cat,
+  items: COMPONENTS.filter((c) => c.category === cat.id).sort((a, b) => a.tag.localeCompare(b.tag)),
+}));
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL(url('/'), Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: 'Components', item: new URL(url('/components'), Astro.site).href },
+  ],
+};
+---
+
+<BaseLayout
+  title={`Industrial HMI and SCADA Components — ${SITE.name}`}
+  description={`Browse all ${COMPONENT_COUNT} ind-ds web components — process equipment, alarms, indicators, values, controls, cards and full HMI/SCADA layouts.`}
+  jsonLd={[breadcrumbLd]}
+>
+  <PageHeader
+    eyebrow="Components"
+    title="Components that speak the language of operations"
+    lead={`${COMPONENT_COUNT} framework-agnostic web components across ${CATEGORIES.length} categories. Each has a matching typed React and Vue wrapper. Use the search to find a component by name, tag or industrial concept.`}
+    crumbs={[{ label: 'Home', href: url('/') }, { label: 'Components' }]}
+  >
+    <div class="cmp-controls" data-cmp-controls>
+      <div class="cmp-search">
+        <label for="cmp-search" class="visually-hidden">Search components</label>
+        <input
+          type="search"
+          id="cmp-search"
+          class="cmp-search__input"
+          placeholder="Search 115 components…"
+          autocomplete="off"
+          data-cmp-search
+        />
+      </div>
+      <div class="cmp-filters" role="group" aria-label="Filter by category">
+        <button type="button" class="cmp-filter" data-cat="all" aria-pressed="true">All</button>
+        {
+          CATEGORIES.map((c) => (
+            <button type="button" class="cmp-filter" data-cat={c.id} aria-pressed="false">
+              {c.label}
+            </button>
+          ))
+        }
+      </div>
+      <p class="cmp-count" data-cmp-count aria-live="polite"></p>
+    </div>
+  </PageHeader>
+
+  <div class="container cmp-body">
+    <p class="cmp-empty" data-cmp-empty hidden>No components match your search.</p>
+    {
+      byCategory.map((cat) => (
+        <section class="cmp-cat" data-cat-section={cat.id} aria-labelledby={`cat-${cat.id}`}>
+          <div class="cmp-cat__head">
+            <h2 id={`cat-${cat.id}`}>{cat.label}</h2>
+            <p>{cat.blurb}</p>
+          </div>
+          <div class="cmp-grid">
+            {cat.items.map((c) => (
+              <article
+                class="cmp-card"
+                data-cmp
+                data-name={tagToName(c.tag).toLowerCase()}
+                data-tag={c.tag}
+                data-category={c.category}
+                data-search={`${tagToName(c.tag)} ${c.tag} ${c.description} ${cat.label}`.toLowerCase()}
+              >
+                <div class="cmp-card__top">
+                  <h3 class="cmp-card__name">{tagToName(c.tag)}</h3>
+                  <span class={`cmp-card__tier cmp-card__tier--${c.tier}`}>{c.tier}</span>
+                </div>
+                <code class="cmp-card__tag">&lt;{c.tag}&gt;</code>
+                <p class="cmp-card__desc">{c.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <div class="container cmp-foot">
+    <div class="panel cmp-foot__inner">
+      <div>
+        <h2>Try every component and state</h2>
+        <p>
+          The Storybook is the exhaustive reference — props, states, and an interactive playground
+          for all {COMPONENT_COUNT} components.
+        </p>
+      </div>
+      <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--primary">Open Storybook →</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .cmp-controls { margin-top: var(--ind-spacing-6); display: grid; gap: var(--ind-spacing-4); }
+  .cmp-search__input {
+    width: 100%;
+    max-width: 30rem;
+    padding: 0.6rem 0.9rem;
+    font: inherit;
+    color: var(--ind-surface-text-primary);
+    background: var(--ind-surface-sunken);
+    border: 1px solid var(--ind-surface-border-default);
+    border-radius: var(--ind-radius-md);
+  }
+  .cmp-filters { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-2); }
+  .cmp-filter {
+    padding: 0.35rem 0.7rem;
+    font: inherit;
+    font-size: var(--ind-font-size-sm);
+    color: var(--ind-surface-text-secondary);
+    background: var(--ind-surface-raised);
+    border: 1px solid var(--ind-surface-border-subtle);
+    border-radius: var(--ind-radius-full);
+    cursor: pointer;
+  }
+  .cmp-filter[aria-pressed='true'] {
+    color: var(--ind-surface-text-primary);
+    border-color: var(--ind-surface-border-strong);
+    background: var(--ind-surface-panel);
+  }
+  .cmp-count { font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); margin: 0; }
+
+  .cmp-body { padding-bottom: var(--ind-spacing-8); }
+  .cmp-cat { margin-top: var(--ind-spacing-8); }
+  .cmp-cat__head h2 { margin-bottom: var(--ind-spacing-1); }
+  .cmp-cat__head p { max-width: 60ch; margin-bottom: var(--ind-spacing-5); }
+  .cmp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: var(--ind-spacing-4); }
+  .cmp-card {
+    background: var(--ind-surface-raised);
+    border: 1px solid var(--ind-surface-border-subtle);
+    border-radius: var(--ind-radius-md);
+    padding: var(--ind-spacing-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--ind-spacing-2);
+  }
+  .cmp-card__top { display: flex; align-items: center; justify-content: space-between; gap: var(--ind-spacing-2); }
+  .cmp-card__name { font-size: var(--ind-font-size-md); margin: 0; }
+  .cmp-card__tier { font-family: var(--ind-font-family-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.1rem 0.35rem; border-radius: var(--ind-radius-sm); border: 1px solid var(--ind-surface-border-subtle); color: var(--ind-surface-text-muted); }
+  .cmp-card__tag { font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-secondary); background: none; border: 0; padding: 0; }
+  .cmp-card__desc { margin: 0; font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+  .cmp-empty { padding: var(--ind-spacing-6); text-align: center; color: var(--ind-surface-text-muted); }
+
+  .cmp-foot { padding-bottom: var(--site-section-y); }
+  .cmp-foot__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ind-spacing-4); padding: var(--ind-spacing-6); }
+  .cmp-foot__inner h2 { margin: 0 0 var(--ind-spacing-2); }
+  .cmp-foot__inner p { margin: 0; max-width: 48ch; }
+  [hidden] { display: none !important; }
+</style>
+
+<script>
+  import '@/scripts/components-page.client.ts';
+</script>

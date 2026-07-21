@@ -1,0 +1,87 @@
+---
+// Grouped live sample of real ind-ds components. Data is static/simulated.
+---
+
+<div class="showcase" data-theme="dark">
+  {/* Process equipment */}
+  <div class="showcase__group">
+    <h3 class="showcase__label">Process equipment</h3>
+    <div class="showcase__row">
+      <ind-pump state="running" tag="P-101" size="lg"></ind-pump>
+      <ind-valve state="open" tag="XV-204" label="Discharge"></ind-valve>
+      <ind-motor state="running" tag="M-102" size="lg"></ind-motor>
+      <ind-tank state="running" level={62} tag="T-301" show-value size="lg"></ind-tank>
+      <ind-silo state="warning" level={28} tag="S-1" show-value size="lg"></ind-silo>
+    </div>
+  </div>
+
+  {/* Status & alarms */}
+  <div class="showcase__group">
+    <h3 class="showcase__label">Status &amp; alarms</h3>
+    <div class="showcase__row showcase__row--wrap">
+      <ind-led state="running" label="Run"></ind-led>
+      <ind-led state="warning" blinking label="Warn"></ind-led>
+      <ind-led state="fault" blinking label="Fault"></ind-led>
+      <ind-status-dot state="maintenance" label="Maint"></ind-status-dot>
+      <ind-connection-indicator state="connected" label="PLC"></ind-connection-indicator>
+      <ind-heartbeat alive label="Beat"></ind-heartbeat>
+      <ind-alarm-count high-high={1} high={2} low={0} low-low={0}></ind-alarm-count>
+      <ind-alarm priority="high-high" label="Overtemp trip" timestamp="10:24:07"></ind-alarm>
+    </div>
+  </div>
+
+  {/* Values & data */}
+  <div class="showcase__group">
+    <h3 class="showcase__label">Values &amp; data</h3>
+    <div class="showcase__row showcase__row--wrap">
+      <ind-value label="Pressure" value={4.2} unit="bar" precision={1} trend="up" tag="PT-204"></ind-value>
+      <ind-value label="Level" value={62} unit="%" trend="stable" alarm="none"></ind-value>
+      <ind-gauge value={72} min={0} max={100} unit="%" label="Load"></ind-gauge>
+      <ind-linear-gauge value={58} min={0} max={120} setpoint={65} unit="°C" label="Temp" show-value></ind-linear-gauge>
+      <ind-kpi-card label="OEE" value={86.4} unit="%" trend="up" delta="+1.2" variant="good"></ind-kpi-card>
+      <ind-sparkline area marker label="Flow (10 min)"></ind-sparkline>
+    </div>
+  </div>
+
+  {/* Controls */}
+  <div class="showcase__group">
+    <h3 class="showcase__label">Controls</h3>
+    <div class="showcase__row showcase__row--wrap">
+      <ind-mode-selector label="Mode" value="auto"></ind-mode-selector>
+      <ind-start-stop-control label="Pump P-101" state="running"></ind-start-stop-control>
+      <ind-estop label="E-stop"></ind-estop>
+      <ind-knob value={45} min={0} max={100} unit="%" label="Setpoint" show-value></ind-knob>
+      <ind-button variant="primary">Acknowledge</ind-button>
+      <ind-button variant="danger">Trip</ind-button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .showcase { display: grid; gap: var(--ind-spacing-6); }
+  .showcase__group {
+    background: var(--ind-surface-panel);
+    border: 1px solid var(--ind-surface-border-subtle);
+    border-radius: var(--ind-radius-md);
+    padding: var(--ind-spacing-5);
+  }
+  .showcase__label {
+    font-family: var(--ind-font-family-mono);
+    font-size: var(--ind-font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ind-surface-text-muted);
+    margin: 0 0 var(--ind-spacing-4);
+  }
+  .showcase__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--ind-spacing-5) var(--ind-spacing-6);
+  }
+  .showcase__row--wrap { gap: var(--ind-spacing-4); }
+</style>
+
+<script>
+  import '@/lib/ind-runtime';
+</script>

@@ -1,0 +1,74 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { url } from '@/lib/url';
+
+const principles = [
+  { n: 1, title: 'Meaning before decoration', body: 'Color, motion and emphasis should communicate operational meaning. A red element means something specific; it is not a style choice. When everything is decorated, nothing is legible.' },
+  { n: 2, title: 'Make abnormal conditions easy to detect', body: 'Normal operation should be visually calm. Deviations should be noticeable without saturating the entire interface — an operator scanning a wall of screens must find the one that changed.' },
+  { n: 3, title: 'Preserve context', body: 'An alarm is more useful when the operator can see the affected equipment, the current value, the expected state and the required action. A bare “FAULT” forces a hunt; context enables a decision.' },
+  { n: 4, title: 'Use consistent industrial vocabulary', body: 'The same state should use the same name, token, visual treatment and behavior across every application. running is always running — not “on” here and “active” there.' },
+  { n: 5, title: 'Design for continuous use', body: 'Industrial interfaces may stay visible and active for entire shifts. Reduce fatigue: avoid decorative motion, restrained contrast for steady states, and reserve attention-grabbing signals for conditions that need attention.' },
+  { n: 6, title: 'Support information density', body: 'Whitespace must serve comprehension, not fashion. Operators often need to compare many values at once; tabular numerals and dense, aligned layouts help more than generous consumer-app padding.' },
+  { n: 7, title: 'Design for touch, keyboard and constrained hardware', body: 'Consider panel PCs, touchscreens, embedded Chromium, industrial keyboards, gloves and non-desktop environments. Targets, focus and input methods all vary from a typical web app.' },
+  { n: 8, title: 'Treat accessibility as operational quality', body: 'Focus visibility, contrast, reduced motion, text alternatives and keyboard support improve usability for everyone — especially under stress, fatigue or poor lighting.' },
+  { n: 9, title: 'Separate process state from UI state', body: 'A disabled button, communication loss, a maintenance state, a process stop, a warning and a fault are not interchangeable. Collapsing them into one “inactive” style hides information operators need.' },
+  { n: 10, title: 'Build for lifecycle consistency', body: 'Industrial software often outlives individual frontend frameworks. Shared tokens and Web Components reduce coupling, so the interface layer can survive a framework migration.' },
+];
+---
+
+<BaseLayout
+  title="Principles for Modern Industrial Interfaces — ind-ds"
+  description="Ten practical principles for HMI and SCADA interface design: meaning before decoration, abnormal-state detection, alarm context, consistent vocabulary, density and accessibility."
+>
+  <PageHeader
+    eyebrow="Principles"
+    title="Principles for modern industrial interfaces"
+    lead="The ideas that shape ind-ds. They are informed by established HMI and alarm-management practice, and they apply whether or not you use the library."
+    crumbs={[{ label: 'Home', href: url('/') }, { label: 'Principles' }]}
+  />
+
+  <section class="section"><div class="container">
+    <ol class="principles">
+      {
+        principles.map((p) => (
+          <li class="principle card" id={`p-${p.n}`}>
+            <span class="principle__n">{String(p.n).padStart(2, '0')}</span>
+            <div>
+              <h2 class="principle__title">{p.title}</h2>
+              <p class="principle__body">{p.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="panel principles__note">
+      <h2>On standards</h2>
+      <p>
+        ind-ds is <strong>informed by</strong> and <strong>aligned with</strong> established
+        industrial interface and alarm-management practice, and its tokens are ISA-18.2-aware. It is
+        not certified by ISA, ANSI, IEC or the W3C, and using it does not by itself make an
+        application standards-compliant. Standards-aware tokens are a starting point; compliance,
+        alarm rationalization, operator task analysis and safety validation remain engineering
+        responsibilities that the interface supports rather than replaces.
+      </p>
+      <div class="principles__cta">
+        <a href={url('/components')} class="btn btn--default">See the components</a>
+        <a href={url('/blog')} class="btn btn--ghost">Read the blog</a>
+      </div>
+    </div>
+  </div></section>
+</BaseLayout>
+
+<style>
+  .principles { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--ind-spacing-4); }
+  .principle { display: grid; grid-template-columns: auto 1fr; gap: var(--ind-spacing-4); align-items: start; }
+  .principle__n { font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-lg); color: var(--ind-surface-text-muted); }
+  .principle__title { font-size: var(--ind-font-size-lg); margin: 0 0 var(--ind-spacing-2); }
+  .principle__body { margin: 0; max-width: 70ch; }
+  .principles__note { margin-top: var(--ind-spacing-8); padding: var(--ind-spacing-6); }
+  .principles__note h2 { margin-top: 0; }
+  .principles__note p { max-width: 72ch; }
+  .principles__cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-4); }
+</style>

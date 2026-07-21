@@ -1,0 +1,164 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CodeTabs from '@/components/marketing/CodeTabs.astro';
+import { SITE } from '@/data/site';
+import { INSTALL_TABS } from '@/data/integrations';
+import { url } from '@/lib/url';
+
+const vue = INSTALL_TABS.find((t) => t.id === 'vue')!;
+---
+
+<BaseLayout
+  title="Vue Integration — ind-ds"
+  description="Install the typed @ind-ds/vue wrappers, use v-model on input-like industrial components, handle events, and understand the Nuxt server-rendering constraints."
+>
+  <PageHeader
+    eyebrow="Integrations"
+    title="Vue"
+    lead="@ind-ds/vue provides typed Vue 3 wrappers with v-model support, so industrial components behave like ordinary Vue components — reactive bindings, template events and full type information included."
+    crumbs={[
+      { label: 'Home', href: url('/') },
+      { label: 'Integrations', href: url('/integrations') },
+      { label: 'Vue' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Install</p>
+      <h2>Add the wrapper package</h2>
+      <p class="lead">
+        The Vue package (0.3.0) targets Vue 3.3 or newer and depends on the core components, so a
+        single install brings the components and their tokens with it.
+      </p>
+      <CodeTabs
+        group="vue-install"
+        label="Install Vue wrappers"
+        tabs={[{ id: 'npm', label: 'npm', lang: 'bash', code: vue.install }]}
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Setup</p>
+      <h2>Load tokens, then import components</h2>
+      <p class="lead">
+        Import the token stylesheets a single time at your application entry point, then import
+        components from <code>@ind-ds/vue</code> in any single-file component.
+      </p>
+      <CodeTabs
+        group="vue-usage"
+        label="Vue usage example"
+        tabs={[
+          { id: 'sfc', label: 'PumpPanel.vue', lang: vue.usageLang, code: vue.usage },
+          {
+            id: 'main',
+            label: 'main.ts',
+            lang: 'ts',
+            code: `import { createApp } from 'vue';
+
+// Load design tokens once, before your app styles.
+import '@ind-ds/tokens/css';
+import '@ind-ds/tokens/css/light';
+import '@ind-ds/tokens/css/high-contrast';
+import '@ind-ds/core/css/utilities';
+
+import App from './App.vue';
+
+createApp(App).mount('#app');`,
+          },
+        ]}
+      />
+      <p class="int-note">
+        The wrappers register the underlying custom elements automatically on first mount, so no
+        manual <code>defineCustomElements()</code> call is needed in a standard Vue app.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Bindings and events</p>
+      <h2>v-model on input-like components</h2>
+      <p class="lead">
+        Input-like components support two-way binding. The bound name matches the component's value:
+        <code>IndInput</code> binds <code>v-model:value</code>; <code>IndCheckbox</code>,
+        <code>IndToggle</code> and <code>IndSelect</code> bind <code>checked</code> or
+        <code>value</code>; <code>IndSlider</code>, <code>IndKnob</code> and <code>IndSetpoint</code>
+        bind <code>value</code>. Other components emit native events you can handle in the template.
+      </p>
+      <CodeTabs
+        group="vue-bindings"
+        label="Vue v-model and events"
+        tabs={[
+          {
+            id: 'model',
+            label: 'Setpoint.vue',
+            lang: 'vue',
+            code: `<script setup lang="ts">
+import { IndSetpoint, IndToggle, IndModeSelector } from '@ind-ds/vue';
+import { ref } from 'vue';
+
+const target = ref(72);
+const enabled = ref(true);
+
+function onMode(e: CustomEvent) {
+  console.log('mode', e.detail);
+}
+</script>
+
+<template>
+  <div class="ind-stack" data-theme="dark">
+    <IndSetpoint v-model:value="target" unit="°C" />
+    <IndToggle v-model:checked="enabled" label="Auto" />
+    <!-- ind-mode-selector emits indChange -->
+    <IndModeSelector @indChange="onMode" />
+  </div>
+</template>`,
+          },
+        ]}
+      />
+      <p class="int-note">
+        PascalCase follows the tag name: <code>ind-led</code> becomes <code>IndLed</code>,
+        <code>ind-alarm-panel</code> becomes <code>IndAlarmPanel</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Theming</p>
+      <h2>Switch themes with a data attribute</h2>
+      <p class="lead">
+        Set <code>data-theme="dark"</code>, <code>"light"</code> or <code>"high-contrast"</code> on
+        any ancestor element and the components inside inherit it. All three themes are produced from
+        the same tokens.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Nuxt and SSR</p>
+      <h2>Register the components client-side</h2>
+      <p class="lead">
+        The components are Custom Elements that use Shadow DOM, so they need a DOM
+        (<code>document</code>, <code>HTMLElement</code>) to render. Under Nuxt or any Vue
+        server-rendering setup, render them on the client rather than on the server — for example
+        inside a <code>&lt;client-only&gt;</code> boundary — so the browser owns registration and
+        hydration matches the rendered markup.
+      </p>
+      <p class="section__cta">
+        <a href={url('/components')} class="btn btn--default">Browse components</a>
+        <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .int-note { margin-top: var(--ind-spacing-4); max-width: 62ch; font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+  .section__cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-6); }
+</style>

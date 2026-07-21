@@ -1,0 +1,158 @@
+---
+// Live component composition for the homepage hero. Every element below is a
+// real ind-ds web component; the data is simulated locally in the browser.
+// Visitors can switch the process scenario to see industrial semantics change.
+---
+
+<figure class="hero-demo panel" aria-label="Live ind-ds component composition with simulated process data">
+  <figcaption class="hero-demo__caption">
+    <span class="hero-demo__dot" data-role="conn-dot" aria-hidden="true"></span>
+    <span>Live component composition — simulated process data</span>
+  </figcaption>
+
+  <div class="hero-demo__screen" data-theme="dark">
+    <ind-app-header
+      brand="Line 1 · Booster Skid"
+      machine-id="SKID-01"
+      mqtt-state="running"
+      mqtt-label="Connected"
+      version="v2.4"
+      hide-change-machine
+      hide-disconnect
+      data-role="header"></ind-app-header>
+
+    <div class="hero-demo__grid">
+      <ind-pump-card
+        tag="P-101"
+        label="Booster Pump"
+        state="running"
+        flow={42.6}
+        pressure={4.2}
+        data-role="pump"></ind-pump-card>
+
+      <ind-tank-level-card
+        tag="T-301"
+        label="Buffer Tank"
+        state="running"
+        level={68}
+        capacity={5000}
+        unit="L"
+        alarm="none"
+        data-role="tank"></ind-tank-level-card>
+
+      <div class="card hero-demo__valves">
+        <div class="hero-demo__valverow">
+          <ind-valve tag="XV-204" label="Discharge" state="open" data-role="valve"></ind-valve>
+          <ind-connection-indicator label="PLC link" state="connected" data-role="conn"
+          ></ind-connection-indicator>
+        </div>
+        <div class="hero-demo__values">
+          <ind-value label="Suction" value={1.1} unit="bar" precision={1} trend="stable"
+            data-role="v-suction"></ind-value>
+          <ind-value label="Discharge" value={4.2} unit="bar" precision={1} trend="up"
+            data-role="v-disch"></ind-value>
+          <ind-value label="Motor temp" value={58} unit="°C" precision={0} trend="up"
+            data-role="v-temp" alarm="none"></ind-value>
+        </div>
+        <ind-sparkline data-role="spark" area marker label="Discharge pressure (10 min)"
+        ></ind-sparkline>
+      </div>
+
+      <div class="card hero-demo__side">
+        <ind-mode-selector label="Mode" value="auto" data-role="mode"></ind-mode-selector>
+        <ind-start-stop-control label="Pump P-101" state="running" data-role="startstop"
+        ></ind-start-stop-control>
+      </div>
+    </div>
+
+    <ind-alarm-panel heading="Active alarms" data-role="alarms"></ind-alarm-panel>
+
+    <ind-status-bar state="running" message="All systems nominal" data-role="statusbar"
+    ></ind-status-bar>
+  </div>
+
+  <div class="hero-demo__controls" role="group" aria-label="Simulated process scenario">
+    <span class="hero-demo__controls-label">Scenario</span>
+    <div class="hero-demo__scenarios">
+      <button type="button" class="hero-demo__scenario" data-scenario="normal" aria-pressed="true">Normal</button>
+      <button type="button" class="hero-demo__scenario" data-scenario="warning" aria-pressed="false">Warning</button>
+      <button type="button" class="hero-demo__scenario" data-scenario="fault" aria-pressed="false">Fault</button>
+      <button type="button" class="hero-demo__scenario" data-scenario="commloss" aria-pressed="false">Comm loss</button>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .hero-demo { overflow: hidden; }
+  .hero-demo__caption {
+    display: flex;
+    align-items: center;
+    gap: var(--ind-spacing-2);
+    padding: var(--ind-spacing-2) var(--ind-spacing-4);
+    border-bottom: 1px solid var(--ind-surface-border-subtle);
+    font-family: var(--ind-font-family-mono);
+    font-size: var(--ind-font-size-xs);
+    color: var(--ind-surface-text-muted);
+    background: var(--ind-surface-sunken);
+  }
+  .hero-demo__dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: var(--ind-radius-full);
+    background: var(--ind-state-running-bg);
+    box-shadow: 0 0 6px var(--ind-state-running-glow);
+  }
+  .hero-demo__screen {
+    background: var(--ind-surface-background);
+    padding: var(--ind-spacing-4);
+    display: grid;
+    gap: var(--ind-spacing-3);
+  }
+  .hero-demo__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: var(--ind-spacing-3);
+    align-items: start;
+  }
+  .hero-demo__valves { display: grid; gap: var(--ind-spacing-3); }
+  .hero-demo__valverow { display: flex; align-items: center; justify-content: space-between; gap: var(--ind-spacing-3); }
+  .hero-demo__values { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--ind-spacing-2); }
+  .hero-demo__side { display: grid; gap: var(--ind-spacing-4); align-content: start; }
+
+  .hero-demo__controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--ind-spacing-3);
+    padding: var(--ind-spacing-3) var(--ind-spacing-4);
+    border-top: 1px solid var(--ind-surface-border-subtle);
+    background: var(--ind-surface-sunken);
+  }
+  .hero-demo__controls-label {
+    font-family: var(--ind-font-family-mono);
+    font-size: var(--ind-font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ind-surface-text-muted);
+  }
+  .hero-demo__scenarios { display: flex; flex-wrap: wrap; gap: 2px; padding: 2px; border: 1px solid var(--ind-surface-border-subtle); border-radius: var(--ind-radius-md); background: var(--ind-surface-background); }
+  .hero-demo__scenario {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid transparent;
+    border-radius: var(--ind-radius-sm);
+    background: transparent;
+    color: var(--ind-surface-text-secondary);
+    font: inherit;
+    font-size: var(--ind-font-size-sm);
+    cursor: pointer;
+  }
+  .hero-demo__scenario[aria-pressed='true'] {
+    background: var(--ind-surface-raised);
+    border-color: var(--ind-surface-border-strong);
+    color: var(--ind-surface-text-primary);
+  }
+</style>
+
+<script>
+  import "./hero-composition.client.ts";
+</script>

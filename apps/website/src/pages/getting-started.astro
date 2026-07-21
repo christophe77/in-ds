@@ -1,0 +1,161 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CodeTabs from '@/components/marketing/CodeTabs.astro';
+import { SITE } from '@/data/site';
+import { INSTALL_TABS } from '@/data/integrations';
+import { url } from '@/lib/url';
+
+const installTabs = INSTALL_TABS.map((t) => ({ id: t.id, label: t.label, code: t.install, lang: 'bash' }));
+const usageTabs = INSTALL_TABS.filter((t) => ['react', 'vue', 'web-components'].includes(t.id)).map(
+  (t) => ({ id: t.id, label: t.label, code: t.usage, lang: t.usageLang }),
+);
+
+const howToLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Get started with ind-ds',
+  description: 'Install an ind-ds package, load the design tokens, and render your first industrial component.',
+  step: [
+    { '@type': 'HowToStep', name: 'Choose an integration' },
+    { '@type': 'HowToStep', name: 'Install a package' },
+    { '@type': 'HowToStep', name: 'Load the tokens and pick a theme' },
+    { '@type': 'HowToStep', name: 'Render a component' },
+  ],
+};
+---
+
+<BaseLayout
+  title="Getting Started — ind-ds"
+  description="Install an ind-ds package, load the design tokens, choose a theme, and render your first industrial HMI component in minutes."
+  jsonLd={[howToLd]}
+>
+  <PageHeader
+    eyebrow="Docs"
+    title="Getting started"
+    lead="Install the layer you need, load the tokens, pick a theme, and render your first industrial component. Everything below is verified against the published packages."
+    crumbs={[{ label: 'Home', href: url('/') }, { label: 'Getting started' }]}
+  />
+
+  <section class="section"><div class="container gs">
+    <ol class="gs__steps stack-lg">
+      <li class="gs__step">
+        <h2><span class="gs__n">1</span> Choose an integration</h2>
+        <p>
+          ind-ds ships framework-agnostic Web Components plus typed wrappers. Pick React or Vue for
+          those apps, the Web Components for anything else, tokens only for native UIs, or the MQTT
+          helpers for live data. You can combine them and adopt incrementally.
+        </p>
+      </li>
+
+      <li class="gs__step">
+        <h2><span class="gs__n">2</span> Install a package</h2>
+        <CodeTabs group="gs-install" label="Install commands" tabs={installTabs} />
+      </li>
+
+      <li class="gs__step">
+        <h2><span class="gs__n">3</span> Load the tokens and pick a theme</h2>
+        <p>
+          Import the token stylesheets once at your app entry. The base stylesheet is the dark
+          theme; the light and high-contrast files override it when a <code>data-theme</code>
+          attribute is present on an ancestor element.
+        </p>
+        <CodeTabs
+          group="gs-theme"
+          label="Load tokens"
+          tabs={[
+            { id: 'imports', label: 'Entry (TS/JS)', lang: 'ts', code: `import '@ind-ds/tokens/css';           // base = dark\nimport '@ind-ds/tokens/css/light';\nimport '@ind-ds/tokens/css/high-contrast';\nimport '@ind-ds/core/css/utilities';    // optional layout helpers` },
+            { id: 'html', label: 'Theme (HTML)', lang: 'html', code: `<!-- default dark; switch with one attribute -->\n<html data-theme="dark">   <!-- or "light" / "high-contrast" -->` },
+          ]}
+        />
+      </li>
+
+      <li class="gs__step">
+        <h2><span class="gs__n">4</span> Render a component</h2>
+        <p>Use the typed wrapper, or the custom-element tag directly once registered.</p>
+        <CodeTabs group="gs-usage" label="First component" tabs={usageTabs} />
+      </li>
+
+      <li class="gs__step">
+        <h2><span class="gs__n">5</span> A five-minute industrial screen</h2>
+        <p>
+          A small composition using real process semantics — an equipment state, a live value with
+          engineering units, an ISA-18.2-aware alarm and a status LED. This is rendered live below
+          from the same tags shown in the code.
+        </p>
+
+        <div class="gs-demo panel" data-theme="dark">
+          <div class="gs-demo__row">
+            <ind-tank state="warning" level={88} tag="T-204" show-value size="lg"></ind-tank>
+            <div class="gs-demo__col">
+              <ind-value label="Level" value={88} unit="%" trend="up" alarm="high" tag="LT-204"></ind-value>
+              <ind-alarm priority="high" label="Level high" timestamp="10:24:07"></ind-alarm>
+              <ind-led state="warning" blinking label="T-204"></ind-led>
+            </div>
+          </div>
+        </div>
+
+        <CodeTabs
+          group="gs-screen"
+          label="Screen markup"
+          tabs={[
+            { id: 'html', label: 'HTML', lang: 'html', code: `<div class="ind-stack" data-theme="dark">\n  <ind-tank state="warning" level="88" tag="T-204" show-value></ind-tank>\n  <ind-value label="Level" value="88" unit="%" trend="up" alarm="high" tag="LT-204"></ind-value>\n  <ind-alarm priority="high" label="Level high" timestamp="10:24:07"></ind-alarm>\n  <ind-led state="warning" blinking label="T-204"></ind-led>\n</div>` },
+            { id: 'react', label: 'React', lang: 'tsx', code: `import { IndTank, IndValue, IndAlarm, IndLed } from '@ind-ds/react';\n\nexport function TankScreen() {\n  return (\n    <div className="ind-stack" data-theme="dark">\n      <IndTank state="warning" level={88} tag="T-204" showValue />\n      <IndValue label="Level" value={88} unit="%" trend="up" alarm="high" tag="LT-204" />\n      <IndAlarm priority="high" label="Level high" timestamp="10:24:07" />\n      <IndLed state="warning" blinking label="T-204" />\n    </div>\n  );\n}` },
+          ]}
+        />
+      </li>
+
+      <li class="gs__step">
+        <h2><span class="gs__n">6</span> Handle events</h2>
+        <p>
+          Interactive components emit <code>ind*</code> events. In React they are <code>onInd*</code>
+          props; in Vue, <code>@ind-*</code> listeners with <code>v-model</code> on inputs; with the
+          Web Components, <code>addEventListener</code>.
+        </p>
+        <CodeTabs
+          group="gs-events"
+          label="Events"
+          tabs={[
+            { id: 'wc', label: 'Web Components', lang: 'ts', code: `const sel = document.querySelector('ind-mode-selector')!;\nsel.addEventListener('indChange', (e) => {\n  console.log('mode →', (e as CustomEvent<string>).detail);\n});` },
+            { id: 'react', label: 'React', lang: 'tsx', code: `<IndStartStopControl\n  state="stopped"\n  onIndStart={() => start()}\n  onIndStop={() => stop()}\n/>` },
+          ]}
+        />
+      </li>
+    </ol>
+
+    <aside class="gs-notes panel">
+      <h2>Requirements &amp; notes</h2>
+      <ul class="gs-notes__list">
+        <li><strong>Node</strong> 20+ for local development. Any package manager works.</li>
+        <li><strong>Peers:</strong> React wrappers need React 18+; Vue wrappers need Vue 3.3+.</li>
+        <li><strong>DOM required:</strong> components use Shadow DOM and need a browser DOM. For SSR, register/render them on the client.</li>
+        <li><strong>Tree-shakable, ESM-first</strong> packages — import only what you use.</li>
+        <li><strong>TypeScript</strong> types ship with every package.</li>
+      </ul>
+      <div class="gs-notes__cta">
+        <a href={url('/integrations')} class="btn btn--default">Integration guides</a>
+        <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook →</a>
+      </div>
+    </aside>
+  </div></section>
+</BaseLayout>
+
+<style>
+  .gs { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ind-spacing-8); }
+  .gs__steps { list-style: none; margin: 0; padding: 0; }
+  .gs__step h2 { display: flex; align-items: center; gap: var(--ind-spacing-3); font-size: var(--ind-font-size-xl); }
+  .gs__n { display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; font-family: var(--ind-font-family-mono); font-size: var(--ind-font-size-sm); border: 1px solid var(--ind-surface-border-strong); border-radius: var(--ind-radius-full); color: var(--ind-state-running-fg); }
+  .gs__step p { max-width: 62ch; }
+  .gs-demo { padding: var(--ind-spacing-5); }
+  .gs-demo__row { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-6); align-items: center; }
+  .gs-demo__col { display: grid; gap: var(--ind-spacing-3); }
+  .gs-notes { padding: var(--ind-spacing-6); }
+  .gs-notes h2 { margin-top: 0; }
+  .gs-notes__list { margin: 0 0 var(--ind-spacing-5); padding-left: 1.1rem; display: grid; gap: var(--ind-spacing-2); }
+  .gs-notes__list li { font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+  .gs-notes__cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); }
+</style>
+
+<script>
+  import '@/lib/ind-runtime';
+</script>

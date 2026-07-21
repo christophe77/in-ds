@@ -1,0 +1,109 @@
+---
+import { FOOTER_NAV } from '@/data/navigation';
+import { SITE } from '@/data/site';
+import { url } from '@/lib/url';
+
+const year = 2026; // Build-stamped; update in CI or via a build var if desired.
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <a href={url('/')} class="brand" aria-label={`${SITE.name} home`}>
+        <span class="brand__mark" aria-hidden="true"><span class="brand__led"></span></span>
+        <span class="brand__name">ind-ds</span>
+      </a>
+      <p class="site-footer__tagline">{SITE.tagline}</p>
+      <p class="site-footer__meta">
+        {SITE.componentCount} industrial Web Components · {SITE.license} licensed
+      </p>
+    </div>
+
+    <nav class="site-footer__cols" aria-label="Footer">
+      {
+        FOOTER_NAV.map((col) => (
+          <div class="site-footer__col">
+            <h2 class="site-footer__heading">{col.heading}</h2>
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a
+                    href={l.external ? l.href : url(l.href)}
+                    {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </nav>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>© {year} {SITE.author.name} · Released under the {SITE.license} License.</p>
+    <p class="site-footer__note">
+      An independent open-source project. Not affiliated with or certified by ISA, ANSI, IEC or
+      the W3C.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--ind-surface-border-subtle);
+    background: var(--ind-surface-panel);
+    margin-top: var(--site-section-y);
+  }
+  .site-footer__inner {
+    display: grid;
+    grid-template-columns: minmax(14rem, 1fr) 2fr;
+    gap: var(--ind-spacing-8);
+    padding-block: var(--ind-spacing-8);
+  }
+  .site-footer__tagline { max-width: 22ch; margin-top: var(--ind-spacing-3); }
+  .site-footer__meta {
+    font-family: var(--ind-font-family-mono);
+    font-size: var(--ind-font-size-xs);
+    color: var(--ind-surface-text-muted);
+  }
+  .site-footer__cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: var(--ind-spacing-6);
+  }
+  .site-footer__heading {
+    font-size: var(--ind-font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ind-surface-text-muted);
+    margin-bottom: var(--ind-spacing-3);
+  }
+  .site-footer__col ul { list-style: none; margin: 0; padding: 0; }
+  .site-footer__col li + li { margin-top: var(--ind-spacing-2); }
+  .site-footer__col a {
+    color: var(--ind-surface-text-secondary);
+    text-decoration: none;
+    font-size: var(--ind-font-size-sm);
+  }
+  .site-footer__col a:hover { color: var(--ind-surface-text-primary); text-decoration: underline; }
+
+  .site-footer__bottom {
+    border-top: 1px solid var(--ind-surface-border-subtle);
+    padding-block: var(--ind-spacing-5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--ind-spacing-2);
+  }
+  .site-footer__bottom p { margin: 0; font-size: var(--ind-font-size-xs); color: var(--ind-surface-text-muted); }
+  .brand { display: inline-flex; align-items: center; gap: var(--ind-spacing-2); text-decoration: none; font-family: var(--ind-font-family-mono); font-weight: var(--ind-font-weight-semibold); color: var(--ind-surface-text-primary); }
+  .brand__mark { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1px solid var(--ind-surface-border-strong); border-radius: var(--ind-radius-sm); background: var(--ind-surface-sunken); }
+  .brand__led { width: 0.6rem; height: 0.6rem; border-radius: var(--ind-radius-full); background: var(--ind-state-running-bg); box-shadow: 0 0 6px var(--ind-state-running-glow); }
+
+  @media (max-width: 720px) {
+    .site-footer__inner { grid-template-columns: 1fr; gap: var(--ind-spacing-6); }
+  }
+</style>

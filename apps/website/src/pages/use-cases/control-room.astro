@@ -1,0 +1,114 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { SITE } from '@/data/site';
+import { url } from '@/lib/url';
+---
+
+<BaseLayout
+  title="Control-room dashboard — ind-ds"
+  description="Build high-density control-room dashboards with ind-ds: situational awareness, alarm prioritization, reduced visual noise, dark and high-contrast themes, and keyboard navigation."
+>
+  <PageHeader
+    eyebrow="Use case"
+    title="Control-room dashboard"
+    lead="A control room watches an entire operation across several screens for hours at a time. The interface has to support situational awareness — surfacing what has changed and what needs attention while staying calm the rest of the time."
+    crumbs={[
+      { label: 'Home', href: url('/') },
+      { label: 'Use cases', href: url('/use-cases') },
+      { label: 'Control-room dashboard' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container stack uc-detail">
+      <h2>Typical environment</h2>
+      <p>
+        A staffed control room with large or multiple monitors, sometimes a video wall, running
+        continuously. Ambient light is usually kept low, viewing distances are longer than at a desk,
+        and the same layout stays on screen for a full shift. Dark and high-contrast themes are the
+        norm rather than the exception.
+      </p>
+
+      <h2>User roles</h2>
+      <p>
+        Control-room operators monitor the whole operation and coordinate responses; a shift lead
+        prioritises across areas; specialists are called in for specific events. All of them rely on
+        the display to tell them, quickly, what is normal and what is not.
+      </p>
+
+      <h2>Interface challenges</h2>
+      <p>
+        Density is high, so every pixel of visual noise competes with the signal that matters. Alarms
+        must be prioritised and de-cluttered so a flood does not hide the critical few. Colour must be
+        reserved for meaning, not decoration, and readable at a distance. Consistent layout across
+        multiple screens helps operators build a mental map, and keyboard navigation matters when a
+        mouse is slow or impractical during an event.
+      </p>
+
+      <h2>How ind-ds helps</h2>
+      <p>
+        The alarm components are built for prioritisation: <code>ind-alarm-panel</code> is
+        ISA-18.2-aware (HH/H/L/LL), supports acknowledge and timestamps, and sorts unacknowledged items
+        first, while <code>ind-alarm-summary</code> gives a compact count for a wall view. Aggregate
+        state comes from <code>ind-equipment-dashboard</code>, <code>ind-asset-overview</code> and
+        <code>ind-oee-dashboard</code>, with <code>ind-kpi-card</code>, <code>ind-value</code>,
+        <code>ind-gauge</code> and <code>ind-sparkline</code> for dense readouts. The design tokens
+        reserve status colour for the operational states running, stopped, fault, warning and
+        maintenance, and the dark and high-contrast themes are driven by a single
+        <code>data-theme</code> attribute. Components ship with visible focus and semantic markup to
+        support keyboard operation.
+      </p>
+
+      <h2>Example composition</h2>
+      <p>A multi-screen control-room layout might be described as:</p>
+      <ul>
+        <li>Wall view: <code>ind-alarm-summary</code>, <code>ind-oee-dashboard</code> and a grid of <code>ind-kpi-card</code> tiles.</li>
+        <li>Operator screen: <code>ind-app-header</code>, <code>ind-status-bar</code> and <code>ind-asset-overview</code> across areas.</li>
+        <li>Attention rail: <code>ind-alarm-panel</code> with unacknowledged-first ordering and acknowledge controls.</li>
+        <li>Detail on demand: <code>ind-value</code>, <code>ind-gauge</code> and <code>ind-sparkline</code> readouts for a selected asset.</li>
+        <li>Whole surface rendered with the dark or high-contrast theme via <code>data-theme</code>.</li>
+      </ul>
+      <p>Components are named for illustration; none are rendered live on this page.</p>
+
+      <h2>Integration approach</h2>
+      <p>
+        Use the Web Components or the typed React or Vue wrappers, sharing one token set across every
+        screen so multiple displays read as one system. Live values can be bound with the
+        <code>@ind-ds/mqtt</code> helpers or your own data layer. Keep the layout identical across
+        seats so an operator moving between stations sees the same map.
+      </p>
+
+      <h2>Adoption strategy</h2>
+      <p>
+        Begin with the alarm and overview surfaces, since those carry the most operational weight, then
+        standardise KPI tiles and detail views. Validate colour, contrast and distance legibility with
+        operators in the actual room and lighting before rolling the layout across every screen.
+      </p>
+
+      <h2>Limitations</h2>
+      <p>
+        ind-ds does not perform alarm rationalisation or shelving logic; it presents the priorities and
+        states your engineering process defines, and it is ISA-18.2-aware rather than certified.
+        Choosing the high-contrast theme is one input to accessibility, not a compliance guarantee, and
+        real distance legibility depends on your hardware, resolution and room. Multi-screen
+        orchestration, window management and video-wall configuration live in your application and
+        platform, not in the component library.
+      </p>
+
+      <div class="panel uc-cta">
+        <a href={url('/components')} class="btn btn--default">Explore components</a>
+        <a href={url('/getting-started')} class="btn btn--ghost">Get started</a>
+        <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .uc-detail h2 { margin-top: var(--ind-spacing-6); }
+  .uc-detail p { max-width: 68ch; }
+  .uc-detail ul { max-width: 68ch; padding-left: 1.2rem; display: grid; gap: var(--ind-spacing-2); }
+  .uc-detail code { font-family: var(--ind-font-family-mono); font-size: 0.9em; }
+  .uc-cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-8); padding: var(--ind-spacing-6); }
+</style>

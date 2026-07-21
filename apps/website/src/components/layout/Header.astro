@@ -1,0 +1,197 @@
+---
+import { PRIMARY_NAV } from '@/data/navigation';
+import { SITE } from '@/data/site';
+import { url, isActive } from '@/lib/url';
+import ThemeToggle from './ThemeToggle.astro';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href={url('/')} class="brand" aria-label={`${SITE.name} home`}>
+      <span class="brand__mark" aria-hidden="true">
+        <span class="brand__led"></span>
+      </span>
+      <span class="brand__name">ind-ds</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      <button
+        type="button"
+        class="site-nav__toggle"
+        aria-expanded="false"
+        aria-controls="primary-menu"
+      >
+        <span class="visually-hidden">Menu</span>
+        <span class="site-nav__bars" aria-hidden="true"></span>
+      </button>
+
+      <ul class="site-nav__list" id="primary-menu">
+        {
+          PRIMARY_NAV.map((item) => (
+            <li>
+              <a
+                href={url(item.href)}
+                class="site-nav__link"
+                aria-current={isActive(currentPath, url(item.href)) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <ThemeToggle />
+      <a
+        href={SITE.repo}
+        class="btn btn--default site-header__github"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+        </svg>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--ind-surface-background) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--ind-surface-border-subtle);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--ind-spacing-4);
+    min-height: var(--site-header-h);
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ind-spacing-2);
+    font-family: var(--ind-font-family-mono);
+    font-weight: var(--ind-font-weight-semibold);
+    font-size: var(--ind-font-size-md);
+    color: var(--ind-surface-text-primary);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .brand__mark {
+    display: inline-grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 1px solid var(--ind-surface-border-strong);
+    border-radius: var(--ind-radius-sm);
+    background: var(--ind-surface-sunken);
+  }
+  .brand__led {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: var(--ind-radius-full);
+    background: var(--ind-state-running-bg);
+    box-shadow: 0 0 6px var(--ind-state-running-glow);
+  }
+  .brand__name { color: var(--ind-surface-text-primary); }
+
+  .site-nav { margin-inline-start: var(--ind-spacing-3); }
+  .site-nav__list {
+    display: flex;
+    align-items: center;
+    gap: var(--ind-spacing-1);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .site-nav__link {
+    display: inline-block;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--ind-radius-sm);
+    color: var(--ind-surface-text-secondary);
+    text-decoration: none;
+    font-size: var(--ind-font-size-sm);
+    font-weight: var(--ind-font-weight-medium);
+  }
+  .site-nav__link:hover { color: var(--ind-surface-text-primary); background: var(--ind-surface-raised); }
+  .site-nav__link[aria-current='page'] {
+    color: var(--ind-surface-text-primary);
+    background: var(--ind-surface-raised);
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--ind-spacing-3);
+    margin-inline-start: auto;
+  }
+  .site-header__github { padding: 0.45rem 0.8rem; font-size: var(--ind-font-size-sm); }
+
+  .site-nav__toggle {
+    display: none;
+    width: 2.4rem;
+    height: 2.4rem;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--ind-surface-border-default);
+    border-radius: var(--ind-radius-sm);
+    cursor: pointer;
+  }
+  .site-nav__bars,
+  .site-nav__bars::before,
+  .site-nav__bars::after {
+    display: block;
+    width: 1.05rem;
+    height: 2px;
+    background: var(--ind-surface-text-primary);
+    position: relative;
+  }
+  .site-nav__bars::before,
+  .site-nav__bars::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+  .site-nav__bars::before { top: -6px; }
+  .site-nav__bars::after { top: 6px; }
+
+  @media (max-width: 860px) {
+    .site-nav__toggle { display: inline-flex; order: 3; }
+    .site-header__actions { margin-inline-start: var(--ind-spacing-2); }
+    .site-header__github span { display: none; }
+    .site-nav {
+      order: 4;
+      margin: 0;
+    }
+    .site-nav__list {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: var(--site-header-h);
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: var(--ind-surface-panel);
+      border-bottom: 1px solid var(--ind-surface-border-subtle);
+      padding: var(--ind-spacing-3);
+      display: none;
+    }
+    .site-nav__list[data-open='true'] { display: flex; }
+    .site-nav__link { padding: 0.7rem; font-size: var(--ind-font-size-md); }
+  }
+</style>
+
+<script>
+  import "./header.client.ts";
+</script>

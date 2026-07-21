@@ -1,0 +1,210 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CodeTabs from '@/components/marketing/CodeTabs.astro';
+import { SITE } from '@/data/site';
+import { INSTALL_TABS } from '@/data/integrations';
+import { url } from '@/lib/url';
+
+const wc = INSTALL_TABS.find((t) => t.id === 'web-components')!;
+---
+
+<BaseLayout
+  title="Web Components Integration — ind-ds"
+  description="Use the framework-agnostic ind-ds Custom Elements directly — in vanilla JavaScript, Lit, Angular or Svelte — including registration, attributes versus properties, events and Shadow DOM."
+>
+  <PageHeader
+    eyebrow="Integrations"
+    title="Web Components"
+    lead="@ind-ds/core ships the industrial components as standard Custom Elements. They work in any framework that renders HTML — vanilla, Lit, Angular and Svelte all use the same tags, with no framework-specific wrapper required."
+    crumbs={[
+      { label: 'Home', href: url('/') },
+      { label: 'Integrations', href: url('/integrations') },
+      { label: 'Web Components' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Install and register</p>
+      <h2>Define the elements once</h2>
+      <p class="lead">
+        Install the core package (0.2.2), which includes the tokens as a dependency. Register the
+        elements a single time with <code>defineCustomElements()</code>; after that the tags are
+        available anywhere in the document.
+      </p>
+      <CodeTabs
+        group="wc-usage"
+        label="Register custom elements"
+        tabs={[
+          { id: 'install', label: 'Install', lang: 'bash', code: wc.install },
+          { id: 'register', label: 'app.ts', lang: wc.usageLang, code: wc.usage },
+          {
+            id: 'html',
+            label: 'index.html',
+            lang: 'html',
+            code: `<!-- After defineCustomElements() has run -->
+<div class="ind-stack" data-theme="dark">
+  <ind-led state="running" label="T-204"></ind-led>
+  <ind-value value="72" unit="%"></ind-value>
+  <ind-alarm priority="high" label="Level high"></ind-alarm>
+</div>`,
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Frameworks</p>
+      <h2>Lit, Angular and Svelte</h2>
+      <p class="lead">
+        There is no dedicated Angular or Svelte wrapper package. All three frameworks consume the
+        same standard Custom Elements: register them once, then use the tags in templates. In
+        Angular, add <code>CUSTOM_ELEMENTS_SCHEMA</code> to the module or component so the compiler
+        accepts the unknown tags; in Svelte and Lit the tags work as ordinary elements.
+      </p>
+      <CodeTabs
+        group="wc-frameworks"
+        label="Framework usage"
+        tabs={[
+          {
+            id: 'lit',
+            label: 'Lit',
+            lang: 'ts',
+            code: `import { html, LitElement } from 'lit';
+import { defineCustomElements } from '@ind-ds/core/loader';
+
+defineCustomElements();
+
+class PumpTile extends LitElement {
+  render() {
+    return html\`
+      <div class="ind-stack" data-theme="dark">
+        <ind-led state="running" label="P-101"></ind-led>
+      </div>
+    \`;
+  }
+}
+customElements.define('pump-tile', PumpTile);`,
+          },
+          {
+            id: 'angular',
+            label: 'Angular',
+            lang: 'ts',
+            code: `import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { defineCustomElements } from '@ind-ds/core/loader';
+
+// In main.ts, after bootstrap:
+defineCustomElements();
+
+@NgModule({
+  // Allows unknown custom-element tags in templates.
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class AppModule {}`,
+          },
+          {
+            id: 'svelte',
+            label: 'Svelte',
+            lang: 'html',
+            code: `<script lang="ts">
+  import { defineCustomElements } from '@ind-ds/core/loader';
+  import { onMount } from 'svelte';
+
+  onMount(() => defineCustomElements());
+
+  let alarms: string[] = ['P-101', 'V-3'];
+</script>
+
+<div class="ind-stack" data-theme="dark">
+  <ind-led state="running" label="P-101"></ind-led>
+  <!-- Arrays and objects are set as properties, not attributes -->
+  <ind-alarm-panel bind:this={panelEl}></ind-alarm-panel>
+</div>`,
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Data and events</p>
+      <h2>Attributes, properties and events</h2>
+      <p class="lead">
+        Primitive values — strings, numbers, booleans — can be set as HTML attributes. Complex
+        values such as arrays and objects must be set as DOM properties, because attributes only
+        carry strings. Components communicate outward through native DOM events; listen with
+        <code>addEventListener</code>.
+      </p>
+      <CodeTabs
+        group="wc-props"
+        label="Properties and events"
+        tabs={[
+          {
+            id: 'props',
+            label: 'wiring.ts',
+            lang: 'ts',
+            code: `const panel = document.querySelector('ind-alarm-panel')!;
+
+// Array/object data → set as a property, not an attribute.
+(panel as any).alarms = [
+  { id: 'P-101', priority: 'high', label: 'Level high' },
+  { id: 'V-3', priority: 'low', label: 'Valve stuck' },
+];
+
+const selector = document.querySelector('ind-mode-selector')!;
+// Listen for the native custom event.
+selector.addEventListener('indChange', (e) => {
+  const detail = (e as CustomEvent).detail;
+  console.log('mode changed', detail);
+});`,
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Shadow DOM and styling</p>
+      <h2>Style through tokens and parts</h2>
+      <div class="grid grid-2 int-limits">
+        <div class="card stack">
+          <p>
+            <strong>Shadow DOM encapsulation.</strong> Each component renders in its own shadow
+            tree, so page-level selectors do not reach inside. This keeps component internals stable
+            across applications, but means you style them through the public surface rather than by
+            targeting inner nodes.
+          </p>
+        </div>
+        <div class="card stack">
+          <p>
+            <strong>Tokens and ::part.</strong> Set design tokens (the <code>--ind-*</code> custom
+            properties) on an ancestor to theme the components, and use the CSS <code>::part()</code>
+            selector where a component exposes named parts. Switch themes with
+            <code>data-theme</code> on any ancestor.
+          </p>
+        </div>
+      </div>
+      <p class="int-note">
+        The components require a DOM to run — they need <code>document</code> and
+        <code>HTMLElement</code>, so register and render them on the client rather than during
+        server rendering.
+      </p>
+      <p class="section__cta">
+        <a href={url('/integrations/tokens')} class="btn btn--default">Tokens reference</a>
+        <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .int-note { margin-top: var(--ind-spacing-4); max-width: 62ch; font-size: var(--ind-font-size-sm); color: var(--ind-surface-text-secondary); }
+  .int-limits { margin-top: var(--ind-spacing-5); align-items: start; }
+  .int-limits .card p { margin: 0; font-size: var(--ind-font-size-sm); }
+  .section__cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-6); }
+</style>

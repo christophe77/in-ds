@@ -1,0 +1,68 @@
+# Deploys apps/website to a SEPARATE GitHub Pages repo (christophe77/ind-ds-site),
+# so the existing Storybook Pages deployment at christophe77.github.io/ind-ds/ is
+# left completely untouched (see storybook-pages.yml — this workflow does NOT use
+# the github-pages environment or upload-pages-artifact, so there is no conflict).
+#
+# One-time setup (see apps/website/README.md → Deployment):
+#   1. Create an empty public repo:  christophe77/ind-ds-site
+#   2. In that repo: Settings → Pages → Source = "Deploy from a branch", branch = gh-pages.
+#   3. Create a deploy key or a fine-grained PAT with contents:write on ind-ds-site,
+#      and add its private key/token to THIS repo's secrets as WEBSITE_DEPLOY_KEY.
+#
+# For a custom domain later (e.g. ind-ds.dev), set SITE_URL/BASE_PATH below and add
+# a CNAME (peaceiris `cname:` option).
+
+name: Website Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/website/**'
+      - 'packages/**'
+      - '.github/workflows/website-pages.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: website-pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-deploy:
+    name: Build & deploy website
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24 # Astro 7 requires Node >= 22.12
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build website (tokens → core → website)
+        run: pnpm build --filter=@ind-ds/website...
+        env:
+          SITE_URL: https://christophe77.github.io
+          BASE_PATH: /ind-ds-site
+
+      - name: Deploy to ind-ds-site Pages repo
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.WEBSITE_DEPLOY_KEY }}
+          external_repository: christophe77/ind-ds-site
+          publish_branch: gh-pages
+          publish_dir: apps/website/dist
+          # Astro emits .nojekyll-safe output; add one to be sure _astro/ is served.
+          enable_jekyll: false
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'deploy: ${{ github.sha }}'

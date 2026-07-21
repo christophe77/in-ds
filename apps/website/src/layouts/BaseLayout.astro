@@ -1,0 +1,64 @@
+---
+// Token CSS is imported here (before global.css) so the whole site renders in the
+// real ind-ds design tokens. Order matters: base (dark) → light → high-contrast
+// overrides → core layout utilities → site chrome.
+import '@ind-ds/tokens/css';
+import '@ind-ds/tokens/css/light';
+import '@ind-ds/tokens/css/high-contrast';
+import '@ind-ds/core/css/utilities';
+import '@/styles/global.css';
+
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import Seo from '@/components/seo/Seo.astro';
+import type { Props as SeoProps } from '@/components/seo/Seo.astro';
+import { url } from '@/lib/url';
+
+// `path` is supplied by this layout (from Astro.url), so pages omit it.
+export interface Props extends Omit<SeoProps, 'path'> {
+  /** Constrain <main> to prose width for article/doc pages. */
+  wide?: boolean;
+}
+
+const { wide = true, ...seo } = Astro.props;
+const path = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="ind-ds blog" href={url('/rss.xml')} />
+    {/* No-flash theme init: apply stored theme before first paint. */}
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('ind-ds-theme');
+          if (t === 'light' || t === 'high-contrast' || t === 'dark') {
+            document.documentElement.setAttribute('data-theme', t);
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <Seo {...seo} path={path} />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Header />
+    <main id="main" class={wide ? '' : 'main--prose'}>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .main--prose {
+    max-width: var(--site-max-prose);
+    margin-inline: auto;
+    padding-inline: var(--site-gutter);
+  }
+</style>

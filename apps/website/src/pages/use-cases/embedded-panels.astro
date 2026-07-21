@@ -1,0 +1,117 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { SITE } from '@/data/site';
+import { url } from '@/lib/url';
+---
+
+<BaseLayout
+  title="Embedded panels — ind-ds"
+  description="Ship ind-ds inside embedded panels: Chromium kiosks, Electron and Tauri shells and WebViews — with hardware constraints, offline bundles and local brokers in mind."
+>
+  <PageHeader
+    eyebrow="Use case"
+    title="Embedded panels"
+    lead="Many industrial screens are not open web pages but bundled applications: a Chromium kiosk, an Electron or Tauri shell, or a WebView on a panel device. ind-ds packages into any of these, with hardware limits and offline operation in mind."
+    crumbs={[
+      { label: 'Home', href: url('/') },
+      { label: 'Use cases', href: url('/use-cases') },
+      { label: 'Embedded panels' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container stack uc-detail">
+      <h2>Typical environment</h2>
+      <p>
+        A dedicated device running a single application in kiosk mode — an embedded Chromium display on
+        an industrial PC, an Electron or Tauri desktop shell, or a native app hosting a WebView.
+        Hardware is often modest, storage is limited, and the panel may run for long periods without a
+        reliable connection to any central system. A local MQTT broker on the machine or line is
+        common.
+      </p>
+
+      <h2>User roles</h2>
+      <p>
+        A machine or line operator uses the panel as the primary interface; a commissioning engineer
+        sets it up on site; an IT or OT team maintains the image and updates. Because the device is
+        fixed and often unattended between uses, robustness and predictable startup matter more than
+        flexibility.
+      </p>
+
+      <h2>Interface challenges</h2>
+      <p>
+        Rendering must stay smooth on constrained hardware, so heavy layouts and excessive animation
+        are a liability. The app usually needs to boot into a known state and run offline, which means
+        bundling assets locally rather than assuming a network. Touch input, fixed resolution and
+        specific viewport sizes have to be respected, and where native widgets are used alongside the
+        web layer, the two should still look like one product.
+      </p>
+
+      <h2>How ind-ds helps</h2>
+      <p>
+        Because the components are standard Web Components built on <code>@ind-ds/core</code>, they run
+        in any Chromium-based shell without a framework requirement, and can be bundled for offline
+        startup. The design tokens ship as CSS, JS, JSON and Dart, so a native panel that renders its
+        own widgets can still share the exact colours, spacing and semantic states as the web layer —
+        the token-only strategy. Touch-oriented components such as <code>ind-virtual-keyboard</code>,
+        <code>ind-mode-selector</code> and <code>ind-start-stop-control</code> suit fixed panels, and
+        <code>ind-connection-indicator</code> plus the <code>@ind-ds/mqtt</code> helpers work naturally
+        against a local broker. The dark and high-contrast themes cover varied panel lighting.
+      </p>
+
+      <h2>Example composition</h2>
+      <p>An offline kiosk panel might be described as:</p>
+      <ul>
+        <li>Shell: an Electron, Tauri or embedded Chromium kiosk loading <code>@ind-ds/core</code> from a local bundle.</li>
+        <li>Frame: <code>ind-app-header</code>, <code>ind-status-bar</code> and <code>ind-connection-indicator</code> against a local broker.</li>
+        <li>Operation: <code>ind-mode-selector</code>, <code>ind-start-stop-control</code>, <code>ind-setpoint-control</code> and <code>ind-virtual-keyboard</code> for touch entry.</li>
+        <li>Readouts: <code>ind-value</code>, <code>ind-gauge</code> and <code>ind-sparkline</code> for live state.</li>
+        <li>Native peripherals styled from shared tokens so they match the web layer.</li>
+      </ul>
+      <p>Components are named for illustration; none are rendered live on this page.</p>
+
+      <h2>Integration approach</h2>
+      <p>
+        Describe these as strategies rather than shipped official bindings: browser apps; Electron or
+        Tauri desktop via a WebView shell using <code>@ind-ds/core</code>; embedded Chromium kiosk
+        panels; and Capacitor or Flutter WebView on mobile. Native stacks share tokens only — there is
+        no official native component binding today. Bundle the components and assets for offline
+        startup, and point the <code>@ind-ds/mqtt</code> helpers at a local broker where one is
+        available, keeping <code>wss://</code> and broker authorization for anything beyond the device.
+      </p>
+
+      <h2>Adoption strategy</h2>
+      <p>
+        Prototype in a plain browser first, then move the same code into the shell you have chosen, so
+        packaging is the only variable. Adopt tokens across any native peripherals early, and validate
+        startup time, offline behaviour and touch response on the real target hardware rather than a
+        development machine.
+      </p>
+
+      <h2>Limitations</h2>
+      <p>
+        The shells listed are integration strategies, not officially maintained ind-ds bindings; you own
+        the packaging, update mechanism and device security. For native stacks, ind-ds shares tokens
+        only — there is no native component library, so those widgets are yours to build. Offline
+        operation depends on how you bundle and cache assets and on a local data source; the components
+        render offline but cannot supply data the panel can no longer reach. ind-ds does not replace PLC
+        programming, historian software or safety engineering.
+      </p>
+
+      <div class="panel uc-cta">
+        <a href={url('/components')} class="btn btn--default">Explore components</a>
+        <a href={url('/getting-started')} class="btn btn--ghost">Get started</a>
+        <a href={SITE.storybook} target="_blank" rel="noopener" class="btn btn--ghost">Open Storybook →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .uc-detail h2 { margin-top: var(--ind-spacing-6); }
+  .uc-detail p { max-width: 68ch; }
+  .uc-detail ul { max-width: 68ch; padding-left: 1.2rem; display: grid; gap: var(--ind-spacing-2); }
+  .uc-detail code { font-family: var(--ind-font-family-mono); font-size: 0.9em; }
+  .uc-cta { display: flex; flex-wrap: wrap; gap: var(--ind-spacing-3); margin-top: var(--ind-spacing-8); padding: var(--ind-spacing-6); }
+</style>
