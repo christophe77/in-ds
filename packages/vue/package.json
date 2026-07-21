@@ -1,6 +1,6 @@
 {
   "name": "@ind-ds/vue",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Vue 3 wrappers for @ind-ds/core web components — typed components with v-model support for an industrial HMI/SCADA design system.",
   "keywords": [
     "vue",
