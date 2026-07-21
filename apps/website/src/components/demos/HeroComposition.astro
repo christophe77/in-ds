@@ -107,6 +107,10 @@
     padding: var(--ind-spacing-4);
     display: grid;
     gap: var(--ind-spacing-3);
+    /* On very narrow screens (<~360px) the industrial cards can't shrink further;
+       scroll the demo internally rather than clip content. The page itself never
+       scrolls horizontally. */
+    overflow-x: auto;
   }
   .hero-demo__grid {
     display: grid;
